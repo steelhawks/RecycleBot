@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team2601.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
@@ -22,6 +23,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
+	public static NetworkTable table;
 
     Command autonomousCommand;
 
@@ -32,7 +34,13 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
+		table = NetworkTable.getTable("datatable");
         autonomousCommand = new ExampleCommand();
+        
+        table.putNumber("P", Constants.kP);
+        table.putNumber("I", Constants.kI);
+        table.putNumber("D", Constants.kD);
+        table.putNumber("setpoint", Constants.setpoint);
     }
 	
 	public void disabledPeriodic() {

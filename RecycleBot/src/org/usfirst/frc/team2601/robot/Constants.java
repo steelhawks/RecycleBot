@@ -18,6 +18,10 @@ public class Constants {
 	public static int startPID = 1;
 	public static int stopPID = 2;
 	
+	//general control buttons
+	public static int stopMotors = 4;
+	public static int restartDumbDriveButton = 3;
+	
 	//pneumatics buttons
 	public static int extend = 9;
 	public static int retract = 10;
@@ -26,8 +30,19 @@ public class Constants {
 	public static int leftTalonAddress = 1;
 	public static int rightTalonAddress = 2;
 	
+	//PID variables
+	public static double kP = 0.0;
+	public static double kI = 0.0;
+	public static double kD = 0.0;
+	public static double setpoint = 0.0;
+	public static double absoluteTolerance = 15.0;
+	public static double distancePerPulse = 0.17;
+	public static double maxOutput = 0.5;
+	public static double minOutput = -0.5;
 	
-	
+	//encoders
+	public static int leftEncoderPortI = 0;
+	public static int leftEncoderPortII = 1;
 	
    
 }
