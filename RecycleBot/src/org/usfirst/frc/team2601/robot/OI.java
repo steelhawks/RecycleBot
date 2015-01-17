@@ -1,9 +1,13 @@
 package org.usfirst.frc.team2601.robot;
 
 import org.usfirst.frc.team2601.robot.Constants;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
+import org.usfirst.frc.team2601.robot.commands.RetractPiston;
 import org.usfirst.frc.team2601.robot.commands.StartPID;
 import org.usfirst.frc.team2601.robot.commands.StopMotors;
 import org.usfirst.frc.team2601.robot.commands.StopPID;
@@ -36,7 +40,9 @@ public class OI {
 	
 	//pneumatics buttons
 	JoystickButton extend = new JoystickButton(stick, Constants.extend);
+	extend.whenPressed(new ExtendPiston());
 	JoystickButton retract = new JoystickButton(stick, Constants.retract);
+	retract.whenPressed(new RetractPiston());
 	
 	}
     // There are a few additional built in buttons you can use. Additionally,

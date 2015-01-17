@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team2601.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -10,6 +12,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import org.usfirst.frc.team2601.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2601.robot.subsystems.Pneumatics;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +26,10 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Pneumatics pneumatics = new Pneumatics();
 	public static NetworkTable table;
+	CameraServer cam;
+	Compressor compressor;
 
     Command autonomousCommand;
 
@@ -36,6 +42,10 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
 		table = NetworkTable.getTable("datatable");
         autonomousCommand = new ExampleCommand();
+        
+        cam = CameraServer.getInstance();
+        cam.startAutomaticCapture("cam0");
+        compressor = new Compressor();
         
         table.putNumber("P", Constants.kP);
         table.putNumber("I", Constants.kI);
