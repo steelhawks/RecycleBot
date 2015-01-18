@@ -16,7 +16,7 @@ public class Pneumatics extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-    	setDefaultCommand(new RetractPiston());
+    	//setDefaultCommand(new RetractPiston(3.5));
     }
     
     public void extend(){

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-import org.usfirst.frc.team2601.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2601.robot.commands.SampleAuton;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2601.robot.subsystems.Pneumatics;
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         // instantiate the command used for the autonomous period
 		table = NetworkTable.getTable("datatable");
-        autonomousCommand = new ExampleCommand();
+        autonomousCommand = new SampleAuton();
         
         cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");

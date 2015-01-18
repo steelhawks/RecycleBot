@@ -2,21 +2,26 @@ package org.usfirst.frc.team2601.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
+
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
+
 import org.usfirst.frc.team2601.robot.Robot;
 
 
@@ -38,7 +43,7 @@ public class Drivetrain extends Subsystem {
 	boolean CSVstart;
 	
 	SmartDashboard dash;
-
+		
     public void initDefaultCommand() {
     	//DumbDrive on start
     	setDefaultCommand(new DumbDrive());
@@ -134,13 +139,13 @@ public class Drivetrain extends Subsystem {
     }
     
     public void moveForward(){
-    	leftTalon.set(0.75);
-    	rightTalon.set(0.75);
+    	leftTalon.set(0.5);
+    	rightTalon.set(-0.5);
     }
     
     public void moveBackward(){
-    	leftTalon.set(-0.75);
-    	rightTalon.set(-0.75);
+    	leftTalon.set(-0.5);
+    	rightTalon.set(0.5);
     }
     
     public void logStart(String param){

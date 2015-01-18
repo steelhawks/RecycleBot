@@ -13,14 +13,16 @@ public class SampleAuton extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AutonDriveForward(4.3));
+    	/*addSequential(new AutonDriveForward(1.5));
     	Timer.delay(0.5);
-    	addSequential(new AutonDriveBackward(5.0));
-    	Timer.delay(0.5);
-    	addParallel(new ExtendPiston());
+    	addSequential(new AutonDriveBackward(1.5));
+    	//Timer.delay(0.5);
+    	addSequential(new ExtendPiston(0.5));*/
     	addSequential(new AutonPID(210.0));
-    	Timer.delay(0.5);
-    	addSequential(new RetractPiston());
+    	//Timer.delay(3.0);
+    	/*addSequential(new AutonDriveForward(1.0));
+    	addSequential(new RetractPiston(0.5));
+    	addSequential(new AutonDriveForward(1.0));*/
     	
         // To run multiple commands at the same time,
         // use addParallel()

@@ -29,6 +29,7 @@ public class OI {
 	stopPID.cancelWhenPressed(new StartPID());
 	stopPID.whenPressed(new StopPID());
 	
+	
 	JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);
 	stopMotors.cancelWhenPressed(new StartPID());
 	stopMotors.whenPressed(new StopPID());
@@ -40,9 +41,9 @@ public class OI {
 	
 	//pneumatics buttons
 	JoystickButton extend = new JoystickButton(stick, Constants.extend);
-	extend.whenPressed(new ExtendPiston());
+	extend.whenPressed(new ExtendPiston(1.5));
 	JoystickButton retract = new JoystickButton(stick, Constants.retract);
-	retract.whenPressed(new RetractPiston());
+	retract.whenPressed(new RetractPiston(1.5));
 	
 	}
     // There are a few additional built in buttons you can use. Additionally,
