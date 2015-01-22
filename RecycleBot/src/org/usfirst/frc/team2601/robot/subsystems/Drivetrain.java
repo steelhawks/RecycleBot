@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.OmniDrive;
 
 import java.util.logging.Logger;
 
@@ -34,6 +35,7 @@ public class Drivetrain extends Subsystem {
 	String filename = "/logs/drivetrainlog.csv";
 	CANTalon leftTalon = new CANTalon(Constants.leftTalonAddress);
 	CANTalon rightTalon = new CANTalon(Constants.rightTalonAddress);
+	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
 	RobotDrive drive = new RobotDrive(leftTalon, rightTalon);
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, true, Encoder.EncodingType.k4X);
 	DriverStation driver;
@@ -46,7 +48,7 @@ public class Drivetrain extends Subsystem {
 		
     public void initDefaultCommand() {
     	//DumbDrive on start
-    	setDefaultCommand(new DumbDrive());
+    	setDefaultCommand(new OmniDrive());
     }
     
     public void dumbDrive(Joystick stick){
@@ -139,15 +141,43 @@ public class Drivetrain extends Subsystem {
     }
     
     public void moveForward(){
-    	leftTalon.set(0.5);
-    	rightTalon.set(-0.5);
+    	leftTalon.set(0.5 * Constants.leftTalonMultiplier);
+    	rightTalon.set(-0.5 * Constants.rightTalonMultiplier);
     }
     
     public void moveBackward(){
-    	leftTalon.set(-0.5);
-    	rightTalon.set(0.5);
+    	leftTalon.set(-0.5 * Constants.leftTalonMultiplier);
+    	rightTalon.set(0.5 * Constants.rightTalonMultiplier);
     }
     
+    public void omniDrive(Joystick stick){
+    	double yval = stick.getY();
+    	double xval = stick.getX();
+    	double twist = stick.getTwist();
+    	centerTalon.set(xval * Constants.centerTalonMultiplier);
+    	
+    	//begin screwing around with rolling my own method
+    	
+    	/*if (twist == 0){
+    		rightTalon.set(yval*Constants.rightTalonMultiplier);
+    		leftTalon.set(yval*Constants.leftTalonMultiplier);
+    	}
+    	else if (yval == 0 && twist != 0){
+    		rightTalon.set(twist * -1 * Constants.rightTalonMultiplier);
+    		leftTalon.set(twist * Constants.leftTalonMultiplier);
+    	}
+    	else if (yval != 0 && twist != 0){
+    		rightTalon.set(twist * yval * -1 * Constants.rightTalonMultiplier);
+    		leftTalon.set(twist * yval * Constants.leftTalonMultiplier);
+    	}*/
+    	
+    	//this line below pretty much does everything i was trying to do in the method above ~Marcus
+    	
+    	drive.arcadeDrive(yval, twist);
+    	
+    }
+    
+
     public void logStart(String param){
     	try
     	{
