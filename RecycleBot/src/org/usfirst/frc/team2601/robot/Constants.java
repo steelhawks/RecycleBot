@@ -11,6 +11,15 @@ public class Constants {
     // public static int leftMotor = 1;
     // public static int rightMotor = 2;
     
+	// configuration
+	public static final int TANK = 0;
+	public static final int ARCADE = 1;
+	public static int driveType = TANK;
+	
+	public static final int OMNI =0;
+	public static final int SQUARE = 1;
+	public static int chassisType = OMNI;
+	
 	//joystick
 	public static int joystickPort = 0;
 	
@@ -49,7 +58,7 @@ public class Constants {
 	//Talon multipliers
 	public static int leftTalonMultiplier = 1;
 	public static int rightTalonMultiplier = -1;
-	public static int centerTalonMultiplier = -1;
+	public static int centerTalonMultiplier = 1;
 	//speed
 	public static double speed = 1.0;
    

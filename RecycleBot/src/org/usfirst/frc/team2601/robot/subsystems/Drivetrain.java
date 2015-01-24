@@ -49,29 +49,39 @@ public class Drivetrain extends Subsystem {
 	SmartDashboard dash;
 	
 	//gets output values of Talons
-	public void printStats(CANTalon Talon){
+	public void printStats(CANTalon Talon, String name){
 		double currentAmps = Talon.getOutputCurrent();
 		double outputV = Talon.getOutputVoltage();
 		double busV = Talon.getBusVoltage();
-		double dualEncoderPos = Talon.getEncPosition();
-		double dualEncoderVelocity = Talon.getEncVelocity();
+		//double dualEncoderPos = Talon.getEncPosition();
+		//double dualEncoderVelocity = Talon.getEncVelocity();
 		int analogPos = Talon.getAnalogInPosition();
 		int analogVelocity = Talon.getAnalogInVelocity();
 		double selectedSensorPos = Talon.getPosition();
 		double selectedSensorVelocity = Talon.getSpeed();
-		int closeLoopErr = Talon.getClosedLoopError();
+		//int closeLoopErr = Talon.getClosedLoopError();
 		
-		System.out.println("currentAmps" + currentAmps);
-		System.out.println("outputV" + outputV);
-		System.out.println("busV" + busV);
-		System.out.println("dualEncoderPos" + dualEncoderPos);
-		System.out.println("dualEncoderVelocity" + dualEncoderVelocity);
-		System.out.println("analogPos" + analogPos);
-		System.out.println("analogVelocity" + analogVelocity);
-		System.out.println("selectedSensorPos" + selectedSensorPos);
-		System.out.println("selectedSensorVelocity" + selectedSensorVelocity);
-		System.out.println("closeLoopErr" + closeLoopErr);
-		
+		SmartDashboard.putNumber(name + "currentAmps", currentAmps);
+		SmartDashboard.putNumber(name + "outputV", outputV);
+		SmartDashboard.putNumber(name + "busV", busV);
+		//SmartDashboard.putNumber(name + "dualEncoderPos", dualEncoderPos);
+		//SmartDashboard.putNumber(name + "dualEncoderVelocity",dualEncoderVelocity);
+		SmartDashboard.putNumber(name + "analogpos", analogPos);
+		SmartDashboard.putNumber(name + "analogVelocity", analogVelocity);
+		SmartDashboard.putNumber(name + "selectedSensorPos", selectedSensorPos);
+		SmartDashboard.putNumber(name + "selectedSensorVelocity", selectedSensorVelocity);
+		//SmartDashboard.putNumber(name + "closeLoopErr", closeLoopErr);
+		/*System.out.println("currentAmps " + currentAmps);
+		System.out.println("outputV " + outputV);
+		System.out.println("busV " + busV);
+		System.out.println("dualEncoderPos " + dualEncoderPos);
+		System.out.println("dualEncoderVelocity " + dualEncoderVelocity);
+		System.out.println("analogPos " + analogPos);
+		System.out.println("analogVelocity " + analogVelocity);
+		System.out.println("selectedSensorPos " + selectedSensorPos);
+		System.out.println("selectedSensorVelocity " + selectedSensorVelocity);
+		System.out.println("closeLoopErr " + closeLoopErr);
+		*/
 	}
 		
     public void initDefaultCommand() {
@@ -177,10 +187,10 @@ public class Drivetrain extends Subsystem {
     	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
     	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
     	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
-    	printStats(leftTalonI);
-    	printStats(rightTalonI);
-    	printStats(leftTalonII);
-    	printStats(rightTalonII);
+    	printStats(leftTalonI,"leftTalonI");
+    	printStats(rightTalonI,"rightTalonI");
+    	printStats(leftTalonII,"leftTalonII");
+    	printStats(rightTalonII,"rightTalonII");
     	
     }
     
@@ -189,15 +199,17 @@ public class Drivetrain extends Subsystem {
     	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
     	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
     	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
-    	printStats(leftTalonI);
-    	printStats(rightTalonI);
-    	printStats(leftTalonII);
-    	printStats(rightTalonII);
+    	printStats(leftTalonI,"leftTalonI");
+    	printStats(rightTalonI,"rightTalonI");
+    	printStats(leftTalonII,"leftTalonII");
+    	printStats(rightTalonII,"rightTalonII");
     }
     
+    
+    // OMNI 
     public void omniDrive(Joystick stick){
-    	double yval = stick.getY();
-    	double xval = -stick.getX();
+    	double yval = -stick.getY();
+    	double xval = stick.getX();
     	double twist = -stick.getTwist();
     	centerTalon.set(xval * Constants.centerTalonMultiplier);
     	
@@ -219,11 +231,17 @@ public class Drivetrain extends Subsystem {
     	//this line below pretty much does everything i was trying to do in the method above ~Marcus
     	
     	//drive.arcadeDrive(yval, twist);
-    	drive.arcadeDrive(yval, twist, false); 
-    	printStats(leftTalonI);
-    	printStats(rightTalonI);
-    	printStats(leftTalonII);
-    	printStats(rightTalonII);
+
+    	printStats(leftTalonI,"leftTalonI");
+    	printStats(rightTalonI,"rightTalonI");
+    	printStats(leftTalonII,"leftTalonII");
+    	printStats(rightTalonII,"rightTalonII");
+
+    	if(Constants.driveType == Constants.TANK){
+    	drive.tankDrive(yval, xval, false); 
+    	}
+    	else
+    	drive.arcadeDrive(yval,twist,false);
     }
     
 
