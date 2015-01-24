@@ -27,9 +27,11 @@ public class Constants {
 	public static int retract = 10;
 	
 	//Talon SRX addresses
-	public static int leftTalonAddress = 1;
-	public static int rightTalonAddress = 2;
-	public static int centerTalonAddress = 3;
+	public static int leftTalonAddressI = 4;
+	public static int leftTalonAddressII = 5;
+	public static int centerTalonAddress = 6;
+	public static int rightTalonAddressI = 7;
+	public static int rightTalonAddressII = 8;
 	
 	//PID variables
 	public static double kP = 0.0;
@@ -44,9 +46,11 @@ public class Constants {
 	//encoders
 	public static int leftEncoderPortI = 0;
 	public static int leftEncoderPortII = 1;
-	
+	//Talon multipliers
 	public static int leftTalonMultiplier = 1;
 	public static int rightTalonMultiplier = -1;
-	public static int centerTalonMultiplier = 1;
+	public static int centerTalonMultiplier = -1;
+	//speed
+	public static double speed = 1.0;
    
 }

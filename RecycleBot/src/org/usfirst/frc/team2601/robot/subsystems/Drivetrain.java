@@ -33,18 +33,46 @@ import org.usfirst.frc.team2601.robot.Robot;
 public class Drivetrain extends Subsystem {
     //set up all of the things involved in the drivetrain
 	String filename = "/logs/drivetrainlog.csv";
-	CANTalon leftTalon = new CANTalon(Constants.leftTalonAddress);
-	CANTalon rightTalon = new CANTalon(Constants.rightTalonAddress);
+	CANTalon leftTalonI = new CANTalon(Constants.leftTalonAddressI);
+	CANTalon rightTalonI = new CANTalon(Constants.rightTalonAddressI);
+	CANTalon leftTalonII = new CANTalon(Constants.leftTalonAddressII);
+	CANTalon rightTalonII = new CANTalon(Constants.rightTalonAddressII);
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
-	RobotDrive drive = new RobotDrive(leftTalon, rightTalon);
+	RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, true, Encoder.EncodingType.k4X);
 	DriverStation driver;
 	
 	//setup first version of PID controller
-	PIDController control = new PIDController(Constants.kP,Constants.kI,Constants.kD, leftEncoder, leftTalon);
-	boolean CSVstart;
+	PIDController control = new PIDController(Constants.kP,Constants.kI,Constants.kD, leftEncoder, leftTalonI);
+	boolean CSVstart; 
 	
 	SmartDashboard dash;
+	
+	//gets output values of Talons
+	public void printStats(CANTalon Talon){
+		double currentAmps = Talon.getOutputCurrent();
+		double outputV = Talon.getOutputVoltage();
+		double busV = Talon.getBusVoltage();
+		double dualEncoderPos = Talon.getEncPosition();
+		double dualEncoderVelocity = Talon.getEncVelocity();
+		int analogPos = Talon.getAnalogInPosition();
+		int analogVelocity = Talon.getAnalogInVelocity();
+		double selectedSensorPos = Talon.getPosition();
+		double selectedSensorVelocity = Talon.getSpeed();
+		int closeLoopErr = Talon.getClosedLoopError();
+		
+		System.out.println("currentAmps" + currentAmps);
+		System.out.println("outputV" + outputV);
+		System.out.println("busV" + busV);
+		System.out.println("dualEncoderPos" + dualEncoderPos);
+		System.out.println("dualEncoderVelocity" + dualEncoderVelocity);
+		System.out.println("analogPos" + analogPos);
+		System.out.println("analogVelocity" + analogVelocity);
+		System.out.println("selectedSensorPos" + selectedSensorPos);
+		System.out.println("selectedSensorVelocity" + selectedSensorVelocity);
+		System.out.println("closeLoopErr" + closeLoopErr);
+		
+	}
 		
     public void initDefaultCommand() {
     	//DumbDrive on start
@@ -101,13 +129,16 @@ public class Drivetrain extends Subsystem {
     
     public void matchMotors(){
     	//keep motors together for straight line PID
-    	rightTalon.set(leftTalon.get()* -1);
+    	rightTalonI.set(leftTalonI.get()* -1);
+    	rightTalonII.set(leftTalonII.get()* -1);
     }
     
     public void stopMotors(){
     	//stop everything
-    	rightTalon.set(0.0);
-    	leftTalon.set(0.0);
+    	rightTalonI.set(0.0);
+    	leftTalonI.set(0.0);
+    	rightTalonII.set(0.0);
+    	leftTalonII.set(0.0);
     }
     
     public void stopPID(){
@@ -141,19 +172,33 @@ public class Drivetrain extends Subsystem {
     }
     
     public void moveForward(){
-    	leftTalon.set(0.5 * Constants.leftTalonMultiplier);
-    	rightTalon.set(-0.5 * Constants.rightTalonMultiplier);
+    	
+    	leftTalonI.set(Constants.speed * Constants.leftTalonMultiplier);
+    	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
+    	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
+    	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
+    	printStats(leftTalonI);
+    	printStats(rightTalonI);
+    	printStats(leftTalonII);
+    	printStats(rightTalonII);
+    	
     }
     
     public void moveBackward(){
-    	leftTalon.set(-0.5 * Constants.leftTalonMultiplier);
-    	rightTalon.set(0.5 * Constants.rightTalonMultiplier);
+    	leftTalonI.set(Constants.speed * Constants.leftTalonMultiplier);
+    	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
+    	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
+    	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
+    	printStats(leftTalonI);
+    	printStats(rightTalonI);
+    	printStats(leftTalonII);
+    	printStats(rightTalonII);
     }
     
     public void omniDrive(Joystick stick){
     	double yval = stick.getY();
-    	double xval = stick.getX();
-    	double twist = stick.getTwist();
+    	double xval = -stick.getX();
+    	double twist = -stick.getTwist();
     	centerTalon.set(xval * Constants.centerTalonMultiplier);
     	
     	//begin screwing around with rolling my own method
@@ -173,8 +218,12 @@ public class Drivetrain extends Subsystem {
     	
     	//this line below pretty much does everything i was trying to do in the method above ~Marcus
     	
-    	drive.arcadeDrive(yval, twist);
-    	
+    	//drive.arcadeDrive(yval, twist);
+    	drive.arcadeDrive(yval, twist, false); 
+    	printStats(leftTalonI);
+    	printStats(rightTalonI);
+    	printStats(leftTalonII);
+    	printStats(rightTalonII);
     }
     
 

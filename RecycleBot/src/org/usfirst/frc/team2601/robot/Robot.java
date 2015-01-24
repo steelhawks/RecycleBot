@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static NetworkTable table;
-	CameraServer cam;
+	//CameraServer cam;
 	Compressor compressor;
 
     Command autonomousCommand;
@@ -43,9 +43,11 @@ public class Robot extends IterativeRobot {
 		table = NetworkTable.getTable("datatable");
         autonomousCommand = new SampleAuton();
         
+        /*
         cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
         compressor = new Compressor();
+        */
         
         table.putNumber("P", Constants.kP);
         table.putNumber("I", Constants.kI);
