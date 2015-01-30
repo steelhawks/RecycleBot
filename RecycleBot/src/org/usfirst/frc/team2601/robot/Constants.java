@@ -14,11 +14,14 @@ public class Constants {
 	// configuration
 	public static final int TANK = 0;
 	public static final int ARCADE = 1;
-	public static int driveType = TANK;
+	public static int driveType = ARCADE;
 	
 	public static final int OMNI =0;
 	public static final int SQUARE = 1;
 	public static int chassisType = OMNI;
+	
+	public static final boolean CAMERA_ON = false;
+	public static final boolean PNEUMATICS_ON = false;
 	
 	//joystick
 	public static int joystickPort = 0;
@@ -55,11 +58,14 @@ public class Constants {
 	//encoders
 	public static int leftEncoderPortI = 0;
 	public static int leftEncoderPortII = 1;
+	
 	//Talon multipliers
 	public static int leftTalonMultiplier = 1;
 	public static int rightTalonMultiplier = -1;
 	public static int centerTalonMultiplier = 1;
-	//speed
-	public static double speed = 1.0;
+
+	// drive speed
+	public static double speed = 0.5;
+
    
 }

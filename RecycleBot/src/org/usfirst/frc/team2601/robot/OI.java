@@ -30,14 +30,14 @@ public class OI {
 	stopPID.whenPressed(new StopPID());
 	
 	
-	JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);
+	/*JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);
 	stopMotors.cancelWhenPressed(new StartPID());
 	stopMotors.whenPressed(new StopPID());
 	stopMotors.whenPressed(new StopMotors());
 	
 	//general buttons
 	JoystickButton restartDumbDrive = new JoystickButton(stick, Constants.restartDumbDriveButton);
-	restartDumbDrive.whenPressed(new DumbDrive());
+	restartDumbDrive.whenPressed(new DumbDrive());*/
 	
 	//pneumatics buttons
 	JoystickButton extend = new JoystickButton(stick, Constants.extend);

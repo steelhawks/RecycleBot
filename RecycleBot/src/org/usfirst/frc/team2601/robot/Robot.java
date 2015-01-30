@@ -40,7 +40,12 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
+		try {
 		table = NetworkTable.getTable("datatable");
+		}
+		catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
         autonomousCommand = new SampleAuton();
         
         /*

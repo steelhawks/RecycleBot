@@ -53,24 +53,26 @@ public class Drivetrain extends Subsystem {
 		double currentAmps = Talon.getOutputCurrent();
 		double outputV = Talon.getOutputVoltage();
 		double busV = Talon.getBusVoltage();
-		//double dualEncoderPos = Talon.getEncPosition();
-		//double dualEncoderVelocity = Talon.getEncVelocity();
+		double dualEncoderPos = Talon.getEncPosition();
+		double dualEncoderVelocity = Talon.getEncVelocity();
 		int analogPos = Talon.getAnalogInPosition();
 		int analogVelocity = Talon.getAnalogInVelocity();
 		double selectedSensorPos = Talon.getPosition();
 		double selectedSensorVelocity = Talon.getSpeed();
-		//int closeLoopErr = Talon.getClosedLoopError();
+		int closeLoopErr = Talon.getClosedLoopError();
+		double get = Talon.get();
 		
-		SmartDashboard.putNumber(name + "currentAmps", currentAmps);
-		SmartDashboard.putNumber(name + "outputV", outputV);
-		SmartDashboard.putNumber(name + "busV", busV);
-		//SmartDashboard.putNumber(name + "dualEncoderPos", dualEncoderPos);
-		//SmartDashboard.putNumber(name + "dualEncoderVelocity",dualEncoderVelocity);
-		SmartDashboard.putNumber(name + "analogpos", analogPos);
-		SmartDashboard.putNumber(name + "analogVelocity", analogVelocity);
-		SmartDashboard.putNumber(name + "selectedSensorPos", selectedSensorPos);
-		SmartDashboard.putNumber(name + "selectedSensorVelocity", selectedSensorVelocity);
-		//SmartDashboard.putNumber(name + "closeLoopErr", closeLoopErr);
+		SmartDashboard.putNumber(name + " get", get);
+		SmartDashboard.putNumber(name + " currentAmps", currentAmps);
+		SmartDashboard.putNumber(name + " outputV", outputV);
+		SmartDashboard.putNumber(name + " busV", busV);
+		/*SmartDashboard.putNumber(name + " dualEncoderPos", dualEncoderPos);
+		SmartDashboard.putNumber(name + " dualEncoderVelocity",dualEncoderVelocity);
+		SmartDashboard.putNumber(name + " analogpos", analogPos);
+		SmartDashboard.putNumber(name + " analogVelocity", analogVelocity);
+		SmartDashboard.putNumber(name + " selectedSensorPos", selectedSensorPos);
+		SmartDashboard.putNumber(name + " selectedSensorVelocity", selectedSensorVelocity);
+		SmartDashboard.putNumber(name + " closeLoopErr", closeLoopErr);*/
 		/*System.out.println("currentAmps " + currentAmps);
 		System.out.println("outputV " + outputV);
 		System.out.println("busV " + busV);
@@ -211,8 +213,8 @@ public class Drivetrain extends Subsystem {
     	double yval = -stick.getY();
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
-    	centerTalon.set(xval * Constants.centerTalonMultiplier);
-    	
+    	centerTalon.set(xval /* Constants.centerTalonMultiplier * Constants.speed*/);
+    
     	//begin screwing around with rolling my own method
     	
     	/*if (twist == 0){
@@ -236,12 +238,14 @@ public class Drivetrain extends Subsystem {
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
     	printStats(rightTalonII,"rightTalonII");
+    	printStats(centerTalon, "centerTalon");
 
     	if(Constants.driveType == Constants.TANK){
-    	drive.tankDrive(yval, xval, false); 
+    		drive.tankDrive(yval, xval, false); 
     	}
     	else
-    	drive.arcadeDrive(yval,twist,false);
+    		drive.arcadeDrive(yval * Constants.speed,twist * Constants.speed,false);
+    	Timer.delay(0.05);
     }
     
 
