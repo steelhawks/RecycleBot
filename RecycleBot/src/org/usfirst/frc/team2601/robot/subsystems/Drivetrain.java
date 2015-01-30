@@ -2,7 +2,6 @@ package org.usfirst.frc.team2601.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -12,12 +11,11 @@ import edu.wpi.first.wpilibj.Timer;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.OmniDrive;
-
-import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +30,7 @@ import org.usfirst.frc.team2601.robot.Robot;
  */
 public class Drivetrain extends Subsystem {
     //set up all of the things involved in the drivetrain
-	String filename = "/logs/drivetrainlog.csv";
+	String motorStatsFilename = "/logs/motorstatslog.csv";
 	CANTalon leftTalonI = new CANTalon(Constants.leftTalonAddressI);
 	CANTalon rightTalonI = new CANTalon(Constants.rightTalonAddressI);
 	CANTalon leftTalonII = new CANTalon(Constants.leftTalonAddressII);
@@ -48,6 +46,8 @@ public class Drivetrain extends Subsystem {
 	
 	SmartDashboard dash;
 	
+	ArrayList<String> printstats;
+	
 	//gets output values of Talons
 	public void printStats(CANTalon Talon, String name){
 		double currentAmps = Talon.getOutputCurrent();
@@ -61,31 +61,66 @@ public class Drivetrain extends Subsystem {
 		double selectedSensorVelocity = Talon.getSpeed();
 		int closeLoopErr = Talon.getClosedLoopError();
 		double get = Talon.get();
+		double currentTime = driver.getMatchTime();
+		ArrayList<Double> stats = new ArrayList<Double>();
 		
-		SmartDashboard.putNumber(name + " get", get);
-		SmartDashboard.putNumber(name + " currentAmps", currentAmps);
-		SmartDashboard.putNumber(name + " outputV", outputV);
-		SmartDashboard.putNumber(name + " busV", busV);
-		/*SmartDashboard.putNumber(name + " dualEncoderPos", dualEncoderPos);
-		SmartDashboard.putNumber(name + " dualEncoderVelocity",dualEncoderVelocity);
-		SmartDashboard.putNumber(name + " analogpos", analogPos);
-		SmartDashboard.putNumber(name + " analogVelocity", analogVelocity);
-		SmartDashboard.putNumber(name + " selectedSensorPos", selectedSensorPos);
-		SmartDashboard.putNumber(name + " selectedSensorVelocity", selectedSensorVelocity);
-		SmartDashboard.putNumber(name + " closeLoopErr", closeLoopErr);*/
-		/*System.out.println("currentAmps " + currentAmps);
-		System.out.println("outputV " + outputV);
-		System.out.println("busV " + busV);
-		System.out.println("dualEncoderPos " + dualEncoderPos);
-		System.out.println("dualEncoderVelocity " + dualEncoderVelocity);
-		System.out.println("analogPos " + analogPos);
-		System.out.println("analogVelocity " + analogVelocity);
-		System.out.println("selectedSensorPos " + selectedSensorPos);
-		System.out.println("selectedSensorVelocity " + selectedSensorVelocity);
-		System.out.println("closeLoopErr " + closeLoopErr);
-		*/
+		
+		String cA = name + " currentAmps";
+		String oV = name + " outputV";
+		String bV = name + " busV";
+		String dEP = name + " dualEncoderPos";
+		String dEV = name + " dualEncoderVelocity";
+		String aP = name + " analogPos";
+		String aV = name + " analogVelocity";
+		String sSP = name + " selectedSensorPos";
+		String sSV = name + " selectedSensorVelocity";
+		String cLE = name + " closeLoopErr";
+		String getTalon = name + " get";
+		
+		if (!CSVstart){
+		ArrayList<String> printstats = new ArrayList<String>();
+		printstats.add(cA);
+		printstats.add(oV);
+		printstats.add(bV);
+		printstats.add(dEP);
+		printstats.add(dEV);
+		//printstats.add(aP);
+		//printstats.add(aV);
+		//printstats.add(sSP);
+		//printstats.add(sSV);
+		printstats.add(cLE);
+		printstats.add(getTalon);
+		startCSV(motorStatsFilename, printstats);
+		endLine(motorStatsFilename);
+		}
+		SmartDashboard.putNumber(getTalon, get);
+		SmartDashboard.putNumber(cA, currentAmps);
+		SmartDashboard.putNumber(oV, outputV);
+		SmartDashboard.putNumber(bV, busV);
+		SmartDashboard.putNumber(dEP, dualEncoderPos);
+		SmartDashboard.putNumber(dEV,dualEncoderVelocity);
+		SmartDashboard.putNumber(aP, analogPos);
+		SmartDashboard.putNumber(aV, analogVelocity);
+		SmartDashboard.putNumber(sSP, selectedSensorPos);
+		SmartDashboard.putNumber(sSV, selectedSensorVelocity);
+		SmartDashboard.putNumber(cLE, closeLoopErr);
+		
+		
+		
+		stats.add(currentTime);
+		stats.add(currentAmps);
+		stats.add(outputV);
+		stats.add(busV);
+		stats.add(dualEncoderPos);
+		stats.add(dualEncoderVelocity);
+		stats.add((double) closeLoopErr);
+		stats.add(get);
+		addData(motorStatsFilename,stats);
+		
+		endLine(motorStatsFilename);
+		
+		
 	}
-		
     public void initDefaultCommand() {
     	//DumbDrive on start
     	setDefaultCommand(new OmniDrive());
@@ -248,19 +283,22 @@ public class Drivetrain extends Subsystem {
     	Timer.delay(0.05);
     }
     
-
-    public void logStart(String param){
-    	try
+//Start csv/logging stuff
+    
+    //adds headers to a new CSV file
+    public void startCSV(String filename, ArrayList<String> list){
+		try
     	{
     	    FileWriter writer = new FileWriter(filename);
-     
     	    writer.append("Time");
     	    writer.append(',');
-    	    writer.append(param);
-    	    writer.append('\n');
-     
-    	    //generate whatever data you want
-     
+    	    for (int i = 0; i<list.size(); i++){
+    	    	writer.append(list.get(i));
+    	    	if(i < list.size()-1){
+    	    	writer.append(',');
+    	    	}
+    	    }
+    
     	    writer.flush();
     	    writer.close();
     	}
@@ -270,47 +308,63 @@ public class Drivetrain extends Subsystem {
     	} 
     	CSVstart = true;
         }
+	//writes in a newline to a csv file
+	public void endLine(String filename){
+		if (CSVstart){
+		try {
+			FileWriter writer = new FileWriter(filename);
+			writer.append("/n");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}
+	//add data given in the form of a list of doubles
+	public void addData(String filename, ArrayList<Double> list){
+		if (CSVstart){
+			try
+	    	{
+	    	    FileWriter writer = new FileWriter(filename);
+	    	    for (int i = 0; i<list.size(); i++){
+	    	    	writer.append(list.get(i).toString());
+	    	    	if(i < list.size()-1){
+	    	    	writer.append(',');
+	    	    	}
+	    	    }
+	    
+	    	    writer.flush();
+	    	    writer.close();
+	    	}
+	    	catch(IOException e)
+	    	{
+	    	     e.printStackTrace();
+	    	} 
+		}
+	}
+	//add single doubles to the log	
+	public void addData(String filename, Double data){
+		if (CSVstart){
+			try {
+				FileWriter writer = new FileWriter(filename);
+				writer.append(data.toString());
+				writer.append(",");
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
     
-    public void logData(double val){
-    	driver = DriverStation.getInstance();
-    	if (CSVstart){
-    		try
-    		{
-    		    FileWriter writer = new FileWriter(filename);
-    	 String value = Double.toString(val);
-    		    writer.append(Double.toString(driver.getMatchTime()));
-    		    writer.append(',');
-    		    writer.append(value);
-    		    writer.append('\n');
-    	 
-    		    writer.flush();
-    		    writer.close();
-    		}
-    		catch(IOException e)
-    		{
-    		     e.printStackTrace();
-    		} 
-    	    }
-    	}
-    }
+}
 	
     
     
     
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
