@@ -2,13 +2,12 @@ package org.usfirst.frc.team2601.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2601.robot.Robot;
-
 /**
  *
  */
-public class StopPID extends Command {
+public class StartDrivetrainPID extends Command {
 
-    public StopPID() {
+    public StartDrivetrainPID() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
@@ -20,7 +19,8 @@ public class StopPID extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.stopPID();
+    	Robot.drivetrain.startPID();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team2601.robot.commands.SampleAuton;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2601.robot.subsystems.Pneumatics;
 
@@ -26,9 +27,10 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Elevator elevator = new Elevator();
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static NetworkTable table;
-	//CameraServer cam;
+	CameraServer cam;
 	Compressor compressor;
 
     Command autonomousCommand;
@@ -48,16 +50,23 @@ public class Robot extends IterativeRobot {
 		}
         autonomousCommand = new SampleAuton();
         
-        /*
+        if (Constants.CAMERA_ON){
         cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
+        }
+        if (Constants.PNEUMATICS_ON){
         compressor = new Compressor();
-        */
+        }
         
-        table.putNumber("P", Constants.kP);
-        table.putNumber("I", Constants.kI);
-        table.putNumber("D", Constants.kD);
-        table.putNumber("setpoint", Constants.setpoint);
+        table.putNumber(Constants.drivetrainPKey, Constants.drivetrainP);
+        table.putNumber(Constants.drivetrainIKey, Constants.drivetrainI);
+        table.putNumber(Constants.drivetrainDKey, Constants.drivetrainD);
+        table.putNumber(Constants.drivetrainSetpointKey, Constants.drivetrainSetpoint);
+        
+        table.putNumber(Constants.elevatorPKey, Constants.elevatorP);
+        table.putNumber(Constants.elevatorIKey, Constants.elevatorI);
+        table.putNumber(Constants.elevatorDKey, Constants.elevatorD);
+        table.putNumber(Constants.elevatorSetpointKey, Constants.elevatorSetpoint);
     }
 	
 	public void disabledPeriodic() {

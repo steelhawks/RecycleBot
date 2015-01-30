@@ -25,10 +25,13 @@ public class Constants {
 	
 	//joystick
 	public static int joystickPort = 0;
+	public static int secondaryJoystickPort = 1;
 	
 	//PID control buttons
-	public static int startPID = 1;
-	public static int stopPID = 2;
+	public static int startDrivetrainPID = 1;
+	public static int stopDrivetrainPID = 2;
+	public static int startElevatorPID = 8;
+	public static int stopElevatorPID = 7;
 	
 	//general control buttons
 	public static int stopMotors = 4;
@@ -44,28 +47,53 @@ public class Constants {
 	public static int centerTalonAddress = 6;
 	public static int rightTalonAddressI = 7;
 	public static int rightTalonAddressII = 8;
+	public static int elevatorTalonAddress = 9;
 	
-	//PID variables
-	public static double kP = 0.0;
-	public static double kI = 0.0;
-	public static double kD = 0.0;
-	public static double setpoint = 0.0;
-	public static double absoluteTolerance = 15.0;
-	public static double distancePerPulse = 0.17;
-	public static double maxOutput = 0.5;
-	public static double minOutput = -0.5;
+	//drivetrain PID variables
+	public static double drivetrainP = 0.0;
+	public static double drivetrainI = 0.0;
+	public static double drivetrainD = 0.0;
+	public static double drivetrainSetpoint = 0.0;
+	public static double drivetrainAbsoluteTolerance = 15.0;
+	public static double drivetrainDistancePerPulse = 0.17;
+	public static double drivetrainMaxOutput = 0.5;
+	public static double drivetrainMinOutput = -0.5;
+	
+	//elevator PID variables
+	public static double elevatorP = 0.0;
+	public static double elevatorI = 0.0;
+	public static double elevatorD = 0.0;
+	public static double elevatorSetpoint = 0.0;
+	public static double elevatorAbsoluteTolerance = 15.0;
+	public static double elevatorDistancePerPulse = 0.17;
+	public static double elevatorMaxOutput = 0.5;
+	public static double elevatorMinOutput = -0.5;
 	
 	//encoders
 	public static int leftEncoderPortI = 0;
 	public static int leftEncoderPortII = 1;
+	public static int elevatorEncoderPortI = 2;
+	public static int elevatorEncoderPortII  = 3;
+	
+	//limit switches
+	public static int limitSwitchIPort = 4;
+	public static int limitSwitchIIPort = 5;
 	
 	//Talon multipliers
 	public static int leftTalonMultiplier = 1;
 	public static int rightTalonMultiplier = -1;
 	public static int centerTalonMultiplier = 1;
+	public static int elevatorTalonMultiplier = 1;
 
 	// drive speed
 	public static double speed = 0.5;
-
-   
+	
+	public static String drivetrainPKey = "DrivetrainP";
+	public static String drivetrainIKey = "DrivetrainI";
+	public static String drivetrainDKey = "DrivetrainD";
+	public static String drivetrainSetpointKey = "DrivetrainSetpoint";
+	public static String elevatorPKey = "ElevatorP";
+	public static String elevatorIKey = "ElevatorI";
+	public static String elevatorDKey = "ElevatorD";
+	public static String elevatorSetpointKey = "ElevatorSetpoint";
 }

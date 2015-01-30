@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
-import org.usfirst.frc.team2601.robot.commands.StartPID;
+import org.usfirst.frc.team2601.robot.commands.StartDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.StartElevatorPID;
+import org.usfirst.frc.team2601.robot.commands.StopElevatorPID;
 import org.usfirst.frc.team2601.robot.commands.StopMotors;
-import org.usfirst.frc.team2601.robot.commands.StopPID;
+import org.usfirst.frc.team2601.robot.commands.StopDrivetrainPID;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,16 +21,24 @@ import org.usfirst.frc.team2601.robot.commands.StopPID;
 public class OI {
     
 	public static  Joystick stick = new Joystick(Constants.joystickPort);
+	public static Joystick elevatorStick = new Joystick(Constants.secondaryJoystickPort);
 	
 	public OI(){
 	//PID buttons
-	JoystickButton startPID = new JoystickButton(stick, Constants.startPID);
-	startPID.whenPressed(new StartPID());
 	
-	JoystickButton stopPID = new JoystickButton(stick, Constants.stopPID);
-	stopPID.cancelWhenPressed(new StartPID());
-	stopPID.whenPressed(new StopPID());
+	JoystickButton startDrivetrainPID = new JoystickButton(stick, Constants.startDrivetrainPID);
+	startDrivetrainPID.whenPressed(new StartDrivetrainPID());
 	
+	JoystickButton stopDrivetrainPID = new JoystickButton(stick, Constants.stopDrivetrainPID);
+	stopDrivetrainPID.cancelWhenPressed(new StartDrivetrainPID());
+	stopDrivetrainPID.whenPressed(new StopDrivetrainPID());
+	
+	JoystickButton startElevatorPID = new JoystickButton(elevatorStick, Constants.startElevatorPID);
+	startElevatorPID.whenPressed(new StartElevatorPID());
+	
+	JoystickButton stopElevatorPID = new JoystickButton(elevatorStick, Constants.stopElevatorPID);
+	stopElevatorPID.cancelWhenPressed(new StartElevatorPID());
+	stopElevatorPID.whenPressed(new StopElevatorPID());
 	
 	/*JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);
 	stopMotors.cancelWhenPressed(new StartPID());

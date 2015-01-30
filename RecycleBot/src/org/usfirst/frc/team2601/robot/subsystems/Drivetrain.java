@@ -41,12 +41,13 @@ public class Drivetrain extends Subsystem {
 	DriverStation driver;
 	
 	//setup first version of PID controller
-	PIDController control = new PIDController(Constants.kP,Constants.kI,Constants.kD, leftEncoder, leftTalonI);
+	PIDController control = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
 	boolean CSVstart; 
 	
 	SmartDashboard dash;
 	
 	ArrayList<String> printstats;
+	
 	
 	//gets output values of Talons
 	public void printStats(CANTalon Talon, String name){
@@ -62,6 +63,11 @@ public class Drivetrain extends Subsystem {
 		int closeLoopErr = Talon.getClosedLoopError();
 		double get = Talon.get();
 		double currentTime = driver.getMatchTime();
+
+		//encoder
+		double leftEncoderDistance = leftEncoder.getDistance();
+		double leftEncoderSpeed = leftEncoder.getRate();
+		
 		ArrayList<Double> stats = new ArrayList<Double>();
 		
 		
@@ -77,6 +83,10 @@ public class Drivetrain extends Subsystem {
 		String cLE = name + " closeLoopErr";
 		String getTalon = name + " get";
 		
+		//encoder
+		String getLeftEncoderDistance = name + " getEncoderDistance";
+		String getLeftEncoderSpeed = name + " getSpeed()"; 
+		
 		if (!CSVstart){
 		ArrayList<String> printstats = new ArrayList<String>();
 		printstats.add(cA);
@@ -90,6 +100,8 @@ public class Drivetrain extends Subsystem {
 		//printstats.add(sSV);
 		printstats.add(cLE);
 		printstats.add(getTalon);
+		printstats.add(getLeftEncoderDistance);
+		printstats.add(getLeftEncoderSpeed);
 		startCSV(motorStatsFilename, printstats);
 		endLine(motorStatsFilename);
 		}
@@ -105,7 +117,10 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber(sSV, selectedSensorVelocity);
 		SmartDashboard.putNumber(cLE, closeLoopErr);
 		
-		
+		//encoder
+		SmartDashboard.getNumber(getLeftEncoderDistance, leftEncoderDistance);
+		SmartDashboard.getNumber(getLeftEncoderSpeed, leftEncoderSpeed);
+		stats.clear();
 		
 		stats.add(currentTime);
 		stats.add(currentAmps);
@@ -115,6 +130,8 @@ public class Drivetrain extends Subsystem {
 		stats.add(dualEncoderVelocity);
 		stats.add((double) closeLoopErr);
 		stats.add(get);
+		stats.add(leftEncoderDistance);
+		stats.add(leftEncoderSpeed);
 		addData(motorStatsFilename,stats);
 		
 		endLine(motorStatsFilename);
@@ -134,13 +151,13 @@ public class Drivetrain extends Subsystem {
     
     public void getPIDvalues(){
     	//retrieve PID vals from NetTables
-    	Constants.kP = Robot.table.getNumber("P");
-    	Constants.kI = Robot.table.getNumber("I");
-    	Constants.kD = Robot.table.getNumber("D");
+    	Constants.drivetrainP = Robot.table.getNumber(Constants.drivetrainPKey);
+    	Constants.drivetrainI = Robot.table.getNumber(Constants.drivetrainIKey);
+    	Constants.drivetrainD = Robot.table.getNumber(Constants.drivetrainDKey);
     	
     }
     public void getSetpoint(){
-    	Constants.setpoint = Robot.table.getNumber("setpoint");
+    	Constants.drivetrainSetpoint = Robot.table.getNumber(Constants.drivetrainSetpointKey);
     }
     
     public void startPID(){
@@ -149,14 +166,15 @@ public class Drivetrain extends Subsystem {
     	getSetpoint();
     	
     	//set up encoders
-    	leftEncoder.setDistancePerPulse(Constants.distancePerPulse);
+    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
+    	
     	//set up PID loop parameters
-    	control.setPID(Constants.kP, Constants.kI, Constants.kD);
-    	control.setSetpoint(Constants.setpoint);
-    	control.setAbsoluteTolerance(Constants.absoluteTolerance);
-    	control.setOutputRange(Constants.minOutput, Constants.maxOutput);
+    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	control.setSetpoint(Constants.drivetrainSetpoint);
+    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
+    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -170,7 +188,7 @@ public class Drivetrain extends Subsystem {
     	//let's see if this is working
     	SmartDashboard.putNumber("LeftEncoder Distance", leftEncoder.getDistance());
     	SmartDashboard.putNumber("Error", control.getError());
-    	SmartDashboard.putNumber("setpoint", Constants.setpoint);
+    	SmartDashboard.putNumber("setpoint", Constants.drivetrainSetpoint);
     	
     }
     
@@ -198,14 +216,14 @@ public class Drivetrain extends Subsystem {
     	getPIDvalues();
     	
     	//set up encoders
-    	leftEncoder.setDistancePerPulse(Constants.distancePerPulse);
+    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.kP, Constants.kI, Constants.kD);
-    	control.setSetpoint(Constants.setpoint);
-    	control.setAbsoluteTolerance(Constants.absoluteTolerance);
-    	control.setOutputRange(Constants.minOutput, Constants.maxOutput);
+    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	control.setSetpoint(Constants.drivetrainSetpoint);
+    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
+    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -361,6 +379,7 @@ public class Drivetrain extends Subsystem {
 			
 		}
 	}
+	
     
 }
 	

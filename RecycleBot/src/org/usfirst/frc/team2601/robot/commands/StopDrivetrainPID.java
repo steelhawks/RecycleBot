@@ -1,20 +1,17 @@
 package org.usfirst.frc.team2601.robot.commands;
 
-import org.usfirst.frc.team2601.robot.Constants;
-import org.usfirst.frc.team2601.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team2601.robot.Robot;
 
 /**
  *
  */
-public class AutonPID extends Command {
+public class StopDrivetrainPID extends Command {
 
-    public AutonPID(double setpoint) {
+    public StopDrivetrainPID() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
-    	Constants.drivetrainSetpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +20,7 @@ public class AutonPID extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.distanceDriveForwardPID();
+    	Robot.drivetrain.stopPID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,5 +36,4 @@ public class AutonPID extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-
-	}
+}
