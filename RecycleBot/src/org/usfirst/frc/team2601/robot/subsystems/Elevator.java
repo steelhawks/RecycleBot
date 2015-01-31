@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.Robot;
+import org.usfirst.frc.team2601.robot.commands.ElevatorDoNothing;
 import org.usfirst.frc.team2601.robot.commands.ManualElevator;
 
 /**
@@ -25,7 +27,8 @@ public class Elevator extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	CANTalon elevatorTalon = new CANTalon(Constants.elevatorTalonAddress);
+	CANTalon elevatorTalonI = new CANTalon(Constants.elevatorTalonAddressI);
+	CANTalon elevatorTalonII = new CANTalon(Constants.elevatorTalonAddressII);
 	Encoder elevatorEncoder = new Encoder(Constants.elevatorEncoderPortI,Constants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
 	DigitalInput limitSwitchI = new DigitalInput(Constants.limitSwitchIPort);
 	DigitalInput limitSwitchII = new DigitalInput(Constants.limitSwitchIIPort);
@@ -48,9 +51,14 @@ public class Elevator extends Subsystem {
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     }
     
+    public void doNothing(){
+    	return;
+    }
+    
     public void moveWithJoystick(Joystick stick){
-    	elevatorTalon.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.speed);
-    	printStats(elevatorTalon, "elevatorTalon");
+    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.speed);
+    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.speed);
+    	//printStats(elevatorTalon, "elevatorTalon");
     	elevatorEncoder.setIndexSource(limitSwitchI);
     	elevatorEncoder.setIndexSource(limitSwitchII);
     }
@@ -89,22 +97,22 @@ public class Elevator extends Subsystem {
     		stopPID();
     	}
 
-    	printStats(elevatorTalon, "elevatorTalon");
+    	//printStats(elevatorTalonI, "elevatorTalonI");
     	
     }
 
     
-    public void printStats(CANTalon Talon, String name){
+    /*public void printStats(CANTalon Talon, String name){
 		
     	//retrieve values
     	double currentAmps = Talon.getOutputCurrent();
 		double outputV = Talon.getOutputVoltage();
 		double busV = Talon.getBusVoltage();
-		double get = Talon.get();
+		double talonDataGet = Talon.get();
 		double getSpeed = Talon.getSpeed();
 		double encDistance = elevatorEncoder.getDistance();
 		double encSpeed = elevatorEncoder.getRate(); 
-		double currentTime = station.getMatchTime();
+		double currentTime = Timer.getFPGATimestamp();
 		
 		//init lists
 		ArrayList<String> headers = new ArrayList<String>();
@@ -141,7 +149,7 @@ public class Elevator extends Subsystem {
 		SmartDashboard.putNumber(cA, currentAmps);
 		SmartDashboard.putNumber(oV, outputV);
 		SmartDashboard.putNumber(bV, busV);
-		SmartDashboard.putNumber(getTalon, get);
+		SmartDashboard.putNumber(getTalon, talonDataGet);
 		SmartDashboard.putNumber(getTalonSpeed, getSpeed);
 		
 		//encoder
@@ -153,7 +161,7 @@ public class Elevator extends Subsystem {
 		stats.add(currentAmps);
 		stats.add(outputV);
 		stats.add(busV);
-		stats.add(get);
+		stats.add(talonDataGet);
 		stats.add(getSpeed);
 		addData(elevatorStatsFilename,stats);
 		endLine(elevatorStatsFilename);
@@ -238,6 +246,6 @@ public class Elevator extends Subsystem {
 			
 		}
 	}
-
+*/
 }
 

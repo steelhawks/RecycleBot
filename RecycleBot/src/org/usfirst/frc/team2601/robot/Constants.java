@@ -47,7 +47,8 @@ public class Constants {
 	public static int centerTalonAddress = 6;
 	public static int rightTalonAddressI = 7;
 	public static int rightTalonAddressII = 8;
-	public static int elevatorTalonAddress = 9;
+	public static int elevatorTalonAddressI = 9;
+	public static int elevatorTalonAddressII = 10;
 	
 	//drivetrain PID variables
 	public static double drivetrainP = 0.0;

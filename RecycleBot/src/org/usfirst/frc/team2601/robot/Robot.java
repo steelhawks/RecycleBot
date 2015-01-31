@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team2601.robot.commands.SampleAuton;
+import org.usfirst.frc.team2601.robot.commands.closeWriter;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	Compressor compressor;
 
     Command autonomousCommand;
+    Command closeCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -49,6 +51,7 @@ public class Robot extends IterativeRobot {
 			System.out.println(ex.toString());
 		}
         autonomousCommand = new SampleAuton();
+        closeCommand = new closeWriter();
         
         if (Constants.CAMERA_ON){
         cam = CameraServer.getInstance();
@@ -98,7 +101,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-
+    	closeCommand.start();
     }
 
     /**

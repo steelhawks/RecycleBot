@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.DumbDrive;
@@ -30,7 +33,7 @@ import org.usfirst.frc.team2601.robot.Robot;
  */
 public class Drivetrain extends Subsystem {
     //set up all of the things involved in the drivetrain
-	String motorStatsFilename = "/logs/motorstatslog.csv";
+	String motorStatsFilename = "/logs/motorstatslog" + Timer.getFPGATimestamp() +".csv";
 	CANTalon leftTalonI = new CANTalon(Constants.leftTalonAddressI);
 	CANTalon rightTalonI = new CANTalon(Constants.rightTalonAddressI);
 	CANTalon leftTalonII = new CANTalon(Constants.leftTalonAddressII);
@@ -38,22 +41,40 @@ public class Drivetrain extends Subsystem {
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
 	RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, true, Encoder.EncodingType.k4X);
+	//DriverStation driver
 	DriverStation driver;
+	Boolean CSVstart = false;
 	
 	//setup first version of PID controller
 	PIDController control = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
-	boolean CSVstart; 
+	//boolean CSVstart; 
 	
 	SmartDashboard dash;
-	
+	FileWriter writer;
 	ArrayList<String> printstats;
+	ArrayList <String> keys =  new ArrayList<String>();
+	ArrayList<Double> stats = new ArrayList<Double>();
+	ArrayList<String> headers = new ArrayList<String>();
+	HashMap<String, CANTalon> dataHashMap = new HashMap<String, CANTalon>();
 	
 	
+	public Drivetrain(){
+	try {
+	    writer = new FileWriter(motorStatsFilename);
+	    }
+
+	catch(IOException e)
+	{
+	     e.printStackTrace();
+	} 
+	}
+
 	//gets output values of Talons
 	public void printStats(CANTalon Talon, String name){
+		
 		double currentAmps = Talon.getOutputCurrent();
 		double outputV = Talon.getOutputVoltage();
-		double busV = Talon.getBusVoltage();
+		double inputV = Talon.getBusVoltage();
 		double dualEncoderPos = Talon.getEncPosition();
 		double dualEncoderVelocity = Talon.getEncVelocity();
 		int analogPos = Talon.getAnalogInPosition();
@@ -61,8 +82,8 @@ public class Drivetrain extends Subsystem {
 		double selectedSensorPos = Talon.getPosition();
 		double selectedSensorVelocity = Talon.getSpeed();
 		int closeLoopErr = Talon.getClosedLoopError();
-		double get = Talon.get();
-		double currentTime = driver.getMatchTime();
+		double talonGetData = Talon.get();
+		double currentTime = Timer.getFPGATimestamp();
 
 		//encoder
 		double leftEncoderDistance = leftEncoder.getDistance();
@@ -73,7 +94,7 @@ public class Drivetrain extends Subsystem {
 		
 		String cA = name + " currentAmps";
 		String oV = name + " outputV";
-		String bV = name + " busV";
+		String iV = name + " inputV";
 		String dEP = name + " dualEncoderPos";
 		String dEV = name + " dualEncoderVelocity";
 		String aP = name + " analogPos";
@@ -88,27 +109,29 @@ public class Drivetrain extends Subsystem {
 		String getLeftEncoderSpeed = name + " getSpeed()"; 
 		
 		if (!CSVstart){
-		ArrayList<String> printstats = new ArrayList<String>();
-		printstats.add(cA);
-		printstats.add(oV);
-		printstats.add(bV);
-		printstats.add(dEP);
-		printstats.add(dEV);
-		//printstats.add(aP);
-		//printstats.add(aV);
-		//printstats.add(sSP);
-		//printstats.add(sSV);
-		printstats.add(cLE);
-		printstats.add(getTalon);
-		printstats.add(getLeftEncoderDistance);
-		printstats.add(getLeftEncoderSpeed);
-		startCSV(motorStatsFilename, printstats);
-		endLine(motorStatsFilename);
+			ArrayList<String> printstats = new ArrayList<String>();
+			printstats.add(cA);
+			printstats.add(oV);
+			printstats.add(iV);
+			printstats.add(dEP);
+			printstats.add(dEV);
+			//printstats.add(aP);
+			//printstats.add(aV);
+			//printstats.add(sSP);
+			//printstats.add(sSV);
+			printstats.add(cLE);
+			printstats.add(getTalon);
+			printstats.add(getLeftEncoderDistance);
+			printstats.add(getLeftEncoderSpeed);
+			System.out.println(printstats);
+			startCSV(motorStatsFilename, printstats);
+			endLine(motorStatsFilename);
 		}
-		SmartDashboard.putNumber(getTalon, get);
+		
+		SmartDashboard.putNumber(getTalon, talonGetData);
 		SmartDashboard.putNumber(cA, currentAmps);
 		SmartDashboard.putNumber(oV, outputV);
-		SmartDashboard.putNumber(bV, busV);
+		SmartDashboard.putNumber(iV, inputV);
 		SmartDashboard.putNumber(dEP, dualEncoderPos);
 		SmartDashboard.putNumber(dEV,dualEncoderVelocity);
 		SmartDashboard.putNumber(aP, analogPos);
@@ -125,15 +148,131 @@ public class Drivetrain extends Subsystem {
 		stats.add(currentTime);
 		stats.add(currentAmps);
 		stats.add(outputV);
-		stats.add(busV);
+		stats.add(inputV);
 		stats.add(dualEncoderPos);
 		stats.add(dualEncoderVelocity);
 		stats.add((double) closeLoopErr);
-		stats.add(get);
+		stats.add(talonGetData);
 		stats.add(leftEncoderDistance);
 		stats.add(leftEncoderSpeed);
 		addData(motorStatsFilename,stats);
 		
+		endLine(motorStatsFilename);
+		
+		
+	}
+	
+	public void printStats(HashMap<String, CANTalon> hash){
+		
+		Set talonSet = hash.keySet();
+		Iterator i = talonSet.iterator();
+		
+		//maybe a better way than clearing keys everytime, F it, ship it.
+		keys.clear();
+		stats.clear();
+		headers.clear();
+		
+		while(i.hasNext()){
+			keys.add(i.next().toString());
+		}
+		ArrayList <CANTalon> talons= new ArrayList<CANTalon>();
+		for (int x = 0; x<keys.size(); x++){
+			talons.add(hash.get(keys.get(x)));
+		}
+
+		double currentTime = Timer.getFPGATimestamp();
+		double leftEncoderDistance = leftEncoder.getDistance();
+		double leftEncoderSpeed = leftEncoder.getRate();
+		String getLeftEncoderDistance = "left encoder" + " getEncoderDistance";
+		String getLeftEncoderSpeed = "left encoder" + " getSpeed()"; 
+		
+		
+		//headers.add("time");
+		headers.add(getLeftEncoderDistance);
+		headers.add(getLeftEncoderSpeed);
+		stats.add(currentTime);
+		stats.add(leftEncoderDistance);
+		stats.add(leftEncoderSpeed);
+		
+		for (int d=0; d<talons.size(); d++){
+			
+			CANTalon Talon = talons.get(d);
+			String name = keys.get(d);
+			
+			double currentAmps = Talon.getOutputCurrent();
+			double outputV = Talon.getOutputVoltage();
+			double inputV = Talon.getBusVoltage();
+			double dualEncoderPos = Talon.getEncPosition();
+			double dualEncoderVelocity = Talon.getEncVelocity();
+			int analogPos = Talon.getAnalogInPosition();
+			int analogVelocity = Talon.getAnalogInVelocity();
+			double selectedSensorPos = Talon.getPosition();
+			double selectedSensorVelocity = Talon.getSpeed();
+			int closeLoopErr = Talon.getClosedLoopError();
+			double talonGetData = Talon.get();
+			
+			String cA = name + " currentAmps";
+			String oV = name + " outputV";
+			String iV = name + " inputV";
+			String dEP = name + " dualEncoderPos";
+			String dEV = name + " dualEncoderVelocity";
+			String aP = name + " analogPos";
+			String aV = name + " analogVelocity";
+			String sSP = name + " selectedSensorPos";
+			String sSV = name + " selectedSensorVelocity";
+			String cLE = name + " closeLoopErr";
+			String getTalon = name + " get";
+			
+			
+			if (!CSVstart){
+				headers.add(cA);
+				headers.add(oV);
+				headers.add(iV);
+				headers.add(dEP);
+				headers.add(dEV);
+				//printstats.add(aP);
+				//printstats.add(aV);
+				//printstats.add(sSP);
+				//printstats.add(sSV);
+				headers.add(cLE);
+				headers.add(getTalon);
+				//headers.add(getLeftEncoderDistance);
+				//headers.add(getLeftEncoderSpeed);
+				System.out.println(headers);
+			}
+			
+			SmartDashboard.putNumber(getTalon, talonGetData);
+			SmartDashboard.putNumber(cA, currentAmps);
+			SmartDashboard.putNumber(oV, outputV);
+			SmartDashboard.putNumber(iV, inputV);
+			SmartDashboard.putNumber(dEP, dualEncoderPos);
+			SmartDashboard.putNumber(dEV,dualEncoderVelocity);
+			SmartDashboard.putNumber(aP, analogPos);
+			SmartDashboard.putNumber(aV, analogVelocity);
+			SmartDashboard.putNumber(sSP, selectedSensorPos);
+			SmartDashboard.putNumber(sSV, selectedSensorVelocity);
+			SmartDashboard.putNumber(cLE, closeLoopErr);
+			
+			//encoder
+			SmartDashboard.getNumber(getLeftEncoderDistance, leftEncoderDistance);
+			SmartDashboard.getNumber(getLeftEncoderSpeed, leftEncoderSpeed);
+			
+			//stats.add(currentTime);
+			stats.add(currentAmps);
+			stats.add(outputV);
+			stats.add(inputV);
+			stats.add(dualEncoderPos);
+			stats.add(dualEncoderVelocity);
+			stats.add((double) closeLoopErr);
+			stats.add(talonGetData);
+			//stats.add(leftEncoderDistance);
+			//stats.add(leftEncoderSpeed);
+		}
+		if (!CSVstart){
+			startCSV(motorStatsFilename, headers);
+			endLine(motorStatsFilename);}
+		
+		addData(motorStatsFilename,stats);
 		endLine(motorStatsFilename);
 		
 		
@@ -287,17 +426,27 @@ public class Drivetrain extends Subsystem {
     	
     	//drive.arcadeDrive(yval, twist);
 
-    	printStats(leftTalonI,"leftTalonI");
+    	/*printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
     	printStats(rightTalonII,"rightTalonII");
     	printStats(centerTalon, "centerTalon");
-
+    	CSVstart = true;*/
+    	
     	if(Constants.driveType == Constants.TANK){
     		drive.tankDrive(yval, xval, false); 
     	}
     	else
     		drive.arcadeDrive(yval * Constants.speed,twist * Constants.speed,false);
+    	
+    	dataHashMap.clear();
+    	dataHashMap.put("leftTalonI", leftTalonI);
+    	dataHashMap.put("leftTalonII", leftTalonI);
+    	dataHashMap.put("rightTalonI", rightTalonI);
+    	dataHashMap.put("rightTalonII", rightTalonII);
+    	dataHashMap.put("centerTalon", centerTalon);
+    	printStats(dataHashMap);
+    	
     	Timer.delay(0.05);
     }
     
@@ -307,7 +456,6 @@ public class Drivetrain extends Subsystem {
     public void startCSV(String filename, ArrayList<String> list){
 		try
     	{
-    	    FileWriter writer = new FileWriter(filename);
     	    writer.append("Time");
     	    writer.append(',');
     	    for (int i = 0; i<list.size(); i++){
@@ -318,7 +466,7 @@ public class Drivetrain extends Subsystem {
     	    }
     
     	    writer.flush();
-    	    writer.close();
+    	    //writer.close();
     	}
     	catch(IOException e)
     	{
@@ -330,10 +478,9 @@ public class Drivetrain extends Subsystem {
 	public void endLine(String filename){
 		if (CSVstart){
 		try {
-			FileWriter writer = new FileWriter(filename);
-			writer.append("/n");
+			writer.append('\n');
 			writer.flush();
-			writer.close();
+			//writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -346,7 +493,6 @@ public class Drivetrain extends Subsystem {
 		if (CSVstart){
 			try
 	    	{
-	    	    FileWriter writer = new FileWriter(filename);
 	    	    for (int i = 0; i<list.size(); i++){
 	    	    	writer.append(list.get(i).toString());
 	    	    	if(i < list.size()-1){
@@ -355,7 +501,7 @@ public class Drivetrain extends Subsystem {
 	    	    }
 	    
 	    	    writer.flush();
-	    	    writer.close();
+	    	    //writer.close();
 	    	}
 	    	catch(IOException e)
 	    	{
@@ -367,16 +513,22 @@ public class Drivetrain extends Subsystem {
 	public void addData(String filename, Double data){
 		if (CSVstart){
 			try {
-				FileWriter writer = new FileWriter(filename);
 				writer.append(data.toString());
 				writer.append(",");
 				writer.flush();
-				writer.close();
+				//writer.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
+		}
+	}
+	public void closeWriter(){
+		try{
+			writer.close();
+		} catch(IOException e){
+			e.printStackTrace();
 		}
 	}
 	
