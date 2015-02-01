@@ -163,18 +163,22 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void printStats(HashMap<String, CANTalon> hash){
-		
-		Set talonSet = hash.keySet();
-		Iterator i = talonSet.iterator();
-		
+				
 		//maybe a better way than clearing keys everytime, F it, ship it.
-		keys.clear();
+		//keys.clear();
+		
+		if(keys.isEmpty()){
+			Set talonSet = hash.keySet();
+			Iterator i = talonSet.iterator();
+			while(i.hasNext()){
+				keys.add(i.next().toString());
+			}
+		}
+		
 		stats.clear();
 		headers.clear();
 		
-		while(i.hasNext()){
-			keys.add(i.next().toString());
-		}
+		
 		ArrayList <CANTalon> talons= new ArrayList<CANTalon>();
 		for (int x = 0; x<keys.size(); x++){
 			talons.add(hash.get(keys.get(x)));
@@ -188,14 +192,17 @@ public class Drivetrain extends Subsystem {
 		
 		
 		//headers.add("time");
-		headers.add(getLeftEncoderDistance);
-		headers.add(getLeftEncoderSpeed);
+		if(!CSVstart){
+			headers.add(getLeftEncoderDistance);
+			headers.add(getLeftEncoderSpeed);}
+		
 		stats.add(currentTime);
 		stats.add(leftEncoderDistance);
 		stats.add(leftEncoderSpeed);
 		
-		for (int d=0; d<talons.size(); d++){
-			
+		int d = 0;
+		
+		while ( d<talons.size()){
 			CANTalon Talon = talons.get(d);
 			String name = keys.get(d);
 			
@@ -267,6 +274,10 @@ public class Drivetrain extends Subsystem {
 			stats.add(talonGetData);
 			//stats.add(leftEncoderDistance);
 			//stats.add(leftEncoderSpeed);
+			d++;
+			if (talons.get(d) == null){
+				break;
+			}
 		}
 		if (!CSVstart){
 			startCSV(motorStatsFilename, headers);
@@ -377,10 +388,10 @@ public class Drivetrain extends Subsystem {
     
     public void moveForward(){
     	
-    	leftTalonI.set(Constants.speed * Constants.leftTalonMultiplier);
-    	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
-    	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
-    	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
+    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
     	printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
@@ -389,10 +400,10 @@ public class Drivetrain extends Subsystem {
     }
     
     public void moveBackward(){
-    	leftTalonI.set(Constants.speed * Constants.leftTalonMultiplier);
-    	rightTalonI.set(Constants.speed * Constants.rightTalonMultiplier);
-    	leftTalonII.set(Constants.speed * Constants.leftTalonMultiplier);
-    	rightTalonII.set(Constants.speed * Constants.rightTalonMultiplier);
+    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
     	printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
@@ -437,7 +448,7 @@ public class Drivetrain extends Subsystem {
     		drive.tankDrive(yval, xval, false); 
     	}
     	else
-    		drive.arcadeDrive(yval * Constants.speed,twist * Constants.speed,false);
+    		drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainSpeed,false);
     	
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);

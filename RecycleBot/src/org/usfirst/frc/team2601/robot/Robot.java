@@ -15,6 +15,7 @@ import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2601.robot.subsystems.Pneumatics;
+import org.usfirst.frc.team2601.robot.subsystems.Rollers;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Elevator elevator = new Elevator();
 	public static final Pneumatics pneumatics = new Pneumatics();
+	public static final Rollers rollers = new Rollers();
 	public static NetworkTable table;
 	CameraServer cam;
 	Compressor compressor;

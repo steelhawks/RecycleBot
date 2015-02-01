@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -36,6 +37,7 @@ public class Elevator extends Subsystem {
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
 	PIDController control;
+	DoubleSolenoid ejectionPiston = new DoubleSolenoid(Constants.ejectionSolenoidOnPort,Constants.ejectionSolenoidOffPort);
 	
 	ArrayList<String> printstats;
 	
@@ -49,6 +51,7 @@ public class Elevator extends Subsystem {
     public void setup(){
     	elevatorEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	manualCloseEjectionPiston();
     }
     
     public void doNothing(){
@@ -56,8 +59,8 @@ public class Elevator extends Subsystem {
     }
     
     public void moveWithJoystick(Joystick stick){
-    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.speed);
-    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.speed);
+    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.drivetrainSpeed);
+    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.drivetrainSpeed);
     	//printStats(elevatorTalon, "elevatorTalon");
     	elevatorEncoder.setIndexSource(limitSwitchI);
     	elevatorEncoder.setIndexSource(limitSwitchII);
@@ -99,6 +102,20 @@ public class Elevator extends Subsystem {
 
     	//printStats(elevatorTalonI, "elevatorTalonI");
     	
+    }
+    
+    public void automaticEjectTotes(){
+    	ejectionPiston.set(DoubleSolenoid.Value.kForward);
+    	Timer.delay(0.75);
+    	ejectionPiston.set(DoubleSolenoid.Value.kOff);
+    }
+    
+    public void manualOpenEjectionPiston(){
+    	ejectionPiston.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void manualCloseEjectionPiston(){
+    	ejectionPiston.set(DoubleSolenoid.Value.kOff);
     }
 
     
