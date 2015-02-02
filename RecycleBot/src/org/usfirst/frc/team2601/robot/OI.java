@@ -14,6 +14,7 @@ import org.usfirst.frc.team2601.robot.commands.openRollers;
 import org.usfirst.frc.team2601.robot.commands.closeRollers;
 import org.usfirst.frc.team2601.robot.commands.outtakeRollers;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StartDrivetrainPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainMotors;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainPID;
@@ -36,6 +37,10 @@ public class OI {
 	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
 	
 	public OI(){
+		//Drivetrain buttons
+		JoystickButton fineOmniDrive = new JoystickButton(leftDriveStick, Constants.fineDriveButton);
+		fineOmniDrive.whileHeld(new FineOmniDrive());
+		
 		//Roller buttons
 		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.closeOrOpenRollersButton);
 		closeOrOpenRollersButton.toggleWhenPressed(new closeOrOpenRollers());

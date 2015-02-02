@@ -445,14 +445,24 @@ public class Drivetrain extends Subsystem {
     	dataHashMap.put("centerTalon", centerTalon);
     	printStats(dataHashMap);
     }
+    
     public void tankOmniDrive(Joystick leftStick, Joystick rightStick){
-    	double leftY = -leftStick.getY();
-    	double rightY = rightStick.getY();
-    	double leftX = leftStick.getX();
-    	double rightX = rightStick.getX();
-    	double strafeVal = Math.max(leftX,  rightX);
-    	drive.tankDrive(leftY*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainSpeed, rightY*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainSpeed);
-    	centerTalon.set(strafeVal*Constants.drivetrainSpeed);
+    	double left = leftStick.getY()*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
+    	double right = rightStick.getY()*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
+    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.centerDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
+    	tankOmniDrive(left, right, strafe);
+    }
+    
+    public void fineTankOmniDrive(Joystick leftStick, Joystick rightStick){
+    	double left = leftStick.getY()*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
+    	double right = rightStick.getY()*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
+    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.centerDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
+    	tankOmniDrive(left, right, strafe);
+    }
+    
+    public void tankOmniDrive(double left, double right, double strafe){
+    	drive.tankDrive(left, right);
+    	centerTalon.set(strafe);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);

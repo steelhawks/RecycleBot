@@ -59,6 +59,7 @@ public class Constants {
 	public static int stopElevatorPID = 7;
 	
 	//general control buttons
+	public static int fineDriveButton = 1;
 	public static int stopMotors = 4;
 	public static int restartDumbDriveButton = 3;
 	
@@ -115,7 +116,7 @@ public class Constants {
 	public static int limitSwitchIIPort = 5;
 	
 	//Talon multipliers
-	public static int leftDrivetrainTalonMultiplier = 1;
+	public static int leftDrivetrainTalonMultiplier = -1;
 	public static int rightDrivetrainTalonMultiplier = -1;
 	public static int centerDrivetrainTalonMultiplier = 1;
 	public static int elevatorTalonMultiplier = 1;
@@ -124,6 +125,7 @@ public class Constants {
 
 	// speeds
 	public static double drivetrainSpeed = 1.0;
+	public static double drivetrainFineSpeed = 0.75;
 	public static double rollerSpeed = 1.0;
 	public static double rollerStopSpeed = 0.0;
 	public static double elevatorSpeed = 1.0;
