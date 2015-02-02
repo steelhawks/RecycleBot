@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ManualOpenEjectionPiston extends Command {
+public class closeOrOpenRollers extends Command {
 
-    public ManualOpenEjectionPiston() {
+	private static boolean open = true;
+	
+    public closeOrOpenRollers() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.elevator);
+    	requires(Robot.rollers);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +23,8 @@ public class ManualOpenEjectionPiston extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.manualOpenEjectionPiston();
+    	if(open) Robot.rollers.closeRollers();
+    	else Robot.rollers.openRollers();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,6 +34,7 @@ public class ManualOpenEjectionPiston extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	open = !open;
     }
 
     // Called when another command which requires one or more of the same

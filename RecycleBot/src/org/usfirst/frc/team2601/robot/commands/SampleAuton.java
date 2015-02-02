@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2601.robot.commands;
 
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDrivetrainPID;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -18,7 +20,7 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonDriveBackward(1.5));
     	//Timer.delay(0.5);
     	addSequential(new ExtendPiston(0.5));*/
-    	addSequential(new AutonPID(210.0));
+    	addSequential(new AutonDrivetrainPID(210.0));
     	//Timer.delay(3.0);
     	/*addSequential(new AutonDriveForward(1.0));
     	addSequential(new RetractPiston(0.5));

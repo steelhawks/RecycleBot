@@ -1,5 +1,6 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.elevatorCommands;
 
+import org.usfirst.frc.team2601.robot.OI;
 import org.usfirst.frc.team2601.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class StopElevatorPID extends Command {
+public class ManualElevator extends Command {
 
-    public StopElevatorPID() {
+    public ManualElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.elevator);
@@ -21,7 +22,7 @@ public class StopElevatorPID extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.stopPID();
+    	Robot.elevator.moveWithJoystick(OI.elevatorStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()

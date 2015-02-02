@@ -26,23 +26,36 @@ public class Rollers extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand (new ManualControlRollers());
     }
     
     public void manualControlRollers(Joystick stick){
     	leftRollerTalon.set(stick.getY()*Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
     	rightRollerTalon.set(stick.getY()*Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
-    	Timer.delay(0.02);
+    }
+    
+    public void intakeRollers(){
+    	leftRollerTalon.set(Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
+    	rightRollerTalon.set(Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
+    }
+    
+    public void outtakeRollers(){
+    	leftRollerTalon.set(-Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
+    	rightRollerTalon.set(-Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
     }
     
     public void closeRollers(){
-    	leftSolenoid.set(DoubleSolenoid.Value.kOff);
-    	rightSolenoid.set(DoubleSolenoid.Value.kOff);
+    	leftSolenoid.set(DoubleSolenoid.Value.kReverse);
+    	rightSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
     public void openRollers(){
     	leftSolenoid.set(DoubleSolenoid.Value.kForward);
     	rightSolenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void stop(){
+    	leftRollerTalon.set(Constants.rollerStopSpeed);
+    	rightRollerTalon.set(Constants.rollerStopSpeed);
     }
     
 }

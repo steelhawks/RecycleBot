@@ -20,7 +20,7 @@ public class Constants {
 	public static final int SQUARE = 1;
 	public static int chassisType = OMNI;
 	
-	public static final boolean CAMERA_ON = false;
+	public static final boolean CAMERA_ON = true;
 	public static final boolean PNEUMATICS_ON = true;
 	
 	//joystick
@@ -29,8 +29,9 @@ public class Constants {
 	public static int thirdJoystickPort = 2;
 	
 	//Roller control buttons
-	public static int openRollersButton = 1;
-	public static int closeRollersButton = 2;
+	public static int closeOrOpenRollersButton = 1;
+	public static int intakeRollersButton = 3;
+	public static int outtakeRollersButton = 2;
 	
 	//PID control buttons
 	public static int startDrivetrainPID = 1;
@@ -52,13 +53,13 @@ public class Constants {
 	public static int manualCloseEjectionPistonButton = 4;
 	
 	//Talon SRX addresses
-	public static int leftTalonAddressI = 4;
-	public static int leftTalonAddressII = 5;
+	public static int leftTalonAddressI = 10;
+	public static int leftTalonAddressII = 9;
 	public static int centerTalonAddress = 6;
-	public static int rightTalonAddressI = 7;
-	public static int rightTalonAddressII = 8;
-	public static int elevatorTalonAddressI = 9;
-	public static int elevatorTalonAddressII = 10;
+	public static int rightTalonAddressI = 4;
+	public static int rightTalonAddressII = 5;
+	public static int elevatorTalonAddressI = 7;
+	public static int elevatorTalonAddressII = 8;
 	
 	//Talon ports (PWM)
 	public static int leftRollerTalonPort = 0;
@@ -99,12 +100,14 @@ public class Constants {
 	public static int rightDrivetrainTalonMultiplier = -1;
 	public static int centerDrivetrainTalonMultiplier = 1;
 	public static int elevatorTalonMultiplier = 1;
-	public static int leftRollerTalonMultiplier = 1;
-	public static int rightRollerTalonMultiplier = -1;
+	public static int leftRollerTalonMultiplier = -1;
+	public static int rightRollerTalonMultiplier = 1;
 
-	// drive speed
-	public static double drivetrainSpeed = 0.5;
+	// speeds
+	public static double drivetrainSpeed = 1.0;
 	public static double rollerSpeed = 1.0;
+	public static double rollerStopSpeed = 0.0;
+	public static double elevatorSpeed = 1.0;
 	
 	//NetworkTable keys
 	public static String drivetrainPKey = "DrivetrainP";
@@ -118,8 +121,8 @@ public class Constants {
 	
 	//Solenoid Ports
 	public static int leftSolenoidOnPort = 0;
-	public static int leftSolenoidOffPort = 1;
-	public static int rightSolenoidOnPort = 2;
+	public static int leftSolenoidOffPort = 2;
+	public static int rightSolenoidOnPort = 1;
 	public static int rightSolenoidOffPort = 3;
 	public static int ejectionSolenoidOnPort = 4;
 	public static int ejectionSolenoidOffPort = 5;

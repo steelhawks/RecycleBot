@@ -1,13 +1,14 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.drivetrainCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2601.robot.Robot;
+import org.usfirst.frc.team2601.robot.OI;
 /**
  *
  */
-public class StopMotors extends Command {
+public class OmniDrive extends Command {
 
-    public StopMotors() {
+    public OmniDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
@@ -19,12 +20,13 @@ public class StopMotors extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.stopMotors();
+    	Robot.drivetrain.omniDrive(OI.stick);
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return false;
     }
 
     // Called once after isFinished returns true

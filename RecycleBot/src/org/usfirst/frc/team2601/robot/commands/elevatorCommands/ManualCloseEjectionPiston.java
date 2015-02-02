@@ -1,6 +1,5 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.elevatorCommands;
 
-import org.usfirst.frc.team2601.robot.OI;
 import org.usfirst.frc.team2601.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,27 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ManualControlRollers extends Command {
+public class ManualCloseEjectionPiston extends Command {
 
-    public ManualControlRollers() {
+    public ManualCloseEjectionPiston() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.rollers);
+    	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.rollers.manualControlRollers(OI.rollerStick);
+    	Robot.elevator.manualCloseEjectionPiston();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

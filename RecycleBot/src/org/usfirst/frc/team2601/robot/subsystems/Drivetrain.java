@@ -17,17 +17,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.usfirst.frc.team2601.robot.Constants;
-import org.usfirst.frc.team2601.robot.commands.DumbDrive;
-import org.usfirst.frc.team2601.robot.commands.OmniDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.OmniDrive;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import org.usfirst.frc.team2601.robot.Robot;
-
-
-
 /**
  *
  */
@@ -200,9 +197,9 @@ public class Drivetrain extends Subsystem {
 		stats.add(leftEncoderDistance);
 		stats.add(leftEncoderSpeed);
 		
-		int d = 0;
+		//int d = 0;
 		
-		while ( d<talons.size()){
+		for (int d = 0; d<talons.size(); d++){
 			CANTalon Talon = talons.get(d);
 			String name = keys.get(d);
 			
@@ -274,10 +271,10 @@ public class Drivetrain extends Subsystem {
 			stats.add(talonGetData);
 			//stats.add(leftEncoderDistance);
 			//stats.add(leftEncoderSpeed);
-			d++;
-			if (talons.get(d) == null){
-				break;
-			}
+			//d++;
+			/*if (talons.get(d).equals(null)){
+				break;*/
+			
 		}
 		if (!CSVstart){
 			startCSV(motorStatsFilename, headers);

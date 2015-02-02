@@ -1,34 +1,31 @@
-package org.usfirst.frc.team2601.robot.commands;
-
-import org.usfirst.frc.team2601.robot.OI;
-import org.usfirst.frc.team2601.robot.Robot;
+package org.usfirst.frc.team2601.robot.commands.drivetrainCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team2601.robot.Robot;
 
 /**
  *
  */
-public class ManualControlRollers extends Command {
+public class StopDrivetrainPID extends Command {
 
-    public ManualControlRollers() {
+    public StopDrivetrainPID() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.rollers);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.rollers.manualControlRollers(OI.rollerStick);
+    	Robot.drivetrain.stopPID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true

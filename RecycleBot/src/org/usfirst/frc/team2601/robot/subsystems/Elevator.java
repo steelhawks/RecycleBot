@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.Robot;
-import org.usfirst.frc.team2601.robot.commands.ElevatorDoNothing;
-import org.usfirst.frc.team2601.robot.commands.ManualElevator;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ElevatorDoNothing;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualElevator;
 
 /**
  *
@@ -59,8 +59,8 @@ public class Elevator extends Subsystem {
     }
     
     public void moveWithJoystick(Joystick stick){
-    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.drivetrainSpeed);
-    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.drivetrainSpeed);
+    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
+    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	//printStats(elevatorTalon, "elevatorTalon");
     	elevatorEncoder.setIndexSource(limitSwitchI);
     	elevatorEncoder.setIndexSource(limitSwitchII);

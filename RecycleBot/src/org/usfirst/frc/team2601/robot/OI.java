@@ -5,35 +5,41 @@ import org.usfirst.frc.team2601.robot.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team2601.robot.commands.AutomaticEjectTotes;
-import org.usfirst.frc.team2601.robot.commands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
-import org.usfirst.frc.team2601.robot.commands.ManualCloseEjectionPiston;
-import org.usfirst.frc.team2601.robot.commands.ManualOpenEjectionPiston;
+import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
-import org.usfirst.frc.team2601.robot.commands.StartDrivetrainPID;
-import org.usfirst.frc.team2601.robot.commands.StartElevatorPID;
-import org.usfirst.frc.team2601.robot.commands.StopElevatorPID;
-import org.usfirst.frc.team2601.robot.commands.StopMotors;
-import org.usfirst.frc.team2601.robot.commands.StopDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.closeOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.intakeRollers;
 import org.usfirst.frc.team2601.robot.commands.openRollers;
 import org.usfirst.frc.team2601.robot.commands.closeRollers;
+import org.usfirst.frc.team2601.robot.commands.outtakeRollers;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StartDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainMotors;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutomaticEjectTotes;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualCloseEjectionPiston;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualOpenEjectionPiston;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StartElevatorPID;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StopElevatorPID;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
     
-	public static  Joystick stick = new Joystick(Constants.joystickPort);
+	public static Joystick stick = new Joystick(Constants.joystickPort);
 	public static Joystick elevatorStick = new Joystick(Constants.secondaryJoystickPort);
 	public static Joystick rollerStick = new Joystick(Constants.thirdJoystickPort);
 	
 	public OI(){
 		//Roller buttons
-		JoystickButton openRollersButton = new JoystickButton(rollerStick, Constants.openRollersButton);
-		openRollersButton.whenPressed(new openRollers());
-		JoystickButton closeRollersButton = new JoystickButton(rollerStick, Constants.closeRollersButton);
-		closeRollersButton.whenPressed(new closeRollers());
+		JoystickButton closeOrOpenRollersButton = new JoystickButton(rollerStick, Constants.closeOrOpenRollersButton);
+		closeOrOpenRollersButton.toggleWhenPressed(new closeOrOpenRollers());
+		JoystickButton intakeRollersButton = new JoystickButton(rollerStick, Constants.intakeRollersButton);
+		intakeRollersButton.toggleWhenPressed(new intakeRollers());
+		JoystickButton outtakeRollersButton = new JoystickButton(rollerStick, Constants.outtakeRollersButton);
+		outtakeRollersButton.toggleWhenPressed(new outtakeRollers());
 		
 		//ElevatorButtons
 		JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorStick, Constants.automaticEjectTotesButton);
