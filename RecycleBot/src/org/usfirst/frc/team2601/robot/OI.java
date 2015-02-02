@@ -31,6 +31,8 @@ public class OI {
 	
 	public static Joystick stick = new Joystick(Constants.joystickPort);
 	public static Joystick elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
+	public static Joystick leftDriveStick = new Joystick(Constants.leftDriveStick);
+	public static Joystick rightDriveStick = new Joystick(Constants.rightDriveStick);
 	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
 	
 	public OI(){

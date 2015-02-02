@@ -17,7 +17,8 @@ public class Constants {
 	public static int driveType = ARCADE;
 	
 	public static final boolean GAMEPAD = false;
-	public static final boolean JOYSTICK = true;
+	public static final boolean JOYSTICK = false;
+	public static final boolean TANKDRIVE = true;
 	
 	public static final int OMNI =0;
 	public static final int SQUARE = 1;
@@ -43,6 +44,8 @@ public class Constants {
 	public static int joystickPort = 0;
 	public static int secondaryJoystickPort = 1;
 	public static int thirdJoystickPort = 2;
+	public static int leftDriveStick = 3;
+	public static int rightDriveStick = 4;
 	
 	//Roller control buttons
 	public static int closeOrOpenRollersButton = 1;

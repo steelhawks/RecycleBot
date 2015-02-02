@@ -445,6 +445,22 @@ public class Drivetrain extends Subsystem {
     	dataHashMap.put("centerTalon", centerTalon);
     	printStats(dataHashMap);
     }
+    public void tankOmniDrive(Joystick leftStick, Joystick rightStick){
+    	double leftY = -leftStick.getY();
+    	double rightY = rightStick.getY();
+    	double leftX = leftStick.getX();
+    	double rightX = rightStick.getX();
+    	double strafeVal = Math.max(leftX,  rightX);
+    	drive.tankDrive(leftY*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainSpeed, rightY*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainSpeed);
+    	centerTalon.set(strafeVal*Constants.drivetrainSpeed);
+    	dataHashMap.clear();
+    	dataHashMap.put("leftTalonI", leftTalonI);
+    	dataHashMap.put("leftTalonII", leftTalonI);
+    	dataHashMap.put("rightTalonI", rightTalonI);
+    	dataHashMap.put("rightTalonII", rightTalonII);
+    	dataHashMap.put("centerTalon", centerTalon);
+    	printStats(dataHashMap);
+    }
     
 //Start csv/logging stuff
     

@@ -28,6 +28,9 @@ public class OmniDrive extends Command {
     	else if (Constants.JOYSTICK){
     		Robot.drivetrain.omniDrive(OI.stick);
     	}
+    	else if (Constants.TANKDRIVE){
+    		Robot.drivetrain.tankOmniDrive(OI.leftDriveStick, OI.rightDriveStick);
+    	}
     	//Robot.drivetrain.gamepadOmniDrive(OI.stick);
     }
 
