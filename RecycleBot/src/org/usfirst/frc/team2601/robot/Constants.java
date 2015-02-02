@@ -16,6 +16,9 @@ public class Constants {
 	public static final int ARCADE = 1;
 	public static int driveType = ARCADE;
 	
+	public static final boolean GAMEPAD = false;
+	public static final boolean JOYSTICK = true;
+	
 	public static final int OMNI =0;
 	public static final int SQUARE = 1;
 	public static int chassisType = OMNI;
@@ -23,7 +26,20 @@ public class Constants {
 	public static final boolean CAMERA_ON = true;
 	public static final boolean PNEUMATICS_ON = true;
 	
+	//public static int joystickPort;
+	//public static int secondaryJoystickPort;
 	//joystick
+	/*public Constants(){
+		if (GAMEPAD){
+			joystickPort = 1;
+			secondaryJoystickPort = 0;
+		}
+		else if (JOYSTICK){
+			joystickPort = 0;
+			secondaryJoystickPort = 1;
+		}
+	}*/
+	
 	public static int joystickPort = 0;
 	public static int secondaryJoystickPort = 1;
 	public static int thirdJoystickPort = 2;

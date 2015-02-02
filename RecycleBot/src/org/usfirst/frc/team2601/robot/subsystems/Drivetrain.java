@@ -19,12 +19,14 @@ import java.util.Set;
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.OmniDrive;
+import org.usfirst.frc.team2601.robot.util.F310;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import org.usfirst.frc.team2601.robot.Robot;
+import java.lang.Math;
 /**
  *
  */
@@ -286,13 +288,12 @@ public class Drivetrain extends Subsystem {
 		
 	}
     public void initDefaultCommand() {
-    	//DumbDrive on start
     	setDefaultCommand(new OmniDrive());
     }
     
     public void dumbDrive(Joystick stick){
     	//start code here, simple arcadedrive
-    	leftEncoder.reset();
+    	//leftEncoder.reset();
     	drive.arcadeDrive(stick);
     }
     
@@ -413,40 +414,29 @@ public class Drivetrain extends Subsystem {
     	double yval = -stick.getY();
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
-    	centerTalon.set(xval /* Constants.centerTalonMultiplier * Constants.speed*/);
-    
-    	//begin screwing around with rolling my own method
-    	
-    	/*if (twist == 0){
-    		rightTalon.set(yval*Constants.rightTalonMultiplier);
-    		leftTalon.set(yval*Constants.leftTalonMultiplier);
-    	}
-    	else if (yval == 0 && twist != 0){
-    		rightTalon.set(twist * -1 * Constants.rightTalonMultiplier);
-    		leftTalon.set(twist * Constants.leftTalonMultiplier);
-    	}
-    	else if (yval != 0 && twist != 0){
-    		rightTalon.set(twist * yval * -1 * Constants.rightTalonMultiplier);
-    		leftTalon.set(twist * yval * Constants.leftTalonMultiplier);
-    	}*/
-    	
-    	//this line below pretty much does everything i was trying to do in the method above ~Marcus
-    	
-    	//drive.arcadeDrive(yval, twist);
-
-    	/*printStats(leftTalonI,"leftTalonI");
-    	printStats(rightTalonI,"rightTalonI");
-    	printStats(leftTalonII,"leftTalonII");
-    	printStats(rightTalonII,"rightTalonII");
-    	printStats(centerTalon, "centerTalon");
-    	CSVstart = true;*/
+    	centerTalon.set(xval * Constants.drivetrainSpeed);
     	
     	if(Constants.driveType == Constants.TANK){
     		drive.tankDrive(yval, xval, false); 
     	}
     	else
     		drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainSpeed,false);
-    	
+    	SmartDashboard.putNumber("encoder", leftEncoder.getRate());
+    	dataHashMap.clear();
+    	dataHashMap.put("leftTalonI", leftTalonI);
+    	dataHashMap.put("leftTalonII", leftTalonI);
+    	dataHashMap.put("rightTalonI", rightTalonI);
+    	dataHashMap.put("rightTalonII", rightTalonII);
+    	dataHashMap.put("centerTalon", centerTalon);
+    	printStats(dataHashMap);  
+    }
+    
+    public void gamepadOmniDrive(Joystick stick){
+    	double left = -stick.getRawAxis(F310.kGamepadAxisLeftStickY);
+    	double right = -stick.getRawAxis(F310.kGamepadAxisRightStickY);
+    	double strafe = Math.max(stick.getRawAxis(F310.kGamepadAxisLeftStickX), stick.getRawAxis(F310.kGamepadAxisRightStickX));
+    	drive.tankDrive(left*Constants.drivetrainSpeed, right*Constants.drivetrainSpeed);
+    	centerTalon.set(strafe*Constants.drivetrainSpeed);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
@@ -454,8 +444,6 @@ public class Drivetrain extends Subsystem {
     	dataHashMap.put("rightTalonII", rightTalonII);
     	dataHashMap.put("centerTalon", centerTalon);
     	printStats(dataHashMap);
-    	
-    	Timer.delay(0.05);
     }
     
 //Start csv/logging stuff

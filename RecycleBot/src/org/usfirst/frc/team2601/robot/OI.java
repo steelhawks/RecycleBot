@@ -28,25 +28,26 @@ import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StopElevatorPID;
  */
 public class OI {
     
+	
 	public static Joystick stick = new Joystick(Constants.joystickPort);
-	public static Joystick elevatorStick = new Joystick(Constants.secondaryJoystickPort);
-	public static Joystick rollerStick = new Joystick(Constants.thirdJoystickPort);
+	public static Joystick elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
+	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
 	
 	public OI(){
 		//Roller buttons
-		JoystickButton closeOrOpenRollersButton = new JoystickButton(rollerStick, Constants.closeOrOpenRollersButton);
+		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.closeOrOpenRollersButton);
 		closeOrOpenRollersButton.toggleWhenPressed(new closeOrOpenRollers());
-		JoystickButton intakeRollersButton = new JoystickButton(rollerStick, Constants.intakeRollersButton);
+		JoystickButton intakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.intakeRollersButton);
 		intakeRollersButton.toggleWhenPressed(new intakeRollers());
-		JoystickButton outtakeRollersButton = new JoystickButton(rollerStick, Constants.outtakeRollersButton);
+		JoystickButton outtakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.outtakeRollersButton);
 		outtakeRollersButton.toggleWhenPressed(new outtakeRollers());
 		
 		//ElevatorButtons
-		JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorStick, Constants.automaticEjectTotesButton);
+		JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorandRollerStick, Constants.automaticEjectTotesButton);
 		automaticEjectTotesButton.whenPressed(new AutomaticEjectTotes());
-		JoystickButton manualOpenEjectionPiston = new JoystickButton(elevatorStick, Constants.manualOpenEjectionPistonButton);
+		JoystickButton manualOpenEjectionPiston = new JoystickButton(elevatorandRollerStick, Constants.manualOpenEjectionPistonButton);
 		manualOpenEjectionPiston.whenPressed(new ManualOpenEjectionPiston());
-		JoystickButton manualCloseEjectionPiston = new JoystickButton(elevatorStick, Constants.manualCloseEjectionPistonButton);
+		JoystickButton manualCloseEjectionPiston = new JoystickButton(elevatorandRollerStick, Constants.manualCloseEjectionPistonButton);
 		manualCloseEjectionPiston.whenPressed(new ManualCloseEjectionPiston());
 			
 		//PID buttons
@@ -58,10 +59,10 @@ public class OI {
 		stopDrivetrainPID.cancelWhenPressed(new StartDrivetrainPID());
 		stopDrivetrainPID.whenPressed(new StopDrivetrainPID());
 		
-		JoystickButton startElevatorPID = new JoystickButton(elevatorStick, Constants.startElevatorPID);
+		JoystickButton startElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.startElevatorPID);
 		startElevatorPID.whenPressed(new StartElevatorPID());
 		
-		JoystickButton stopElevatorPID = new JoystickButton(elevatorStick, Constants.stopElevatorPID);
+		JoystickButton stopElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.stopElevatorPID);
 		stopElevatorPID.cancelWhenPressed(new StartElevatorPID());
 		stopElevatorPID.whenPressed(new StopElevatorPID());
 		

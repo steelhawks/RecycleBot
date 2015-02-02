@@ -51,7 +51,7 @@ public class Elevator extends Subsystem {
     public void setup(){
     	elevatorEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
-    	manualCloseEjectionPiston();
+    	//manualCloseEjectionPiston();
     }
     
     public void doNothing(){

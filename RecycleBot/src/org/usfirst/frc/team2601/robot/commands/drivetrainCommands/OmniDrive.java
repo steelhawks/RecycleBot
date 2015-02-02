@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2601.robot.commands.drivetrainCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.Robot;
 import org.usfirst.frc.team2601.robot.OI;
 /**
@@ -20,8 +22,13 @@ public class OmniDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.omniDrive(OI.stick);
-
+    	if(Constants.GAMEPAD){
+    		Robot.drivetrain.gamepadOmniDrive(OI.stick);
+    	}
+    	else if (Constants.JOYSTICK){
+    		Robot.drivetrain.omniDrive(OI.stick);
+    	}
+    	//Robot.drivetrain.gamepadOmniDrive(OI.stick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
