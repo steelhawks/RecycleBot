@@ -420,7 +420,7 @@ public class Drivetrain extends Subsystem {
     		drive.tankDrive(yval, xval, false); 
     	}
     	else
-    		drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainSpeed,false);
+    		drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
     	SmartDashboard.putNumber("encoder", leftEncoder.getRate());
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);

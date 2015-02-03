@@ -17,8 +17,8 @@ public class Constants {
 	public static int driveType = ARCADE;
 	
 	public static final boolean GAMEPAD = false;
-	public static final boolean JOYSTICK = false;
-	public static final boolean TANKDRIVE = true;
+	public static final boolean JOYSTICK = true;
+	public static final boolean TANKDRIVE = false;
 	
 	public static final int OMNI =0;
 	public static final int SQUARE = 1;
