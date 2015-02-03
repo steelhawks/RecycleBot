@@ -30,7 +30,7 @@ public class Elevator extends Subsystem {
     // here. Call these from Commands.
 	CANTalon elevatorTalonI = new CANTalon(Constants.elevatorTalonAddressI);
 	CANTalon elevatorTalonII = new CANTalon(Constants.elevatorTalonAddressII);
-	Encoder elevatorEncoder = new Encoder(Constants.elevatorEncoderPortI,Constants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
+	Encoder elevatorEncoder = new Encoder(Constants.rightEncoderPortI,Constants.rightEncoderPortII, false, Encoder.EncodingType.k4X);
 	DigitalInput limitSwitchI = new DigitalInput(Constants.limitSwitchIPort);
 	DigitalInput limitSwitchII = new DigitalInput(Constants.limitSwitchIIPort);
 	Boolean CSVstart;

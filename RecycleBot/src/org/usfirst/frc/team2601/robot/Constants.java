@@ -108,8 +108,8 @@ public class Constants {
 	//encoders
 	public static int leftEncoderPortI = 0;
 	public static int leftEncoderPortII = 1;
-	public static int elevatorEncoderPortI = 2;
-	public static int elevatorEncoderPortII  = 3;
+	public static int rightEncoderPortI = 2;
+	public static int rightEncoderPortII  = 3;
 	
 	//limit switches
 	public static int limitSwitchIPort = 4;

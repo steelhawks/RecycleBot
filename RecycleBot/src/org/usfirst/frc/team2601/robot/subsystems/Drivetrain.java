@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.ExponentialInputsArcadeOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.OmniDrive;
 import org.usfirst.frc.team2601.robot.util.F310;
 
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import org.usfirst.frc.team2601.robot.Robot;
+
 import java.lang.Math;
 /**
  *
@@ -288,7 +290,8 @@ public class Drivetrain extends Subsystem {
 		
 	}
     public void initDefaultCommand() {
-    	setDefaultCommand(new OmniDrive());
+    	//setDefaultCommand(new OmniDrive());
+    	setDefaultCommand(new ExponentialInputsArcadeOmniDrive());
     }
     
     public void dumbDrive(Joystick stick){
@@ -415,12 +418,7 @@ public class Drivetrain extends Subsystem {
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
     	centerTalon.set(xval * Constants.drivetrainSpeed);
-    	
-    	if(Constants.driveType == Constants.TANK){
-    		drive.tankDrive(yval, xval, false); 
-    	}
-    	else
-    		drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
+    	drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
     	SmartDashboard.putNumber("encoder", leftEncoder.getRate());
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
@@ -437,6 +435,26 @@ public class Drivetrain extends Subsystem {
     	double strafe = Math.max(stick.getRawAxis(F310.kGamepadAxisLeftStickX), stick.getRawAxis(F310.kGamepadAxisRightStickX));
     	drive.tankDrive(left*Constants.drivetrainSpeed, right*Constants.drivetrainSpeed);
     	centerTalon.set(strafe*Constants.drivetrainSpeed);
+    	dataHashMap.clear();
+    	dataHashMap.put("leftTalonI", leftTalonI);
+    	dataHashMap.put("leftTalonII", leftTalonI);
+    	dataHashMap.put("rightTalonI", rightTalonI);
+    	dataHashMap.put("rightTalonII", rightTalonII);
+    	dataHashMap.put("centerTalon", centerTalon);
+    	printStats(dataHashMap);
+    }
+    
+    public void exponentiaInputArcadeOmni(Joystick stick, double power){
+    	double move = Math.pow(stick.getY(),power);
+    	double twist = Math.pow(stick.getTwist(), power);
+    	double strafe = Math.pow(stick.getX(), power);
+    	arcadeOmniDrive(move, twist, strafe);
+    	
+    }
+    
+    public void arcadeOmniDrive(double move, double twist, double strafe){
+    	drive.arcadeDrive(move, twist, false);;
+    	centerTalon.set(strafe);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
