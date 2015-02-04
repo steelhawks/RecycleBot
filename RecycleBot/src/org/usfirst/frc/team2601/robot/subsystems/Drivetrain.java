@@ -42,6 +42,8 @@ public class Drivetrain extends Subsystem {
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
 	RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, true, Encoder.EncodingType.k4X);
+	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, false, Encoder.EncodingType.k4X);
+	
 	//DriverStation driver
 	DriverStation driver;
 	Boolean CSVstart = false;
@@ -187,7 +189,11 @@ public class Drivetrain extends Subsystem {
 
 		double currentTime = Timer.getFPGATimestamp();
 		double leftEncoderDistance = leftEncoder.getDistance();
+		double rightEncoderDistance = rightEncoder.getDistance();
 		double leftEncoderSpeed = leftEncoder.getRate();
+		double rightEncoderSpeed = rightEncoder.getRate();
+		String getRightEncoderDistance = "right encoder getEncoderDistance";
+		String getRightEncoderSpeed = "right encoder getSpeed()";
 		String getLeftEncoderDistance = "left encoder" + " getEncoderDistance";
 		String getLeftEncoderSpeed = "left encoder" + " getSpeed()"; 
 		
@@ -195,11 +201,15 @@ public class Drivetrain extends Subsystem {
 		//headers.add("time");
 		if(!CSVstart){
 			headers.add(getLeftEncoderDistance);
-			headers.add(getLeftEncoderSpeed);}
+			headers.add(getLeftEncoderSpeed);
+			headers.add(getRightEncoderDistance);
+			headers.add(getRightEncoderSpeed);}
 		
 		stats.add(currentTime);
 		stats.add(leftEncoderDistance);
 		stats.add(leftEncoderSpeed);
+		stats.add(rightEncoderDistance);
+		stats.add(rightEncoderSpeed);
 		
 		//int d = 0;
 		
@@ -262,8 +272,10 @@ public class Drivetrain extends Subsystem {
 			SmartDashboard.putNumber(cLE, closeLoopErr);
 			
 			//encoder
-			SmartDashboard.getNumber(getLeftEncoderDistance, leftEncoderDistance);
-			SmartDashboard.getNumber(getLeftEncoderSpeed, leftEncoderSpeed);
+			SmartDashboard.putNumber(getLeftEncoderDistance, leftEncoderDistance);
+			SmartDashboard.putNumber(getLeftEncoderSpeed, leftEncoderSpeed);
+			SmartDashboard.putNumber(getRightEncoderDistance, rightEncoderDistance);
+			SmartDashboard.putNumber(getRightEncoderSpeed, rightEncoderSpeed);
 			
 			//stats.add(currentTime);
 			stats.add(currentAmps);
@@ -319,6 +331,8 @@ public class Drivetrain extends Subsystem {
     	//set up encoders
     	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	rightEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	
     	//set up PID loop parameters
