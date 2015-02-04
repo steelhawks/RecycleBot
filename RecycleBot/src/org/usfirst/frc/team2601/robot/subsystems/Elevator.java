@@ -62,8 +62,6 @@ public class Elevator extends Subsystem {
     	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	//printStats(elevatorTalon, "elevatorTalon");
-    	elevatorEncoder.setIndexSource(limitSwitchI);
-    	elevatorEncoder.setIndexSource(limitSwitchII);
     }
     
     public void getPIDvalues(){
