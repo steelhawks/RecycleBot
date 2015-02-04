@@ -8,11 +8,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
 import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
-import org.usfirst.frc.team2601.robot.commands.closeOrOpenRollers;
-import org.usfirst.frc.team2601.robot.commands.intakeRollers;
-import org.usfirst.frc.team2601.robot.commands.openRollers;
-import org.usfirst.frc.team2601.robot.commands.closeRollers;
-import org.usfirst.frc.team2601.robot.commands.outtakeRollers;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StartDrivetrainPID;
@@ -23,6 +18,12 @@ import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualCloseEject
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualOpenEjectionPiston;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StartElevatorPID;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StopElevatorPID;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.intakeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.openRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.outtakeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.stopRollers;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -43,11 +44,13 @@ public class OI {
 		
 		//Roller buttons
 		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.closeOrOpenRollersButton);
-		closeOrOpenRollersButton.toggleWhenPressed(new closeOrOpenRollers());
+		closeOrOpenRollersButton.whenPressed(new closeOrOpenRollers());
 		JoystickButton intakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.intakeRollersButton);
-		intakeRollersButton.toggleWhenPressed(new intakeRollers());
+		intakeRollersButton.whenPressed(new intakeRollers());
 		JoystickButton outtakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.outtakeRollersButton);
-		outtakeRollersButton.toggleWhenPressed(new outtakeRollers());
+		outtakeRollersButton.whenPressed(new outtakeRollers());
+		JoystickButton stopRollersButton = new JoystickButton(elevatorandRollerStick, Constants.stopRollersButton);
+		stopRollersButton.whenPressed(new stopRollers());
 		
 		//ElevatorButtons
 		JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorandRollerStick, Constants.automaticEjectTotesButton);

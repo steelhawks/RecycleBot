@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.rollerCommands;
 
 import org.usfirst.frc.team2601.robot.Robot;
 
@@ -7,11 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class closeOrOpenRollers extends Command {
+public class outtakeRollers extends Command {
 
-	private static boolean open = true;
-	
-    public closeOrOpenRollers() {
+    public outtakeRollers() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.rollers);
@@ -23,18 +21,17 @@ public class closeOrOpenRollers extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(open) Robot.rollers.closeRollers();
-    	else Robot.rollers.openRollers();
+    	Robot.rollers.outtakeRollers();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	open = !open;
+    	Robot.rollers.stop();
     }
 
     // Called when another command which requires one or more of the same

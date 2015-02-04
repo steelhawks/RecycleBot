@@ -453,7 +453,7 @@ public class Drivetrain extends Subsystem {
     }
     
     public void arcadeOmniDrive(double move, double twist, double strafe){
-    	drive.arcadeDrive(move, twist, false);;
+    	drive.arcadeDrive(-move, -twist, false);;
     	centerTalon.set(strafe);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);

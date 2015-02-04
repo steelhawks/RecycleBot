@@ -51,6 +51,7 @@ public class Constants {
 	public static int closeOrOpenRollersButton = 1;
 	public static int intakeRollersButton = 3;
 	public static int outtakeRollersButton = 2;
+	public static int stopRollersButton = 4;
 	
 	//PID control buttons
 	public static int startDrivetrainPID = 1;
