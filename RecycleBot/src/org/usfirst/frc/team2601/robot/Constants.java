@@ -69,9 +69,9 @@ public class Constants {
 	public static int retract = 10;
 	
 	//elevator ejection piston buttons
-	public static int automaticEjectTotesButton = 1;
-	public static int manualOpenEjectionPistonButton = 3;
-	public static int manualCloseEjectionPistonButton = 4;
+	public static int automaticEjectTotesButton = 11;
+	public static int manualOpenEjectionPistonButton = 9;
+	public static int manualCloseEjectionPistonButton = 10;
 	
 	//Talon SRX addresses
 	public static int leftTalonAddressI = 10;
@@ -111,10 +111,12 @@ public class Constants {
 	public static int leftEncoderPortII = 1;
 	public static int rightEncoderPortI = 2;
 	public static int rightEncoderPortII  = 3;
+	public static int elevatorEncoderPortI = 4;
+	public static int elevatorEncoderPortII = 5;
 	
 	//limit switches
-	public static int limitSwitchIPort = 4;
-	public static int limitSwitchIIPort = 5;
+	public static int limitSwitchIPort = 8;
+	public static int limitSwitchIIPort = 9;
 	
 	//Talon multipliers
 	public static int leftDrivetrainTalonMultiplier = -1;

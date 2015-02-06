@@ -41,8 +41,8 @@ public class Drivetrain extends Subsystem {
 	CANTalon rightTalonII = new CANTalon(Constants.rightTalonAddressII);
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
 	RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
-	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, true, Encoder.EncodingType.k4X);
-	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, false, Encoder.EncodingType.k4X);
+	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, false, Encoder.EncodingType.k4X);
+	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, true, Encoder.EncodingType.k4X);
 	
 	//DriverStation driver
 	DriverStation driver;
@@ -425,7 +425,9 @@ public class Drivetrain extends Subsystem {
     	printStats(rightTalonII,"rightTalonII");
     }
     
-    
+    public void strafeRight(){//THis is not tested yet; not sure it works
+    	centerTalon.set(Constants.drivetrainSpeed*Constants.centerDrivetrainTalonMultiplier);
+    }
     // OMNI 
     public void omniDrive(Joystick stick){
     	double yval = -stick.getY();

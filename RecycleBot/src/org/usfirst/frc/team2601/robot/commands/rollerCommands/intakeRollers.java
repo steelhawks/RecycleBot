@@ -23,6 +23,7 @@ public class intakeRollers extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.rollers.intakeRollers();
+    	System.out.println("rollers going");
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +33,7 @@ public class intakeRollers extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.rollers.stop();
+    	//Robot.rollers.stop();
     }
 
     // Called when another command which requires one or more of the same
