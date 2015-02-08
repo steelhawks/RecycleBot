@@ -46,6 +46,7 @@ public class Elevator extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     	setup();
     	setDefaultCommand(new ManualElevator());
+    	
     }
     
     public void setup(){
@@ -58,10 +59,33 @@ public class Elevator extends Subsystem {
     	return;
     }
     
+   /* public void limitSwitch(){
+    	//loop bool for limit switch
+    	while(limitSwitchI.get() || limitSwitchII.get()){
+    		stopMotors();
+    	}
+    }
+    */
     public void moveWithJoystick(Joystick stick){
+    	boolean limitSwitchValueI = limitSwitchI.get();
+    	boolean limitSwitchValueII = limitSwitchII.get();
     	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	//printStats(elevatorTalon, "elevatorTalon");
+    	while(limitSwitchValueI == false|| limitSwitchValueII == false){
+    		stopMotors();
+    		Timer.delay(0.20);
+    		limitSwitchValueI = true;
+    		limitSwitchValueII = true;
+    	}
+    }
+    public void autonLift(){
+    	elevatorTalonI.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonII.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    }
+    public void autonDown(){
+    	elevatorTalonI.set(-Constants.elevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonII.set(-Constants.elevatorSpeed /* Constants.elevatorTalonMultiplier*/);
     }
     
     public void getPIDvalues(){
@@ -116,6 +140,12 @@ public class Elevator extends Subsystem {
     	ejectionPiston.set(DoubleSolenoid.Value.kOff);
     }
 
+    public void stopMotors(){
+    	//stop everything
+    
+    	elevatorTalonI.set(0.0);
+    	elevatorTalonII.set(0.0);
+    }
     
     /*public void printStats(CANTalon Talon, String name){
 		

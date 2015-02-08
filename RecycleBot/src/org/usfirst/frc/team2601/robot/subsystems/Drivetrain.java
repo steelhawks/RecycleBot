@@ -400,7 +400,18 @@ public class Drivetrain extends Subsystem {
     		return;
     	} 	
     }
-    
+    public void autonMoveFoward(){
+    	leftTalonI.set(-Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(-Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    }
+    public void autonMoveBackward(){
+    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(-Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(-Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    }
     public void moveForward(){
     	
     	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
@@ -464,6 +475,11 @@ public class Drivetrain extends Subsystem {
     	double move = Math.pow(stick.getY(),power);
     	double twist = Math.pow(stick.getTwist(), power);
     	double strafe = Math.pow(stick.getX(), power);
+    	
+    	SmartDashboard.putNumber("move", move);
+    	SmartDashboard.putNumber("twist", twist);
+    	SmartDashboard.putNumber("strafe", strafe);
+    	
     	arcadeOmniDrive(move, twist, strafe);
     	
     }

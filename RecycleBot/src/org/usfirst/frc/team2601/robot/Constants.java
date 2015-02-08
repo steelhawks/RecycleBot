@@ -115,8 +115,8 @@ public class Constants {
 	public static int elevatorEncoderPortII = 5;
 	
 	//limit switches
-	public static int limitSwitchIPort = 8;
-	public static int limitSwitchIIPort = 9;
+	public static int limitSwitchIPort = 6;
+	public static int limitSwitchIIPort = 7;
 	
 	//Talon multipliers
 	public static int leftDrivetrainTalonMultiplier = -1;
@@ -127,11 +127,12 @@ public class Constants {
 	public static int rightRollerTalonMultiplier = 1;
 
 	// speeds
-	public static double drivetrainSpeed = 1.0;
-	public static double drivetrainFineSpeed = 0.75;
+	public static double drivetrainSpeed = 0.25;
+	public static double drivetrainFineSpeed = 0.10;
 	public static double rollerSpeed = 1.0;
 	public static double rollerStopSpeed = 0.0;
 	public static double elevatorSpeed = 1.0;
+	public static double autonElevatorSpeed = 0.25;
 	
 	//NetworkTable keys
 	public static String drivetrainPKey = "DrivetrainP";
