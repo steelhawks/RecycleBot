@@ -1,5 +1,6 @@
-package org.usfirst.frc.team2601.robot.commands.rollerCommands;
+package org.usfirst.frc.team2601.robot.commands.drivetrainCommands;
 
+import org.usfirst.frc.team2601.robot.OI;
 import org.usfirst.frc.team2601.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutonOpenRollers extends Command {
+public class FineArcadeOmniDrive extends Command {
 
-    public AutonOpenRollers() {
+    public FineArcadeOmniDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.rollers);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
@@ -21,12 +22,12 @@ public class AutonOpenRollers extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.rollers.openRollers();
+    	Robot.drivetrain.fineArcadeOmniDrive(OI.stick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

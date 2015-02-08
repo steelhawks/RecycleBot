@@ -37,12 +37,12 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonDriveForward(1.0));*/
     	
     	addSequential(new AutonLift(0.75));
-    	addSequential(new AutonIntakeRollers());
+    	addSequential(new AutonIntakeRollers(1.5));
     	addSequential(new AutonDriveForward(1.5));
     	addSequential(new AutonStopRollers());
-    	addSequential(new AutonDown(0.75));
+    	addSequential(new AutonDown(0.5));
     	addSequential(new AutonLift(0.75));
-    	addSequential(new AutonIntakeRollers());
+    	addSequential(new AutonIntakeRollers(1.5));
     	addSequential(new AutonDriveForward(1.5));
     	addSequential(new AutonStopRollers());
     	addSequential(new AutonStrafeRight(1.5));

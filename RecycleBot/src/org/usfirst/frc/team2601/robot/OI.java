@@ -9,6 +9,7 @@ import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
 import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineArcadeOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StartDrivetrainPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainMotors;
@@ -39,8 +40,8 @@ public class OI {
 	
 	public OI(){
 		//Drivetrain buttons
-		JoystickButton fineOmniDrive = new JoystickButton(leftDriveStick, Constants.fineDriveButton);
-		fineOmniDrive.whileHeld(new FineOmniDrive());
+		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.fineDriveButton);
+		fineArcadeOmniDrive.whileHeld(new FineArcadeOmniDrive());
 		
 		
 		//Roller buttons

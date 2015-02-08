@@ -31,8 +31,8 @@ public class Elevator extends Subsystem {
 	CANTalon elevatorTalonI = new CANTalon(Constants.elevatorTalonAddressI);
 	CANTalon elevatorTalonII = new CANTalon(Constants.elevatorTalonAddressII);
 	Encoder elevatorEncoder = new Encoder(Constants.elevatorEncoderPortI,Constants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
-	DigitalInput limitSwitchI = new DigitalInput(Constants.limitSwitchIPort);
-	DigitalInput limitSwitchII = new DigitalInput(Constants.limitSwitchIIPort);
+	DigitalInput bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchPort);
+	DigitalInput topLimitSwitch = new DigitalInput(Constants.topLimitSwitchPort);
 	Boolean CSVstart;
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
@@ -60,24 +60,32 @@ public class Elevator extends Subsystem {
     }
     
    /* public void limitSwitch(){
-    	//loop bool for limit switch
     	while(limitSwitchI.get() || limitSwitchII.get()){
     		stopMotors();
     	}
     }
     */
-    public void moveWithJoystick(Joystick stick){
-    	boolean limitSwitchValueI = limitSwitchI.get();
-    	boolean limitSwitchValueII = limitSwitchII.get();
+    public Boolean moveWithJoystick(Joystick stick){
+    	boolean bottomLimitSwitchValue = bottomLimitSwitch.get();
+    	boolean topLimitSwitchValue = topLimitSwitch.get();
+    	
+    	if (bottomLimitSwitchValue == false){
+    		if(stick.getY()<0){
+    			return true;
+    		}
+    	}
+    	else if (topLimitSwitchValue == false){
+    		if(stick.getY()>0){
+    			return true;
+    		}
+    	}
+    	
     	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
     	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
-    	//printStats(elevatorTalon, "elevatorTalon");
-    	while(limitSwitchValueI == false|| limitSwitchValueII == false){
-    		stopMotors();
-    		Timer.delay(0.20);
-    		limitSwitchValueI = true;
-    		limitSwitchValueII = true;
-    	}
+    	
+    	return false;
+
+    	
     }
     public void autonLift(){
     	elevatorTalonI.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
@@ -147,150 +155,5 @@ public class Elevator extends Subsystem {
     	elevatorTalonII.set(0.0);
     }
     
-    /*public void printStats(CANTalon Talon, String name){
-		
-    	//retrieve values
-    	double currentAmps = Talon.getOutputCurrent();
-		double outputV = Talon.getOutputVoltage();
-		double busV = Talon.getBusVoltage();
-		double talonDataGet = Talon.get();
-		double getSpeed = Talon.getSpeed();
-		double encDistance = elevatorEncoder.getDistance();
-		double encSpeed = elevatorEncoder.getRate(); 
-		double currentTime = Timer.getFPGATimestamp();
-		
-		//init lists
-		ArrayList<String> headers = new ArrayList<String>();
-		ArrayList<Double> stats = new ArrayList<Double>();
-		
-		//clear list, create strings
-		stats.clear();
-		String cA = name + " currentAmps";
-		String oV = name + " outputV";
-		String bV = name + " busV";
-		String getTalon = name + " get";
-		String getTalonSpeed = name + " getSpeed()";
-		
-		//encoder
-		String getEncDistance = name + " getDistance()";
-		String getEncSpeed = name + " getSpeed()"; 
-		
-		//init csv file
-		if (!CSVstart){
-		headers.add("time");
-		headers.add(cA);
-		headers.add(oV);
-		headers.add(bV);
-		headers.add(getTalon);
-		headers.add(getTalonSpeed);
-		headers.add(getEncDistance);
-		headers.add(getEncSpeed);
-		startCSV(elevatorStatsFilename, headers);
-		endLine(elevatorStatsFilename);
-		
-		}
-		
-		//live stats
-		SmartDashboard.putNumber(cA, currentAmps);
-		SmartDashboard.putNumber(oV, outputV);
-		SmartDashboard.putNumber(bV, busV);
-		SmartDashboard.putNumber(getTalon, talonDataGet);
-		SmartDashboard.putNumber(getTalonSpeed, getSpeed);
-		
-		//encoder
-		SmartDashboard.putNumber(getEncDistance, encDistance);
-		SmartDashboard.putNumber(getEncSpeed , encSpeed); 
-		
-		//list to add to csv
-		stats.add(currentTime);
-		stats.add(currentAmps);
-		stats.add(outputV);
-		stats.add(busV);
-		stats.add(talonDataGet);
-		stats.add(getSpeed);
-		addData(elevatorStatsFilename,stats);
-		endLine(elevatorStatsFilename);
-		
-    }
-    
-//Start csv/logging stuff
-    
-    //adds headers to a new CSV file
-    public void startCSV(String filename, ArrayList<String> list){
-		try
-    	{
-    	    FileWriter writer = new FileWriter(filename);
-    	    writer.append("Time");
-    	    writer.append(',');
-    	    for (int i = 0; i<list.size(); i++){
-    	    	writer.append(list.get(i));
-    	    	if(i < list.size()-1){
-    	    	writer.append(',');
-    	    	}
-    	    }
-    
-    	    writer.flush();
-    	    writer.close();
-    	}
-    	catch(IOException e)
-    	{
-    	     e.printStackTrace();
-    	} 
-    	CSVstart = true;
-        }
-	//writes in a newline to a csv file
-	public void endLine(String filename){
-		if (CSVstart){
-		try {
-			FileWriter writer = new FileWriter(filename);
-			writer.append("/n");
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-}
-	//add data given in the form of a list of doubles
-	public void addData(String filename, ArrayList<Double> list){
-		if (CSVstart){
-			try
-	    	{
-	    	    FileWriter writer = new FileWriter(filename);
-	    	    for (int i = 0; i<list.size(); i++){
-	    	    	writer.append(list.get(i).toString());
-	    	    	if(i < list.size()-1){
-	    	    	writer.append(',');
-	    	    	}
-	    	    }
-	    
-	    	    writer.flush();
-	    	    writer.close();
-	    	}
-	    	catch(IOException e)
-	    	{
-	    	     e.printStackTrace();
-	    	} 
-		}
-	}
-	//add single doubles to the log	
-	public void addData(String filename, Double data){
-		if (CSVstart){
-			try {
-				FileWriter writer = new FileWriter(filename);
-				writer.append(data.toString());
-				writer.append(",");
-				writer.flush();
-				writer.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-	}
-*/
 }
 

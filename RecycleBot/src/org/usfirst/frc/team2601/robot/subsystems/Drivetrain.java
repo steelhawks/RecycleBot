@@ -301,7 +301,8 @@ public class Drivetrain extends Subsystem {
 		
 		
 	}
-    public void initDefaultCommand() {
+    
+	public void initDefaultCommand() {
     	//setDefaultCommand(new OmniDrive());
     	setDefaultCommand(new ExponentialInputsArcadeOmniDrive());
     }
@@ -447,15 +448,26 @@ public class Drivetrain extends Subsystem {
     	centerTalon.set(xval * Constants.drivetrainSpeed);
     	drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
     	SmartDashboard.putNumber("encoder", leftEncoder.getRate());
-    	dataHashMap.clear();
+    	/*dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
     	dataHashMap.put("rightTalonI", rightTalonI);
     	dataHashMap.put("rightTalonII", rightTalonII);
     	dataHashMap.put("centerTalon", centerTalon);
-    	printStats(dataHashMap);  
+    	printStats(dataHashMap);  */
+    	//Timer.delay(0.02);
     }
-    
+   /* public void calculateDriveTrainSpeed(Joystick stick){
+    	double maxChange = 0.5;
+    	double lastXval = ;
+    	double lastYval = ;
+    	double speed = 0;
+    	
+    	while(){
+    		double input = stick.getX();
+    		
+    	}
+    }*/
     public void gamepadOmniDrive(Joystick stick){
     	double left = -stick.getRawAxis(F310.kGamepadAxisLeftStickY);
     	double right = -stick.getRawAxis(F310.kGamepadAxisRightStickY);
@@ -484,8 +496,9 @@ public class Drivetrain extends Subsystem {
     	
     }
     
+    
     public void arcadeOmniDrive(double move, double twist, double strafe){
-    	drive.arcadeDrive(-move, -twist, false);;
+    	drive.arcadeDrive(-move*Constants.drivetrainSpeed, -twist*Constants.drivetrainFineSpeed, false);
     	centerTalon.set(strafe);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
@@ -508,6 +521,14 @@ public class Drivetrain extends Subsystem {
     	double right = rightStick.getY()*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
     	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.centerDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
     	tankOmniDrive(left, right, strafe);
+    }
+    public void fineArcadeOmniDrive(Joystick stick){
+    	
+    	double yval = -stick.getY();
+    	double xval = stick.getX();
+    	double twist = -stick.getTwist();
+    	centerTalon.set(xval * Constants.drivetrainFineSpeed);
+    	drive.arcadeDrive(yval * Constants.drivetrainFineSpeed,twist * Constants.drivetrainFineSpeed,false);
     }
     
     public void tankOmniDrive(double left, double right, double strafe){
