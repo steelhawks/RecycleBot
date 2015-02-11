@@ -495,7 +495,7 @@ public class Drivetrain extends Subsystem {
 		double rightEncoderSpeed = rightEncoder.getRate();
     	//drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
     
-    	drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 100);
+    	drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 15);
     
     	SmartDashboard.putNumber("leftencoder", leftEncoder.getRate());
     	SmartDashboard.putNumber("Rightencoder", rightEncoder.getRate());

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class HawkDrive extends RobotDrive {
 	
 	SpeedController centerMotor;
-    double adjustment;
+    double adjustment = 0.9;
 
 	public HawkDrive(SpeedController frontLeftMotor,
 			SpeedController rearLeftMotor, SpeedController frontRightMotor,
@@ -63,12 +63,12 @@ public class HawkDrive extends RobotDrive {
         double adjustedRightRate = rightEncoderRate + tolerance;
         double adjustedLeftRate = leftEncoderRate + tolerance;
         
-        if (rightEncoderRate>adjustedLeftRate){
-        	rightMotorSpeed = rightMotorSpeed * 0.95;
+        if (Math.abs(rightEncoderRate)>Math.abs(adjustedLeftRate)){
+        	rightMotorSpeed = rightMotorSpeed * adjustment;
         	SmartDashboard.putNumber("ModifiedRightMotorSpeed", rightMotorSpeed);
         }
-        else if (leftEncoderRate>adjustedRightRate){
-        	leftMotorSpeed = leftMotorSpeed * 0.85;
+        else if (Math.abs(leftEncoderRate)>Math.abs(adjustedRightRate)){
+        	leftMotorSpeed = leftMotorSpeed * adjustment;
         	SmartDashboard.putNumber("ModifiedLeftMotorSpeed", leftMotorSpeed);
         }
         
