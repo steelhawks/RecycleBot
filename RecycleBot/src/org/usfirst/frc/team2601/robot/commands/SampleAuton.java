@@ -36,7 +36,7 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new RetractPiston(0.5));
     	addSequential(new AutonDriveForward(1.0));*/
     	
-    	addSequential(new AutonLift(0.75));
+    	/*addSequential(new AutonLift(0.75));
     	addSequential(new AutonIntakeRollers(1.5));
     	addSequential(new AutonDriveForward(1.5));
     	addSequential(new AutonStopRollers());
@@ -48,7 +48,16 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonStrafeRight(1.5));
     	addSequential(new AutonDown(1.5));
     	addSequential(new AutonOpenRollers());
-    	addSequential(new AutonDriveBackward(1.5));
+    	addSequential(new AutonDriveBackward(1.5));*/
+    	
+    	addSequential(new AutonLift(1.25));
+    	addSequential(new AutonDriveForward(1.5));
+    	addSequential(new AutonDown(1.5));
+    	addSequential(new AutonLift(1.25));
+    	addSequential(new AutonDriveForward(1.5));
+    	addSequential(new AutonDown(1.5));
+    	addSequential(new AutonLift(1.5));
+    	addSequential(new AutonStrafeRight(1.5));
     	
         // To run multiple commands at the same time,
         // use addParallel()

@@ -14,6 +14,8 @@ import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StartDrivetrainPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainMotors;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopVelocityPID;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.VelocityPIDDrive;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutomaticEjectTotes;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualCloseEjectionPiston;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualOpenEjectionPiston;
@@ -65,11 +67,12 @@ public class OI {
 		//PID buttons
 		
 		JoystickButton startDrivetrainPID = new JoystickButton(stick, Constants.startDrivetrainPID);
-		startDrivetrainPID.whenPressed(new StartDrivetrainPID());
+		startDrivetrainPID.whenPressed(new VelocityPIDDrive());
+		
 		
 		JoystickButton stopDrivetrainPID = new JoystickButton(stick, Constants.stopDrivetrainPID);
-		stopDrivetrainPID.cancelWhenPressed(new StartDrivetrainPID());
-		stopDrivetrainPID.whenPressed(new StopDrivetrainPID());
+		stopDrivetrainPID.cancelWhenPressed(new VelocityPIDDrive());
+		stopDrivetrainPID.whenPressed(new StopVelocityPID());
 		
 		JoystickButton startElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.startElevatorPID);
 		startElevatorPID.whenPressed(new StartElevatorPID());

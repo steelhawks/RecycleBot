@@ -20,7 +20,9 @@ import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.ExponentialInputsArcadeOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.OmniDrive;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.TankOmniDrive;
 import org.usfirst.frc.team2601.robot.util.F310;
+import org.usfirst.frc.team2601.robot.util.HawkDrive;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,9 +42,11 @@ public class Drivetrain extends Subsystem {
 	CANTalon leftTalonII = new CANTalon(Constants.leftTalonAddressII);
 	CANTalon rightTalonII = new CANTalon(Constants.rightTalonAddressII);
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
-	RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
+	//RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
+	HawkDrive drive = new HawkDrive(leftTalonI,leftTalonII,rightTalonI,rightTalonII,centerTalon);
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, false, Encoder.EncodingType.k4X);
 	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, true, Encoder.EncodingType.k4X);
+	
 	
 	//DriverStation driver
 	DriverStation driver;
@@ -51,6 +55,9 @@ public class Drivetrain extends Subsystem {
 	//setup first version of PID controller
 	PIDController control = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
 	//boolean CSVstart; 
+	
+	PIDController leftVelocityPID = new PIDController(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD, leftEncoder, leftTalonI);
+	PIDController rightVelocityPID = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, rightEncoder, rightTalonI);
 	
 	SmartDashboard dash;
 	FileWriter writer;
@@ -303,9 +310,10 @@ public class Drivetrain extends Subsystem {
 	}
     
 	public void initDefaultCommand() {
-    	//setDefaultCommand(new OmniDrive());
-    	setDefaultCommand(new ExponentialInputsArcadeOmniDrive());
-    }
+    	setDefaultCommand(new OmniDrive());
+    	//setDefaultCommand(new ExponentialInputsArcadeOmniDrive());
+		//setDefaultCommand(new TankOmniDrive());
+	}
     
     public void dumbDrive(Joystick stick){
     	//start code here, simple arcadedrive
@@ -322,6 +330,43 @@ public class Drivetrain extends Subsystem {
     }
     public void getSetpoint(){
     	Constants.drivetrainSetpoint = Robot.table.getNumber(Constants.drivetrainSetpointKey);
+    }
+   
+    public void driveWithVelocityPID(Joystick stick){
+    	/*getPIDvalues();
+    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	rightEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	
+    	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
+    	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
+    
+    	
+    	leftVelocityPID.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	rightVelocityPID.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	
+    	leftVelocityPID.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	rightVelocityPID.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	
+    	Constants.drivetrainSetpoint = stick.getY();
+    	SmartDashboard.putNumber("Setpoint", Constants.drivetrainSetpoint);
+    	leftVelocityPID.setSetpoint(Constants.drivetrainSetpoint);
+    	rightVelocityPID.setSetpoint(Constants.drivetrainSetpoint);
+    	
+    	
+    	leftVelocityPID.enable();
+    	rightVelocityPID.enable();
+    	
+    	SmartDashboard.putNumber("leftPID", leftVelocityPID.get());
+    	SmartDashboard.putNumber("P", leftVelocityPID.getP());
+    	
+    	leftTalonII.set(leftVelocityPID.get());
+    	rightTalonII.set(rightVelocityPID.get());
+    	centerTalon.set(stick.getX());*/
+    	
+    }
+    public void stopVelocityPID(){
+    	leftVelocityPID.disable();
+    	rightVelocityPID.disable();
     }
     
     public void startPID(){
@@ -402,16 +447,16 @@ public class Drivetrain extends Subsystem {
     	} 	
     }
     public void autonMoveFoward(){
-    	leftTalonI.set(-Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(-Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
     public void autonMoveBackward(){
-    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(-Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(-Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
     public void moveForward(){
     	
@@ -437,8 +482,8 @@ public class Drivetrain extends Subsystem {
     	printStats(rightTalonII,"rightTalonII");
     }
     
-    public void strafeRight(){//THis is not tested yet; not sure it works
-    	centerTalon.set(Constants.drivetrainSpeed*Constants.centerDrivetrainTalonMultiplier);
+    public void strafeRight(){
+    	centerTalon.set(Constants.drivetrainFineSpeed*Constants.centerDrivetrainTalonMultiplier);
     }
     // OMNI 
     public void omniDrive(Joystick stick){
@@ -446,8 +491,18 @@ public class Drivetrain extends Subsystem {
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
     	centerTalon.set(xval * Constants.drivetrainSpeed);
-    	drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
-    	SmartDashboard.putNumber("encoder", leftEncoder.getRate());
+    	double leftEncoderSpeed = leftEncoder.getRate();
+		double rightEncoderSpeed = rightEncoder.getRate();
+    	//drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
+    
+    	drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 100);
+    
+    	SmartDashboard.putNumber("leftencoder", leftEncoder.getRate());
+    	SmartDashboard.putNumber("Rightencoder", rightEncoder.getRate());
+    	printStats(leftTalonI,"leftTalonI");
+    	printStats(rightTalonI,"rightTalonI");
+    	printStats(leftTalonII,"leftTalonII");
+    	printStats(rightTalonII,"rightTalonII");
     	/*dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
@@ -488,25 +543,36 @@ public class Drivetrain extends Subsystem {
     	double twist = Math.pow(stick.getTwist(), power);
     	double strafe = Math.pow(stick.getX(), power);
     	
+    	arcadeOmniDrive(move,twist,strafe);
+    	/*double move = 0;
+    	double twist = 0;
+    	double strafe = 0;
     	SmartDashboard.putNumber("move", move);
     	SmartDashboard.putNumber("twist", twist);
     	SmartDashboard.putNumber("strafe", strafe);
-    	
-    	arcadeOmniDrive(move, twist, strafe);
-    	
+    	    	
+    	while(Robot.isReal()==true){
+    		double newMove = move + 0.25;
+    		double newTwist = twist + 0.25;
+    		double newStrafe = strafe + 0.25;
+    	}
+    	double xval = newMove;
+    	double 
+    	arcadeOmniDrive(newMove, newTwist, newStrafe);*/
     }
     
     
     public void arcadeOmniDrive(double move, double twist, double strafe){
     	drive.arcadeDrive(-move*Constants.drivetrainSpeed, -twist*Constants.drivetrainFineSpeed, false);
+    	
     	centerTalon.set(strafe);
-    	dataHashMap.clear();
-    	dataHashMap.put("leftTalonI", leftTalonI);
-    	dataHashMap.put("leftTalonII", leftTalonI);
-    	dataHashMap.put("rightTalonI", rightTalonI);
-    	dataHashMap.put("rightTalonII", rightTalonII);
-    	dataHashMap.put("centerTalon", centerTalon);
-    	printStats(dataHashMap);
+    	//dataHashMap.clear();
+    	//dataHashMap.put("leftTalonI", leftTalonI);
+    	//dataHashMap.put("leftTalonII", leftTalonI);
+    	//dataHashMap.put("rightTalonI", rightTalonI);
+    	//dataHashMap.put("rightTalonII", rightTalonII);
+    	//dataHashMap.put("centerTalon", centerTalon);
+    	//printStats(dataHashMap);
     }
     
     public void tankOmniDrive(Joystick leftStick, Joystick rightStick){
@@ -534,13 +600,13 @@ public class Drivetrain extends Subsystem {
     public void tankOmniDrive(double left, double right, double strafe){
     	drive.tankDrive(left, right);
     	centerTalon.set(strafe);
-    	dataHashMap.clear();
+    	/*dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
     	dataHashMap.put("rightTalonI", rightTalonI);
     	dataHashMap.put("rightTalonII", rightTalonII);
     	dataHashMap.put("centerTalon", centerTalon);
-    	printStats(dataHashMap);
+    	printStats(dataHashMap);*/
     }
     
 //Start csv/logging stuff
@@ -625,7 +691,14 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 	
+	public void bothMotorsForward(){
+		leftTalonI.set(0.5*Constants.leftDrivetrainTalonMultiplier);
+		leftTalonII.set(0.5*Constants.leftDrivetrainTalonMultiplier);
+		rightTalonI.set(0.5*Constants.rightDrivetrainTalonMultiplier);
+		rightTalonII.set(0.5*Constants.rightDrivetrainTalonMultiplier);
+	}
     
+
 }
 	
     

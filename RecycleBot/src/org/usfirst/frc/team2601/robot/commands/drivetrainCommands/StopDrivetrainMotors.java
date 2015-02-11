@@ -7,10 +7,11 @@ import org.usfirst.frc.team2601.robot.Robot;
  */
 public class StopDrivetrainMotors extends Command {
 
-    public StopDrivetrainMotors() {
+    public StopDrivetrainMotors(Double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time

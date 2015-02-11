@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
+import org.usfirst.frc.team2601.robot.commands.MotorTestAuton;
 import org.usfirst.frc.team2601.robot.commands.SampleAuton;
 import org.usfirst.frc.team2601.robot.commands.closeWriter;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
@@ -52,7 +53,7 @@ public class Robot extends IterativeRobot {
 		catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
-        autonomousCommand = new SampleAuton();
+        autonomousCommand = new MotorTestAuton();
         closeCommand = new closeWriter();
         
         if (Constants.CAMERA_ON){

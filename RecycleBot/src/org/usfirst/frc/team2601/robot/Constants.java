@@ -14,7 +14,8 @@ public class Constants {
 	// configuration
 	public static final int TANK = 0;
 	public static final int ARCADE = 1;
-	public static int driveType = ARCADE;
+	public static final int CUSTOMARCADE = 2;
+	public static int driveType = CUSTOMARCADE;
 	
 	public static final boolean GAMEPAD = false;
 	public static final boolean JOYSTICK = true;
@@ -92,7 +93,7 @@ public class Constants {
 	public static double drivetrainD = 0.0;
 	public static double drivetrainSetpoint = 0.0;
 	public static double drivetrainAbsoluteTolerance = 15.0;
-	public static double drivetrainDistancePerPulse = 1.0;
+	public static double drivetrainDistancePerPulse = 7.97965;
 	public static double drivetrainMaxOutput = 0.5;
 	public static double drivetrainMinOutput = -0.5;
 	
@@ -119,15 +120,15 @@ public class Constants {
 	public static int topLimitSwitchPort = 7;
 	
 	//Talon multipliers
-	public static int leftDrivetrainTalonMultiplier = -1;
-	public static int rightDrivetrainTalonMultiplier = -1;
+	public static double leftDrivetrainTalonMultiplier = 1;
+	public static double rightDrivetrainTalonMultiplier = -1;
 	public static int centerDrivetrainTalonMultiplier = 1;
 	public static int elevatorTalonMultiplier = 1;
 	public static int leftRollerTalonMultiplier = -1;
 	public static int rightRollerTalonMultiplier = 1;
 
 	// speeds
-	public static double drivetrainSpeed = 1.0;
+	public static double drivetrainSpeed = 0.5;
 	public static double drivetrainFineSpeed = 0.25;
 	public static double rollerSpeed = 1.0;
 	public static double rollerStopSpeed = 0.0;
