@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 		catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
-        autonomousCommand = new MotorTestAuton();
+        autonomousCommand = new SampleAuton();
         closeCommand = new closeWriter();
         
         if (Constants.CAMERA_ON){

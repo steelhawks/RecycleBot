@@ -92,8 +92,8 @@ public class Elevator extends Subsystem {
     	elevatorTalonII.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	elevatorTalonI.set(-Constants.elevatorSpeed /* Constants.elevatorTalonMultiplier*/);
-    	elevatorTalonII.set(-Constants.elevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonI.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonII.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
     }
     
     public void getPIDvalues(){

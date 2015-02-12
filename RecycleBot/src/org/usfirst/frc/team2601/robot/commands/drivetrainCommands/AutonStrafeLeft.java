@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutonStrafeRight extends Command {
+public class AutonStrafeLeft extends Command {
 
-    public AutonStrafeRight(double timeout) {
+    public AutonStrafeLeft(double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.drivetrain);
@@ -22,7 +22,7 @@ public class AutonStrafeRight extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.autonStrafeRight();
+    	Robot.drivetrain.autonStrafeLeft();
     }
 
     // Make this return true when this Command no longer needs to run execute()

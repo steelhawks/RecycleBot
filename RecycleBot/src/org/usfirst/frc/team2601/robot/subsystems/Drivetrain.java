@@ -43,10 +43,10 @@ public class Drivetrain extends Subsystem {
 	CANTalon rightTalonII = new CANTalon(Constants.rightTalonAddressII);
 	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
 	//RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
-	HawkDrive drive = new HawkDrive(leftTalonI,leftTalonII,rightTalonI,rightTalonII,centerTalon);
+	
 	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, false, Encoder.EncodingType.k4X);
 	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, true, Encoder.EncodingType.k4X);
-	
+	HawkDrive drive = new HawkDrive(leftTalonI,leftTalonII,rightTalonI,rightTalonII,centerTalon,leftEncoder,rightEncoder);
 	
 	//DriverStation driver
 	DriverStation driver;
@@ -447,16 +447,32 @@ public class Drivetrain extends Subsystem {
     	} 	
     }
     public void autonMoveFoward(){
+    	drive.autonomousStraight(0.25, 15.0);
+    }
+    public void autonMoveBackward(){
+    	drive.autonomousStraight(-0.25, 15.0);
+    }
+    public void autonTurnLeft(){
+    	//drive.arcadeDrive(0, -0.25);
     	leftTalonI.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonI.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     	leftTalonII.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonII.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
-    public void autonMoveBackward(){
+    public void autonTurnRight(){
+    	//drive.arcadeDrive(0,0.25);
     	leftTalonI.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonI.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     	leftTalonII.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonII.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
+    }
+    public void autonStrafeRight(){
+    	double xval = 2.0;
+    	centerTalon.set(xval*Constants.drivetrainFineSpeed);
+    }
+    public void autonStrafeLeft(){
+    	double xval = -2.0;
+    	centerTalon.set(xval*Constants.drivetrainFineSpeed);
     }
     public void moveForward(){
     	
@@ -482,9 +498,6 @@ public class Drivetrain extends Subsystem {
     	printStats(rightTalonII,"rightTalonII");
     }
     
-    public void strafeRight(){
-    	centerTalon.set(Constants.drivetrainFineSpeed*Constants.centerDrivetrainTalonMultiplier);
-    }
     // OMNI 
     public void omniDrive(Joystick stick){
     	double yval = -stick.getY();
@@ -495,8 +508,8 @@ public class Drivetrain extends Subsystem {
 		double rightEncoderSpeed = rightEncoder.getRate();
     	//drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
     
-    	drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 15);
-    
+    	//drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 15);
+		drive.customArcade(stick, 15.0);
     	SmartDashboard.putNumber("leftencoder", leftEncoder.getRate());
     	SmartDashboard.putNumber("Rightencoder", rightEncoder.getRate());
     	printStats(leftTalonI,"leftTalonI");

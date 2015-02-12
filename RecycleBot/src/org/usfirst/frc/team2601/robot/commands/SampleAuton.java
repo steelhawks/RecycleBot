@@ -3,7 +3,10 @@ package org.usfirst.frc.team2601.robot.commands;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDrivetrainPID;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeLeft;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeRight;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnRight;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonIntakeRollers;
@@ -50,14 +53,18 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonOpenRollers());
     	addSequential(new AutonDriveBackward(1.5));*/
     	
-    	addSequential(new AutonLift(1.25));
+    	addSequential(new AutonLift(3.0));
     	addSequential(new AutonDriveForward(1.5));
     	addSequential(new AutonDown(1.5));
     	addSequential(new AutonLift(1.25));
-    	addSequential(new AutonDriveForward(1.5));
+    	addSequential(new AutonDriveForward(1.0));
     	addSequential(new AutonDown(1.5));
     	addSequential(new AutonLift(1.5));
+    	addSequential(new AutonTurnRight(4.0));
+    	addSequential(new AutonTurnLeft(4.0));
     	addSequential(new AutonStrafeRight(1.5));
+    	addSequential(new AutonStrafeLeft(1.5));
+    	
     	
         // To run multiple commands at the same time,
         // use addParallel()
