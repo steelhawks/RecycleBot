@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
@@ -36,7 +37,7 @@ public class Elevator extends Subsystem {
 	Boolean CSVstart;
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
-	PIDController control;
+	PIDController control = new PIDController(Constants.elevatorP, Constants.elevatorI, Constants.elevatorD, elevatorEncoder, elevatorTalonI);
 	DoubleSolenoid ejectionPiston = new DoubleSolenoid(Constants.ejectionSolenoidOnPort,Constants.ejectionSolenoidOffPort);
 	
 	ArrayList<String> printstats;
@@ -50,9 +51,11 @@ public class Elevator extends Subsystem {
     }
     
     public void setup(){
-    	elevatorEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	elevatorEncoder.setDistancePerPulse(Constants.elevatorDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
+    	elevatorTalonII.changeControlMode(ControlMode.Follower);
+    	elevatorTalonII.set(Constants.elevatorTalonAddressI);
     }
     
     public void doNothing(){
@@ -81,7 +84,9 @@ public class Elevator extends Subsystem {
     	}
     	
     	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
-    	elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
+    	//elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
+    	
+    	SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
     	
     	return false;
 
@@ -89,11 +94,11 @@ public class Elevator extends Subsystem {
     }
     public void autonLift(){
     	elevatorTalonI.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
-    	elevatorTalonII.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	//elevatorTalonII.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
     }
     public void autonDown(){
     	elevatorTalonI.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
-    	elevatorTalonII.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	//elevatorTalonII.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
     }
     
     public void getPIDvalues(){

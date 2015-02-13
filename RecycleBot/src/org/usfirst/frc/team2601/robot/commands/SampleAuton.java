@@ -64,6 +64,7 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonTurnLeft(4.0));
     	addSequential(new AutonStrafeRight(1.5));
     	addSequential(new AutonStrafeLeft(1.5));
+    	addSequential(new AutonDriveBackward(1.5));
     	
     	
         // To run multiple commands at the same time,

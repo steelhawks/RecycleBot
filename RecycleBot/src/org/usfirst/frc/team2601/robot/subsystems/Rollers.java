@@ -26,11 +26,12 @@ public class Rollers extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new ManualControlRollers());
     }
     
     public void manualControlRollers(Joystick stick){
-    	leftRollerTalon.set(stick.getY()*Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
-    	rightRollerTalon.set(stick.getY()*Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
+    	leftRollerTalon.set(stick.getTwist()*Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
+    	rightRollerTalon.set(-stick.getTwist()*Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
     }
     
     public void intakeRollers(){

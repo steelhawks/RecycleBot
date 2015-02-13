@@ -128,7 +128,7 @@ public class Constants {
 	public static int rightRollerTalonMultiplier = 1;
 
 	// speeds
-	public static double drivetrainSpeed = 0.5;
+	public static double drivetrainSpeed = 0.75;
 	public static double drivetrainFineSpeed = 0.25;
 	public static double rollerSpeed = 1.0;
 	public static double rollerStopSpeed = 0.0;

@@ -422,7 +422,7 @@ public class Drivetrain extends Subsystem {
     	control.disable();
     }
     
-    public void distanceDriveForwardPID(){
+    public void distanceDriveForwardPID(Double setpoint){
     	//get PID values from Net Tables
     	getPIDvalues();
     	
@@ -432,7 +432,7 @@ public class Drivetrain extends Subsystem {
     	
     	//set up PID loop parameters
     	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
-    	control.setSetpoint(Constants.drivetrainSetpoint);
+    	control.setSetpoint(setpoint);
     	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
     	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
     	
@@ -453,14 +453,12 @@ public class Drivetrain extends Subsystem {
     	drive.autonomousStraight(-0.25, 15.0);
     }
     public void autonTurnLeft(){
-    	//drive.arcadeDrive(0, -0.25);
     	leftTalonI.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonI.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     	leftTalonII.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonII.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
     public void autonTurnRight(){
-    	//drive.arcadeDrive(0,0.25);
     	leftTalonI.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
     	rightTalonI.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
     	leftTalonII.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
