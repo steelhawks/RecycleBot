@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.auton;
 
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
@@ -52,7 +52,7 @@ public class SampleAuton extends CommandGroup {
     	addSequential(new AutonDown(1.5));
     	addSequential(new AutonOpenRollers());
     	addSequential(new AutonDriveBackward(1.5));*/
-    	
+      	
     	addSequential(new AutonLift(3.0));
     	addSequential(new AutonDriveForward(1.5));
     	addSequential(new AutonDown(1.5));

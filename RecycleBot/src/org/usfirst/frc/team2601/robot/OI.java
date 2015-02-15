@@ -33,14 +33,18 @@ import org.usfirst.frc.team2601.robot.commands.rollerCommands.stopRollers;
  */
 public class OI {
     
-	
-	public static Joystick stick = new Joystick(Constants.joystickPort);
-	public static Joystick elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
-	public static Joystick leftDriveStick = new Joystick(Constants.leftDriveStick);
-	public static Joystick rightDriveStick = new Joystick(Constants.rightDriveStick);
+	public static Joystick stick; 
+	public static Joystick elevatorandRollerStick;
+	public static Joystick leftDriveStick; 
+	public static Joystick rightDriveStick;
 	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
 	
 	public OI(){
+		stick = new Joystick(Constants.joystickPort);
+		elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
+		leftDriveStick = new Joystick(Constants.leftDriveStick);
+		rightDriveStick = new Joystick(Constants.rightDriveStick);
+		
 		//Drivetrain buttons
 		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.fineDriveButton);
 		fineArcadeOmniDrive.whileHeld(new FineArcadeOmniDrive());

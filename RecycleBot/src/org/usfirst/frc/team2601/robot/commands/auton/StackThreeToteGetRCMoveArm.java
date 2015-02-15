@@ -1,23 +1,18 @@
-package org.usfirst.frc.team2601.robot.commands;
+package org.usfirst.frc.team2601.robot.commands.auton;
 
-import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.BothMotorsForward;
-import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrainMotors;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class MotorTestAuton extends CommandGroup {
+public class StackThreeToteGetRCMoveArm extends CommandGroup {
     
-    public  MotorTestAuton() {
+    public  StackThreeToteGetRCMoveArm() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new BothMotorsForward(2.0));
-    	addSequential(new StopDrivetrainMotors(0.5));
+
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

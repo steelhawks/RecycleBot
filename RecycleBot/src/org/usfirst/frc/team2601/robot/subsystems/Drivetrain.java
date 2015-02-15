@@ -53,7 +53,8 @@ public class Drivetrain extends Subsystem {
 	Boolean CSVstart = false;
 	
 	//setup first version of PID controller
-	PIDController control = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
+	PIDController controlLeft = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
+	//PIDController controlRight = new PIDController(Constants.drivetrainP,Constants.drivetrainI, Constants.drivetrainD,rightEncoder,rightTalonI);
 	//boolean CSVstart; 
 	
 	PIDController leftVelocityPID = new PIDController(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD, leftEncoder, leftTalonI);
@@ -380,31 +381,35 @@ public class Drivetrain extends Subsystem {
     	rightEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
     	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
-    	
     	//set up PID loop parameters
-    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
-    	control.setSetpoint(Constants.drivetrainSetpoint);
-    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
-    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	controlLeft.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	controlLeft.setSetpoint(Constants.drivetrainSetpoint);
+    	controlLeft.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
+    	controlLeft.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	
     	
     	//enable loop, match motors
-    	control.enable();
+    	controlLeft.enable();
     	matchMotors();
     	
     	//check if it's ok to stop
-    	if (control.onTarget()){
+    	if (controlLeft.onTarget()){
     		stopPID();
     	}
     	
     	//let's see if this is working
     	SmartDashboard.putNumber("LeftEncoder Distance", leftEncoder.getDistance());
-    	SmartDashboard.putNumber("Error", control.getError());
+    	SmartDashboard.putNumber("Error", controlLeft.getError());
     	SmartDashboard.putNumber("setpoint", Constants.drivetrainSetpoint);
     	
+    }
+    public boolean areYouThereYet(){
+    	return(controlLeft.onTarget());
     }
     
     public void matchMotors(){
     	//keep motors together for straight line PID
+    	leftTalonII.set(leftTalonI.get()*1);
     	rightTalonI.set(leftTalonI.get()* -1);
     	rightTalonII.set(leftTalonII.get()* -1);
     }
@@ -419,7 +424,7 @@ public class Drivetrain extends Subsystem {
     
     public void stopPID(){
     	//disable PID loop
-    	control.disable();
+    	controlLeft.disable();
     }
     
     public void distanceDriveForwardPID(Double setpoint){
@@ -431,17 +436,17 @@ public class Drivetrain extends Subsystem {
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
-    	control.setSetpoint(setpoint);
-    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
-    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	controlLeft.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	controlLeft.setSetpoint(setpoint);
+    	controlLeft.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
+    	controlLeft.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
     	
     	//enable loop, match motors
-    	control.enable();
+    	controlLeft.enable();
     	matchMotors();
     	
     	//check if it's ok to stop
-    	if (control.onTarget()){
+    	if (controlLeft.onTarget()){
     		stopPID();
     		return;
     	} 	

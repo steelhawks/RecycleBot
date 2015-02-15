@@ -129,16 +129,43 @@ public class Elevator extends Subsystem {
     	
     	//enable loop, match motors
     	control.enable();
-    	
+    	matchMotors();
     	//check if it's ok to stop
     	if (control.onTarget()){
     		stopPID();
     	}
-
     	//printStats(elevatorTalonI, "elevatorTalonI");
     	
     }
-    
+    public void distanceLiftPID(double setpoint){
+    	getPIDvalues();
+
+    	//set up encoders
+    	elevatorEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	
+    	//set up PID loop parameters
+    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	control.setSetpoint(setpoint);
+    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
+    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	
+    	//enable loop, match motors
+    	control.enable();
+    	matchMotors();
+    	
+    	//check if it's ok to stop
+    	if (control.onTarget()){
+    		stopPID();
+    		return;
+    	} 	
+    }
+    public boolean areYouThereYet(){
+    	return(control.onTarget());
+    }
+    public void matchMotors(){
+    	elevatorTalonII.set(elevatorTalonI.get()* -1);
+    }
     public void automaticEjectTotes(){
     	ejectionPiston.set(DoubleSolenoid.Value.kForward);
     	Timer.delay(0.75);
