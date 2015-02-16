@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDrivetrainPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeLeft;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
@@ -10,6 +11,8 @@ import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StartElevatorPID;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StopElevatorPID;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonIntakeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOuttakeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonStopRollers;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -25,12 +28,14 @@ public class GetToteMoveToAutoZoneRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new AutonIntakeRollers(2.0));
-    	addSequential(new AutonElevatorPID(27.0));
+    	addParallel(new AutonIntakeRollers(2.0));
+    	addSequential(new AutonLift(2.0));
+    	addSequential(new AutonStopRollers());
     	addSequential(new AutonTurnLeft(1.0));
-    	addSequential(new AutonDrivetrainPID(100.0));
-    	addSequential(new AutonElevatorPID(-13.0));
-    	addSequential(new AutonDrivetrainPID(-65.0));
+    	addSequential(new AutonDriveForward(1.0));
+    	addParallel(new AutonDown(1.75));
+    	addSequential(new AutonOuttakeRollers(2.0));
+    	addSequential(new AutonDriveBackward(0.5));
     	
         // To run multiple commands at the same time,
         // use addParallel()

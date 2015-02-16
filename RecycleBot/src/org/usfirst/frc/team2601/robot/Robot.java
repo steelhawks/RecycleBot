@@ -13,6 +13,7 @@ import org.usfirst.frc.team2601.robot.commands.closeWriter;
 import org.usfirst.frc.team2601.robot.commands.auton.DriveForwardToAutoZone;
 import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.SampleAuton;
+import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneArms;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
@@ -35,13 +36,13 @@ public class Robot extends IterativeRobot {
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static final Rollers rollers = new Rollers();
 	public static NetworkTable table;
-	CameraServer cam;
+	
 	Compressor compressor;
-
+	CameraServer cam;
+	
     Command autonomousCommand;
     Command closeCommand;
-
-    /**
+     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
@@ -54,17 +55,17 @@ public class Robot extends IterativeRobot {
 		catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
-        autonomousCommand = new DriveForwardToAutoZone();
+		
+		if (Constants.PNEUMATICS_ON){
+	        compressor = new Compressor();
+	     }
+		
+        autonomousCommand = new StackRCOnToteMoveToAutoZoneArms();
         closeCommand = new closeWriter();
-        
-        if (Constants.CAMERA_ON){
-        cam = CameraServer.getInstance();
+         
+		cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
-        }
-        if (Constants.PNEUMATICS_ON){
-        compressor = new Compressor();
-        }
-        
+		
         table.putNumber(Constants.drivetrainPKey, Constants.drivetrainP);
         table.putNumber(Constants.drivetrainIKey, Constants.drivetrainI);
         table.putNumber(Constants.drivetrainDKey, Constants.drivetrainD);
@@ -74,8 +75,9 @@ public class Robot extends IterativeRobot {
         table.putNumber(Constants.elevatorIKey, Constants.elevatorI);
         table.putNumber(Constants.elevatorDKey, Constants.elevatorD);
         table.putNumber(Constants.elevatorSetpointKey, Constants.elevatorSetpoint);
-    }
-	
+    
+	}
+    
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}

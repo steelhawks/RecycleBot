@@ -2,6 +2,7 @@ package org.usfirst.frc.team2601.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -35,6 +36,8 @@ import java.lang.Math;
  *
  */
 public class Drivetrain extends Subsystem {
+	CameraServer cam;
+	CameraServer topCam;
     //set up all of the things involved in the drivetrain
 	String motorStatsFilename = "/logs/motorstatslog" + Timer.getFPGATimestamp() +".csv";
 	CANTalon leftTalonI = new CANTalon(Constants.leftTalonAddressI);
@@ -309,7 +312,17 @@ public class Drivetrain extends Subsystem {
 		
 		
 	}
-    
+    //camera
+	/*public void cam(){
+			
+        	cam.startAutomaticCapture("cam0");
+        
+	}
+	public void topCam(){
+			cam = CameraServer.getInstance();
+        	cam.startAutomaticCapture("cam1");
+        
+	}*/
 	public void initDefaultCommand() {
     	setDefaultCommand(new OmniDrive());
     	//setDefaultCommand(new ExponentialInputsArcadeOmniDrive());
@@ -452,30 +465,30 @@ public class Drivetrain extends Subsystem {
     	} 	
     }
     public void autonMoveFoward(){
-    	drive.autonomousStraight(0.25, 15.0);
+    	drive.autonomousStraight(0.50, 15.0);
     }
     public void autonMoveBackward(){
-    	drive.autonomousStraight(-0.25, 15.0);
+    	drive.autonomousStraight(-0.50, 15.0);
     }
     public void autonTurnLeft(){
-    	leftTalonI.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(-Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(-Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(-Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
     public void autonTurnRight(){
-    	leftTalonI.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(Constants.drivetrainFineSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(-Constants.drivetrainFineSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(-Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(-Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
     }
     public void autonStrafeRight(){
     	double xval = 2.0;
-    	centerTalon.set(xval*Constants.drivetrainFineSpeed);
+    	centerTalon.set(xval*Constants.drivetrainSpeed);
     }
     public void autonStrafeLeft(){
     	double xval = -2.0;
-    	centerTalon.set(xval*Constants.drivetrainFineSpeed);
+    	centerTalon.set(xval*Constants.drivetrainSpeed);
     }
     public void moveForward(){
     	

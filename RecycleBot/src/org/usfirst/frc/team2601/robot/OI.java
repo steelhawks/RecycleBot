@@ -5,9 +5,11 @@ import org.usfirst.frc.team2601.robot.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team2601.robot.commands.Cam;
 import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
 import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
+import org.usfirst.frc.team2601.robot.commands.TopCam;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineArcadeOmniDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineOmniDrive;
@@ -38,12 +40,44 @@ public class OI {
 	public static Joystick leftDriveStick; 
 	public static Joystick rightDriveStick;
 	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
+
+	/*JoystickButton fineArcadeOmniDrive;
 	
+	//Roller buttons
+	JoystickButton closeOrOpenRollersButton;
+	JoystickButton intakeRollersButton;
+	JoystickButton outtakeRollersButton;
+	JoystickButton stopRollersButton;
+	
+	//ElevatorButtons
+	JoystickButton automaticEjectTotesButton;
+	JoystickButton manualOpenEjectionPiston ;
+	JoystickButton manualCloseEjectionPiston;
+		
+	//PID buttons
+	JoystickButton startDrivetrainPID;
+	JoystickButton stopDrivetrainPID;
+	
+	JoystickButton startElevatorPID;
+	JoystickButton stopElevatorPID;
+	
+	//pneumatics buttons
+	JoystickButton extend;
+	JoystickButton retract;
+
+	*/	
 	public OI(){
 		stick = new Joystick(Constants.joystickPort);
 		elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
 		leftDriveStick = new Joystick(Constants.leftDriveStick);
 		rightDriveStick = new Joystick(Constants.rightDriveStick);
+		
+		//camera buttons
+		JoystickButton cam = new JoystickButton(stick, Constants.cam);
+		cam.whenPressed(new Cam());
+		
+		JoystickButton topCam = new JoystickButton(stick, Constants.topCam);
+		topCam.whenPressed(new TopCam());
 		
 		//Drivetrain buttons
 		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.fineDriveButton);

@@ -29,7 +29,8 @@ public class AutonDrivetrainPID extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.drivetrain.areYouThereYet();
+        //return Robot.drivetrain.areYouThereYet();
+    	return Robot.drivetrain.areYouThereYet();
     }
 
     // Called once after isFinished returns true
