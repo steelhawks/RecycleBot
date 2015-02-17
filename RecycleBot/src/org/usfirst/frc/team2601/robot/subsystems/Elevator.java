@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team2601.robot.Constants;
@@ -29,15 +30,19 @@ public class Elevator extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	CANTalon elevatorTalonI = new CANTalon(Constants.getInstance().elevatorTalonAddressI);
-	CANTalon elevatorTalonII = new CANTalon(Constants.getInstance().elevatorTalonAddressII);
+	CANTalon elevatorCANTalonI = new CANTalon(Constants.getInstance().elevatorTalonAddressI);
+	CANTalon elevatorCANTalonII = new CANTalon(Constants.getInstance().elevatorTalonAddressII);
+	
+	Talon elevatorTalonI = new Talon(Constants.getInstance().elevatorTalonAddressI);
+	Talon elevatorTalonII = new Talon(Constants.getInstance().elevatorTalonAddressII);
+	
 	Encoder elevatorEncoder = new Encoder(Constants.getInstance().elevatorEncoderPortI,Constants.getInstance().elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
 	DigitalInput bottomLimitSwitch = new DigitalInput(Constants.getInstance().bottomLimitSwitchPort);
 	DigitalInput topLimitSwitch = new DigitalInput(Constants.getInstance().topLimitSwitchPort);
 	Boolean CSVstart;
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
-	PIDController control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorTalonI);
+	PIDController control;// = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorCANTalonI);
 	//DoubleSolenoid ejectionPiston = new DoubleSolenoid(Constants.getInstance().ejectionSolenoidOnPort,Constants.getInstance().ejectionSolenoidOffPort);
 	
 	ArrayList<String> printstats;
@@ -54,8 +59,19 @@ public class Elevator extends Subsystem {
     	elevatorEncoder.setDistancePerPulse(Constants.getInstance().elevatorDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
-    	elevatorTalonII.changeControlMode(ControlMode.Follower);
-    	elevatorTalonII.set(Constants.getInstance().elevatorTalonAddressI);
+    	
+    	if(Constants.getInstance().practice){
+        	elevatorCANTalonII.changeControlMode(ControlMode.Follower);
+        	elevatorCANTalonII.set(Constants.getInstance().elevatorTalonAddressI);
+        	
+        	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorCANTalonI);
+    	}
+    	
+    	else if (Constants.getInstance().competition){
+        	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorTalonI);
+
+    	}
+    	
     }
     
     public void doNothing(){
@@ -83,8 +99,15 @@ public class Elevator extends Subsystem {
     		}
     	}
     	
-    	elevatorTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
-    	//elevatorTalonII.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+    	if(Constants.getInstance().practice){
+    		elevatorCANTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+    	}
+
+    	else if (Constants.getInstance().competition){
+    		elevatorTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+			elevatorTalonII.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.elevatorSpeed);
+
+    	}
     	
     	SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
     	
@@ -93,12 +116,21 @@ public class Elevator extends Subsystem {
     	
     }
     public void autonLift(){
-    	elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if (Constants.getInstance().practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	
+    	else if (Constants.getInstance().competition){
+    		elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed);
+    		elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed);
+    	}
     	//elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	elevatorTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
-    	//elevatorTalonII.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if(Constants.getInstance().practice) elevatorCANTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	
+    	else if (Constants.getInstance().competition){
+    		elevatorTalonI.set(-Constants.getInstance().autonElevatorSpeed);
+    		elevatorTalonII.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	}
     }
     
     public void getPIDvalues(){
@@ -164,7 +196,7 @@ public class Elevator extends Subsystem {
     	return(control.onTarget());
     }
     public void matchMotors(){
-    	elevatorTalonII.set(elevatorTalonI.get()* -1);
+    	elevatorTalonII.set(elevatorTalonI.get());
     }
     public void automaticEjectTotes(){
     /*	ejectionPiston.set(DoubleSolenoid.Value.kForward);
@@ -182,9 +214,15 @@ public class Elevator extends Subsystem {
 
     public void stopMotors(){
     	//stop everything
-    
-    	elevatorTalonI.set(0.0);
-    	elevatorTalonII.set(0.0);
+    	if(Constants.getInstance().practice){
+    		elevatorCANTalonI.set(0.0);
+    		elevatorCANTalonII.set(0.0);
+    	}
+    	
+    	else if (Constants.getInstance().competition){
+    		elevatorTalonI.set(0.0);
+    		elevatorTalonII.set(0.0);
+    	}
     }
     
 }

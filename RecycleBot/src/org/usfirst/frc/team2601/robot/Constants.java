@@ -361,7 +361,7 @@ public class Constants {
 		leftTalonAddressI = 13;
 		leftTalonAddressII = 11;
 		centerTalonAddress = 1;
-		rightTalonAddressI = 4;
+		rightTalonAddressI = 15;
 		rightTalonAddressII = 16;
 		elevatorTalonAddressI = 7;
 		elevatorTalonAddressII = 8;
@@ -415,7 +415,7 @@ public class Constants {
 		drivetrainFineSpeed = 0.25;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
-		elevatorSpeed = 0.5;
+		elevatorSpeed = 1.0;
 		autonElevatorSpeed = 1.0;
 		autonTurnSpeed = 0.5;
 		
