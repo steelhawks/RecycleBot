@@ -36,19 +36,19 @@ import java.lang.Math;
  *
  */
 public class Drivetrain extends Subsystem {
-	CameraServer cam;
-	CameraServer topCam;
+	//CameraServer cam=null;
+	//CameraServer topCam =null;;
     //set up all of the things involved in the drivetrain
 	String motorStatsFilename = "/logs/motorstatslog" + Timer.getFPGATimestamp() +".csv";
-	CANTalon leftTalonI = new CANTalon(Constants.leftTalonAddressI);
-	CANTalon rightTalonI = new CANTalon(Constants.rightTalonAddressI);
-	CANTalon leftTalonII = new CANTalon(Constants.leftTalonAddressII);
-	CANTalon rightTalonII = new CANTalon(Constants.rightTalonAddressII);
-	CANTalon centerTalon = new CANTalon(Constants.centerTalonAddress);
+	CANTalon leftTalonI = new CANTalon(Constants.getInstance().leftTalonAddressI);
+	CANTalon rightTalonI = new CANTalon(Constants.getInstance().rightTalonAddressI);
+	CANTalon leftTalonII = new CANTalon(Constants.getInstance().leftTalonAddressII);
+	CANTalon rightTalonII = new CANTalon(Constants.getInstance().rightTalonAddressII);
+	CANTalon centerTalon = new CANTalon(Constants.getInstance().centerTalonAddress);
 	//RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
 	
-	Encoder leftEncoder = new Encoder(Constants.leftEncoderPortI,Constants.leftEncoderPortII, false, Encoder.EncodingType.k4X);
-	Encoder rightEncoder = new Encoder(Constants.rightEncoderPortI, Constants.rightEncoderPortII, true, Encoder.EncodingType.k4X);
+	Encoder leftEncoder= new Encoder(Constants.getInstance().leftEncoderPortI,Constants.getInstance().leftEncoderPortII, false, Encoder.EncodingType.k4X);
+	Encoder rightEncoder= new Encoder(Constants.getInstance().rightEncoderPortI, Constants.getInstance().rightEncoderPortII, true, Encoder.EncodingType.k4X);
 	HawkDrive drive = new HawkDrive(leftTalonI,leftTalonII,rightTalonI,rightTalonII,centerTalon,leftEncoder,rightEncoder);
 	
 	//DriverStation driver
@@ -56,12 +56,12 @@ public class Drivetrain extends Subsystem {
 	Boolean CSVstart = false;
 	
 	//setup first version of PID controller
-	PIDController controlLeft = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, leftEncoder, leftTalonI);
-	//PIDController controlRight = new PIDController(Constants.drivetrainP,Constants.drivetrainI, Constants.drivetrainD,rightEncoder,rightTalonI);
+	PIDController controlLeft = new PIDController(Constants.getInstance().drivetrainP,Constants.getInstance().drivetrainI,Constants.getInstance().drivetrainD, leftEncoder, leftTalonI);
+	PIDController controlRight = new PIDController(Constants.getInstance().drivetrainP,Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD,rightEncoder,rightTalonI);
 	//boolean CSVstart; 
 	
-	PIDController leftVelocityPID = new PIDController(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD, leftEncoder, leftTalonI);
-	PIDController rightVelocityPID = new PIDController(Constants.drivetrainP,Constants.drivetrainI,Constants.drivetrainD, rightEncoder, rightTalonI);
+	//PIDController leftVelocityPID = new PIDController(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD, leftEncoder, leftTalonI);
+	//PIDController rightVelocityPID = new PIDController(Constants.getInstance().drivetrainP,Constants.getInstance().drivetrainI,Constants.getInstance().drivetrainD, rightEncoder, rightTalonI);
 	
 	SmartDashboard dash;
 	FileWriter writer;
@@ -73,8 +73,10 @@ public class Drivetrain extends Subsystem {
 	
 	
 	public Drivetrain(){
+		
 	try {
 	    writer = new FileWriter(motorStatsFilename);
+	    
 	    }
 
 	catch(IOException e)
@@ -337,34 +339,34 @@ public class Drivetrain extends Subsystem {
     
     public void getPIDvalues(){
     	//retrieve PID vals from NetTables
-    	Constants.drivetrainP = Robot.table.getNumber(Constants.drivetrainPKey);
-    	Constants.drivetrainI = Robot.table.getNumber(Constants.drivetrainIKey);
-    	Constants.drivetrainD = Robot.table.getNumber(Constants.drivetrainDKey);
+    	Constants.getInstance().drivetrainP = Robot.table.getNumber(Constants.getInstance().drivetrainPKey);
+    	Constants.getInstance().drivetrainI = Robot.table.getNumber(Constants.getInstance().drivetrainIKey);
+    	Constants.getInstance().drivetrainD = Robot.table.getNumber(Constants.getInstance().drivetrainDKey);
     	
     }
     public void getSetpoint(){
-    	Constants.drivetrainSetpoint = Robot.table.getNumber(Constants.drivetrainSetpointKey);
+    	Constants.getInstance().drivetrainSetpoint = Robot.table.getNumber(Constants.getInstance().drivetrainSetpointKey);
     }
    
     public void driveWithVelocityPID(Joystick stick){
     	/*getPIDvalues();
-    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
-    	rightEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	leftEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
+    	rightEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
     	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
     
     	
-    	leftVelocityPID.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
-    	rightVelocityPID.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	leftVelocityPID.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
+    	rightVelocityPID.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
     	
-    	leftVelocityPID.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
-    	rightVelocityPID.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	leftVelocityPID.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
+    	rightVelocityPID.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
     	
-    	Constants.drivetrainSetpoint = stick.getY();
-    	SmartDashboard.putNumber("Setpoint", Constants.drivetrainSetpoint);
-    	leftVelocityPID.setSetpoint(Constants.drivetrainSetpoint);
-    	rightVelocityPID.setSetpoint(Constants.drivetrainSetpoint);
+    	Constants.getInstance().drivetrainSetpoint = stick.getY();
+    	SmartDashboard.putNumber("Setpoint", Constants.getInstance().drivetrainSetpoint);
+    	leftVelocityPID.setSetpoint(Constants.getInstance().drivetrainSetpoint);
+    	rightVelocityPID.setSetpoint(Constants.getInstance().drivetrainSetpoint);
     	
     	
     	leftVelocityPID.enable();
@@ -379,8 +381,8 @@ public class Drivetrain extends Subsystem {
     	
     }
     public void stopVelocityPID(){
-    	leftVelocityPID.disable();
-    	rightVelocityPID.disable();
+    	//leftVelocityPID.disable();
+    	//rightVelocityPID.disable();
     }
     
     public void startPID(){
@@ -389,16 +391,16 @@ public class Drivetrain extends Subsystem {
     	getSetpoint();
     	
     	//set up encoders
-    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	leftEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
-    	rightEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	rightEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	controlLeft.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
-    	controlLeft.setSetpoint(Constants.drivetrainSetpoint);
-    	controlLeft.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
-    	controlLeft.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	controlLeft.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.drivetrainD);
+    	controlLeft.setSetpoint(Constants.getInstance().drivetrainSetpoint);
+    	controlLeft.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
+    	controlLeft.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
     	
     	
     	//enable loop, match motors
@@ -413,7 +415,7 @@ public class Drivetrain extends Subsystem {
     	//let's see if this is working
     	SmartDashboard.putNumber("LeftEncoder Distance", leftEncoder.getDistance());
     	SmartDashboard.putNumber("Error", controlLeft.getError());
-    	SmartDashboard.putNumber("setpoint", Constants.drivetrainSetpoint);
+    	SmartDashboard.putNumber("setpoint", Constants.getInstance().drivetrainSetpoint);
     	
     }
     public boolean areYouThereYet(){
@@ -445,14 +447,14 @@ public class Drivetrain extends Subsystem {
     	getPIDvalues();
     	
     	//set up encoders
-    	leftEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	leftEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	controlLeft.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	controlLeft.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
     	controlLeft.setSetpoint(setpoint);
-    	controlLeft.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
-    	controlLeft.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	controlLeft.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
+    	controlLeft.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
     	
     	//enable loop, match motors
     	controlLeft.enable();
@@ -471,31 +473,31 @@ public class Drivetrain extends Subsystem {
     	drive.autonomousStraight(-0.50, 15.0);
     }
     public void autonTurnLeft(){
-    	leftTalonI.set(-Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(-Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(-Constants.getInstance().autonTurnSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.getInstance().autonTurnSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(-Constants.getInstance().autonTurnSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.getInstance().autonTurnSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
     }
     public void autonTurnRight(){
-    	leftTalonI.set(Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(-Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(Constants.autonTurnSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(-Constants.autonTurnSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(Constants.getInstance().autonTurnSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(-Constants.getInstance().autonTurnSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.getInstance().autonTurnSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(-Constants.getInstance().autonTurnSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
     }
     public void autonStrafeRight(){
     	double xval = 2.0;
-    	centerTalon.set(xval*Constants.drivetrainSpeed);
+    	centerTalon.set(xval*Constants.getInstance().drivetrainSpeed);
     }
     public void autonStrafeLeft(){
     	double xval = -2.0;
-    	centerTalon.set(xval*Constants.drivetrainSpeed);
+    	centerTalon.set(xval*Constants.getInstance().drivetrainSpeed);
     }
     public void moveForward(){
     	
-    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
     	printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
@@ -504,10 +506,10 @@ public class Drivetrain extends Subsystem {
     }
     
     public void moveBackward(){
-    	leftTalonI.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonI.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
-    	leftTalonII.set(Constants.drivetrainSpeed * Constants.leftDrivetrainTalonMultiplier);
-    	rightTalonII.set(Constants.drivetrainSpeed * Constants.rightDrivetrainTalonMultiplier);
+    	leftTalonI.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonI.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
+    	leftTalonII.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().leftDrivetrainTalonMultiplier);
+    	rightTalonII.set(Constants.getInstance().drivetrainSpeed * Constants.getInstance().rightDrivetrainTalonMultiplier);
     	printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
@@ -519,20 +521,21 @@ public class Drivetrain extends Subsystem {
     	double yval = -stick.getY();
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
-    	centerTalon.set(xval * Constants.drivetrainSpeed);
+    	centerTalon.set(xval * Constants.getInstance().drivetrainSpeed);
     	double leftEncoderSpeed = leftEncoder.getRate();
 		double rightEncoderSpeed = rightEncoder.getRate();
-    	//drive.arcadeDrive(yval * Constants.drivetrainSpeed,twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/,false);
+    	//drive.arcadeDrive(yval * Constants.getInstance().drivetrainSpeed,twist * Constants.getInstance().drivetrainFineSpeed/*Constants.getInstance().drivetrainSpeed*/,false);
     
-    	//drive.customArcade(yval * Constants.drivetrainSpeed, twist * Constants.drivetrainFineSpeed/*Constants.drivetrainSpeed*/, xval* Constants.drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 15);
+    	drive.customArcade(yval * Constants.getInstance().drivetrainSpeed, twist * Constants.getInstance().drivetrainTurnSpeed/*Constants.getInstance().drivetrainSpeed*/, xval* Constants.getInstance().drivetrainSpeed, false, leftEncoderSpeed, rightEncoderSpeed, 15);
 		drive.customArcade(stick, 15.0);
+		//System.out.println(twist);
     	SmartDashboard.putNumber("leftencoder", leftEncoder.getRate());
     	SmartDashboard.putNumber("Rightencoder", rightEncoder.getRate());
-    	printStats(leftTalonI,"leftTalonI");
+    	/*printStats(leftTalonI,"leftTalonI");
     	printStats(rightTalonI,"rightTalonI");
     	printStats(leftTalonII,"leftTalonII");
     	printStats(rightTalonII,"rightTalonII");
-    	/*dataHashMap.clear();
+    	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
     	dataHashMap.put("rightTalonI", rightTalonI);
@@ -556,8 +559,8 @@ public class Drivetrain extends Subsystem {
     	double left = -stick.getRawAxis(F310.kGamepadAxisLeftStickY);
     	double right = -stick.getRawAxis(F310.kGamepadAxisRightStickY);
     	double strafe = Math.max(stick.getRawAxis(F310.kGamepadAxisLeftStickX), stick.getRawAxis(F310.kGamepadAxisRightStickX));
-    	drive.tankDrive(left*Constants.drivetrainSpeed, right*Constants.drivetrainSpeed);
-    	centerTalon.set(strafe*Constants.drivetrainSpeed);
+    	drive.tankDrive(left*Constants.getInstance().drivetrainSpeed, right*Constants.getInstance().drivetrainSpeed);
+    	centerTalon.set(strafe*Constants.getInstance().drivetrainSpeed);
     	dataHashMap.clear();
     	dataHashMap.put("leftTalonI", leftTalonI);
     	dataHashMap.put("leftTalonII", leftTalonI);
@@ -592,7 +595,7 @@ public class Drivetrain extends Subsystem {
     
     
     public void arcadeOmniDrive(double move, double twist, double strafe){
-    	drive.arcadeDrive(-move*Constants.drivetrainSpeed, -twist*Constants.drivetrainFineSpeed, false);
+    	drive.arcadeDrive(-move*Constants.getInstance().drivetrainSpeed, -twist*Constants.getInstance().drivetrainFineSpeed, false);
     	
     	centerTalon.set(strafe);
     	//dataHashMap.clear();
@@ -605,16 +608,16 @@ public class Drivetrain extends Subsystem {
     }
     
     public void tankOmniDrive(Joystick leftStick, Joystick rightStick){
-    	double left = leftStick.getY()*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
-    	double right = rightStick.getY()*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
-    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.centerDrivetrainTalonMultiplier*Constants.drivetrainSpeed;
+    	double left = leftStick.getY()*Constants.getInstance().leftDrivetrainTalonMultiplier*Constants.getInstance().drivetrainSpeed;
+    	double right = rightStick.getY()*Constants.getInstance().rightDrivetrainTalonMultiplier*Constants.getInstance().drivetrainSpeed;
+    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.getInstance().centerDrivetrainTalonMultiplier*Constants.getInstance().drivetrainSpeed;
     	tankOmniDrive(left, right, strafe);
     }
     
     public void fineTankOmniDrive(Joystick leftStick, Joystick rightStick){
-    	double left = leftStick.getY()*Constants.leftDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
-    	double right = rightStick.getY()*Constants.rightDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
-    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.centerDrivetrainTalonMultiplier*Constants.drivetrainFineSpeed;
+    	double left = leftStick.getY()*Constants.getInstance().leftDrivetrainTalonMultiplier*Constants.getInstance().drivetrainFineSpeed;
+    	double right = rightStick.getY()*Constants.getInstance().rightDrivetrainTalonMultiplier*Constants.getInstance().drivetrainFineSpeed;
+    	double strafe = Math.max(leftStick.getX(), rightStick.getX())*Constants.getInstance().centerDrivetrainTalonMultiplier*Constants.getInstance().drivetrainFineSpeed;
     	tankOmniDrive(left, right, strafe);
     }
     public void fineArcadeOmniDrive(Joystick stick){
@@ -622,8 +625,8 @@ public class Drivetrain extends Subsystem {
     	double yval = -stick.getY();
     	double xval = stick.getX();
     	double twist = -stick.getTwist();
-    	centerTalon.set(xval * Constants.drivetrainFineSpeed);
-    	drive.arcadeDrive(yval * Constants.drivetrainFineSpeed,twist * Constants.drivetrainFineSpeed,false);
+    	centerTalon.set(xval * Constants.getInstance().drivetrainFineSpeed);
+    	drive.arcadeDrive(yval * Constants.getInstance().drivetrainFineSpeed,twist * Constants.getInstance().drivetrainFineSpeed,false);
     }
     
     public void tankOmniDrive(double left, double right, double strafe){
@@ -721,10 +724,10 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void bothMotorsForward(){
-		leftTalonI.set(0.5*Constants.leftDrivetrainTalonMultiplier);
-		leftTalonII.set(0.5*Constants.leftDrivetrainTalonMultiplier);
-		rightTalonI.set(0.5*Constants.rightDrivetrainTalonMultiplier);
-		rightTalonII.set(0.5*Constants.rightDrivetrainTalonMultiplier);
+		leftTalonI.set(0.5*Constants.getInstance().leftDrivetrainTalonMultiplier);
+		leftTalonII.set(0.5*Constants.getInstance().leftDrivetrainTalonMultiplier);
+		rightTalonI.set(0.5*Constants.getInstance().rightDrivetrainTalonMultiplier);
+		rightTalonII.set(0.5*Constants.getInstance().rightDrivetrainTalonMultiplier);
 	}
     
 

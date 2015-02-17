@@ -29,12 +29,21 @@ import org.usfirst.frc.team2601.robot.subsystems.Rollers;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+//	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
-	public static final Drivetrain drivetrain = new Drivetrain();
+	
+
+	public static Drivetrain drivetrain = new Drivetrain();
+
+	/*
+	public static final Elevator elevator = null; //new Elevator();
+	public static final Pneumatics pneumatics = null; //new Pneumatics();
+	public static final Rollers rollers = null; //new Rollers();
+*/
 	public static final Elevator elevator = new Elevator();
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static final Rollers rollers = new Rollers();
+	
 	public static NetworkTable table;
 	
 	Compressor compressor;
@@ -47,9 +56,15 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		oi = new OI();
         // instantiate the command used for the autonomous period
 		try {
+			
+				oi = new OI();
+				
+		autonomousCommand = new StackRCOnToteMoveToAutoZoneArms();
+        closeCommand = new closeWriter();
+
+		
 		table = NetworkTable.getTable("datatable");
 		}
 		catch (Exception ex) {
@@ -59,10 +74,7 @@ public class Robot extends IterativeRobot {
 		if (Constants.PNEUMATICS_ON){
 	        compressor = new Compressor();
 	     }
-		
-        autonomousCommand = new StackRCOnToteMoveToAutoZoneArms();
-        closeCommand = new closeWriter();
-         
+		         
 		cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
 		

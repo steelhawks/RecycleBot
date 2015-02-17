@@ -28,7 +28,7 @@ public class HawkDrive extends RobotDrive {
 	public void customArcade(Joystick stick, Double tolerance){
 		double moveValue = stick.getY() * Constants.drivetrainSpeed * -1;
 		double rotateValue = stick.getTwist() * Constants.drivetrainTurnSpeed * -1;
-		double strafeValue = stick.getX()*.75 ;
+		double strafeValue = stick.getX()*.75;
 		double leftEncoderRate = leftEncoder.getRate();
 		double rightEncoderRate = rightEncoder.getRate();
 		

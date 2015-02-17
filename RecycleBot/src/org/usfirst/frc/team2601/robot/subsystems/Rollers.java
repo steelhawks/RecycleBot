@@ -17,10 +17,10 @@ public class Rollers extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	Talon leftRollerTalon = new Talon(Constants.leftRollerTalonPort);
-	Talon rightRollerTalon = new Talon(Constants.rightRollerTalonPort);
-	DoubleSolenoid leftSolenoid = new DoubleSolenoid(Constants.leftSolenoidOnPort, Constants.leftSolenoidOffPort);
-	DoubleSolenoid rightSolenoid = new DoubleSolenoid(Constants.rightSolenoidOnPort, Constants.rightSolenoidOffPort);
+	Talon leftRollerTalon = new Talon(Constants.getInstance().leftRollerTalonPort);
+	Talon rightRollerTalon = new Talon(Constants.getInstance().rightRollerTalonPort);
+	DoubleSolenoid leftSolenoid = new DoubleSolenoid(Constants.getInstance().leftSolenoidOnPort, Constants.getInstance().leftSolenoidOffPort);
+	DoubleSolenoid rightSolenoid = new DoubleSolenoid(Constants.getInstance().rightSolenoidOnPort, Constants.getInstance().rightSolenoidOffPort);
 	
 	
     public void initDefaultCommand() {
@@ -30,18 +30,18 @@ public class Rollers extends Subsystem {
     }
     
     public void manualControlRollers(Joystick stick){
-    	leftRollerTalon.set(stick.getTwist()*Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
-    	rightRollerTalon.set(-stick.getTwist()*Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
+    	leftRollerTalon.set(stick.getTwist()*Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(-stick.getTwist()*Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     
     public void intakeRollers(){
-    	leftRollerTalon.set(-Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
-    	rightRollerTalon.set(-Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
+    	leftRollerTalon.set(-Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(-Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     
     public void outtakeRollers(){
-    	leftRollerTalon.set(Constants.leftRollerTalonMultiplier*Constants.rollerSpeed);
-    	rightRollerTalon.set(Constants.rightRollerTalonMultiplier*Constants.rollerSpeed);
+    	leftRollerTalon.set(Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     
     public void closeRollers(){
@@ -55,8 +55,8 @@ public class Rollers extends Subsystem {
     }
     
     public void stop(){
-    	leftRollerTalon.set(Constants.rollerStopSpeed);
-    	rightRollerTalon.set(Constants.rollerStopSpeed);
+    	leftRollerTalon.set(Constants.getInstance().rollerStopSpeed);
+    	rightRollerTalon.set(Constants.getInstance().rollerStopSpeed);
     }
     
 }

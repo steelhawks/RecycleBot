@@ -73,11 +73,11 @@ public class OI {
 		rightDriveStick = new Joystick(Constants.rightDriveStick);
 		
 		//camera buttons
-		JoystickButton cam = new JoystickButton(stick, Constants.cam);
-		cam.whenPressed(new Cam());
+	//	JoystickButton cam = new JoystickButton(stick, Constants.cam);
+	//	cam.whenPressed(new Cam());
 		
-		JoystickButton topCam = new JoystickButton(stick, Constants.topCam);
-		topCam.whenPressed(new TopCam());
+	//	JoystickButton topCam = new JoystickButton(stick, Constants.topCam);
+	//	topCam.whenPressed(new TopCam());
 		
 		//Drivetrain buttons
 		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.fineDriveButton);
@@ -95,13 +95,13 @@ public class OI {
 		stopRollersButton.whenPressed(new stopRollers());
 		
 		//ElevatorButtons
-		JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorandRollerStick, Constants.automaticEjectTotesButton);
+		/*JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorandRollerStick, Constants.automaticEjectTotesButton);
 		automaticEjectTotesButton.whenPressed(new AutomaticEjectTotes());
 		JoystickButton manualOpenEjectionPiston = new JoystickButton(elevatorandRollerStick, Constants.manualOpenEjectionPistonButton);
 		manualOpenEjectionPiston.whenPressed(new ManualOpenEjectionPiston());
 		JoystickButton manualCloseEjectionPiston = new JoystickButton(elevatorandRollerStick, Constants.manualCloseEjectionPistonButton);
 		manualCloseEjectionPiston.whenPressed(new ManualCloseEjectionPiston());
-			
+			*/
 		//PID buttons
 		
 		JoystickButton startDrivetrainPID = new JoystickButton(stick, Constants.startDrivetrainPID);
@@ -129,11 +129,11 @@ public class OI {
 		restartDumbDrive.whenPressed(new DumbDrive());*/
 		
 		//pneumatics buttons
-		JoystickButton extend = new JoystickButton(stick, Constants.extend);
+		/*JoystickButton extend = new JoystickButton(stick, Constants.extend);
 		extend.whenPressed(new ExtendPiston(1.5));
 		JoystickButton retract = new JoystickButton(stick, Constants.retract);
 		retract.whenPressed(new RetractPiston(1.5));
-		
+		*/
 	}
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to

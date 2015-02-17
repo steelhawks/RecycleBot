@@ -8,12 +8,18 @@ package org.usfirst.frc.team2601.robot;
 public class Constants {
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-    
+
+	 private static Constants instance = null;
+	   
+	 public static Constants getInstance() {
+	      if(instance == null) {
+	         instance = new Constants();
+	      }
+	      return instance;
+	 }
 	// configuration
-	public enum Robot_Type { PRACTICE_BOT, COMPETITION_BOT}; 
-	public static final Robot_Type robotType = Robot_Type.PRACTICE_BOT;
+	public static final boolean practice = false;
+	public static final boolean competition = true;
 	
 	// TODO: Convert this to enum
 	//public enum Drive_Type { TANK, ARCADE, CUSTOMARCADE}; 
@@ -43,136 +49,126 @@ public class Constants {
 	//public static int joystickPort;
 	//public static int secondaryJoystickPort;
 	//joystick
-	public Constants(){
-		if (GAMEPAD){
-			joystickPort = 1;
-			secondaryJoystickPort = 0;
-		}
-		else if (JOYSTICK){
-			joystickPort = 0;
-			secondaryJoystickPort = 1;
-		}
-	}
 	
-	public static int joystickPort=0;
-	public static int secondaryJoystickPort=1;
-	public static int thirdJoystickPort=2;
-	public static int leftDriveStick=3;
-	public static int rightDriveStick=4;
+	public static int joystickPort;
+	public static int secondaryJoystickPort;
+	public static int thirdJoystickPort;
+	public static int leftDriveStick;
+	public static int rightDriveStick;
 	
 	//camera buttons
-	public static int cam = 9;
-	public static int topCam = 10;
+	public static int cam=9;
+	public static int topCam=10;
 	
 	//Roller control buttons
-	public static int closeOrOpenRollersButton=1;
-	public static int intakeRollersButton=3;
-	public static int outtakeRollersButton=2;
-	public static int stopRollersButton=4;
+	public static int closeOrOpenRollersButton;
+	public static int intakeRollersButton;
+	public static int outtakeRollersButton;
+	public static int stopRollersButton;
 	
 	//PID control buttons
-	public static int startDrivetrainPID=1;
-	public static int stopDrivetrainPID=2;
-	public static int startElevatorPID=8;
-	public static int stopElevatorPID=7;
+	public static int startDrivetrainPID;
+	public static int stopDrivetrainPID;
+	public static int startElevatorPID;
+	public static int stopElevatorPID;
 	
 	//general control buttons
-	public static int fineDriveButton=1;
-	public static int stopMotors=4;
-	public static int restartDumbDriveButton=3;
+	public static int fineDriveButton;
+	public static int stopMotors;
+	public static int restartDumbDriveButton;
 	
 	//pneumatics buttons
-	public static int extend=7;
-	public static int retract=8;
+	public static int extend;
+	public static int retract;
 	
 	//elevator ejection piston buttons
-	public static int automaticEjectTotesButton=11;
-	public static int manualOpenEjectionPistonButton=9;
-	public static int manualCloseEjectionPistonButton=10;
+	public static int automaticEjectTotesButton;
+	public static int manualOpenEjectionPistonButton;
+	public static int manualCloseEjectionPistonButton;
 	
 	//Talon SRX addresses
-	public static int leftTalonAddressI=10;
-	public static int leftTalonAddressII=9;
-	public static int centerTalonAddress=6;
-	public static int rightTalonAddressI=4;
-	public static int rightTalonAddressII=5;
-	public static int elevatorTalonAddressI=7;
-	public static int elevatorTalonAddressII=8;
+	public static int leftTalonAddressI;
+	public static int leftTalonAddressII;
+	public static int centerTalonAddress;
+	public static int rightTalonAddressI;
+	public static int rightTalonAddressII;
+	public static int elevatorTalonAddressI;
+	public static int elevatorTalonAddressII;
 	
 	//Talon ports (PWM)
-	public static int leftRollerTalonPort=0;
-	public static int rightRollerTalonPort=1;
+	public int leftRollerTalonPort;
+	public int rightRollerTalonPort;
 	
 	//drivetrain PID variables
-	public static double drivetrainP=0.0;
-	public static double drivetrainI=0.0;
-	public static double drivetrainD= 0.0;
-	public static double drivetrainSetpoint = 0.0;
-	public static double drivetrainAbsoluteTolerance = 15.0;
-	public static double drivetrainDistancePerPulse = 7.97965;
-	public static double drivetrainMaxOutput= 0.5;
-	public static double drivetrainMinOutput= -0.5;
+	public static double drivetrainP;
+	public static double drivetrainI;
+	public static double drivetrainD;
+	public static double drivetrainSetpoint;
+	public static double drivetrainAbsoluteTolerance;
+	public static double drivetrainDistancePerPulse;
+	public static double drivetrainMaxOutput;
+	public static double drivetrainMinOutput;
 	
 	//elevator PID variables
-	public static double elevatorP= 0.0;
-	public static double elevatorI=0.0;
-	public static double elevatorD=0.0;
-	public static double elevatorSetpoint=0.0;
-	public static double elevatorAbsoluteTolerance = 15.0;
-	public static double elevatorDistancePerPulse = 17.0;
-	public static double elevatorMaxOutput=0.5;
-	public static double elevatorMinOutput=-0.5;
+	public static double elevatorP;
+	public static double elevatorI;
+	public static double elevatorD;
+	public static double elevatorSetpoint;
+	public static double elevatorAbsoluteTolerance;
+	public static double elevatorDistancePerPulse;
+	public static double elevatorMaxOutput;
+	public static double elevatorMinOutput;
 	
 	//encoders
-	public static int leftEncoderPortI=0;
-	public static int leftEncoderPortII=1;
-	public static int rightEncoderPortI=2;
-	public static int rightEncoderPortII=3;
-	public static int elevatorEncoderPortI=4;
-	public static int elevatorEncoderPortII=5;
+	public static int leftEncoderPortI;
+	public static int leftEncoderPortII;
+	public static int rightEncoderPortI;
+	public static int rightEncoderPortII;
+	public static int elevatorEncoderPortI;
+	public static int elevatorEncoderPortII;
 	
 	//limit switches
-	public static int bottomLimitSwitchPort=6;
-	public static int topLimitSwitchPort=7;
+	public static int bottomLimitSwitchPort;
+	public static int topLimitSwitchPort;
 	
 	//Talon multipliers
-	public static double leftDrivetrainTalonMultiplier=1;
-	public static double rightDrivetrainTalonMultiplier=-1;
-	public static int centerDrivetrainTalonMultiplier=1;
-	public static int elevatorTalonMultiplier=1;
-	public static int leftRollerTalonMultiplier=-1;
-	public static int rightRollerTalonMultiplier=1;
+	public static double leftDrivetrainTalonMultiplier;
+	public static double rightDrivetrainTalonMultiplier;
+	public static int centerDrivetrainTalonMultiplier;
+	public static int elevatorTalonMultiplier;
+	public static int leftRollerTalonMultiplier;
+	public static int rightRollerTalonMultiplier;
 
 	// speeds
-	public static double drivetrainSpeed=0.75;
-	public static double drivetrainFineSpeed=0.25;
-	public static double drivetrainTurnSpeed=0.5;
-	public static double rollerSpeed=1.0;
-	public static double rollerStopSpeed=0.0;
-	public static double elevatorSpeed=1.0;
-	public static double autonElevatorSpeed=1.0;
-	public static double autonTurnSpeed = 0.35;
+	public static double drivetrainSpeed;
+	public static double drivetrainFineSpeed;
+	public static double drivetrainTurnSpeed = 0.5;
+	public static double rollerSpeed;
+	public static double rollerStopSpeed;
+	public static double elevatorSpeed;
+	public static double autonElevatorSpeed;
+	public static double autonTurnSpeed;
 	
 	//NetworkTable keys
-	public static String drivetrainPKey = "DrivetrainP";
-	public static String drivetrainIKey= "DrivetrainI";
-	public static String drivetrainDKey="DrivetrainD";
-	public static String drivetrainSetpointKey =  "DrivetrainSetpoint";
-	public static String elevatorPKey = "ElevatorP";
-	public static String elevatorIKey = "ElevatorI";
-	public static String elevatorDKey = "ElevatorD";
-	public static String elevatorSetpointKey = "ElevatorSetpoint";
+	public static String drivetrainPKey;
+	public static String drivetrainIKey;
+	public static String drivetrainDKey;
+	public static String drivetrainSetpointKey;
+	public static String elevatorPKey;
+	public static String elevatorIKey;
+	public static String elevatorDKey;
+	public static String elevatorSetpointKey;
 	
 	//Solenoid Ports
-	public static int leftSolenoidOnPort=0;
-	public static int leftSolenoidOffPort=2;
-	public static int rightSolenoidOnPort=1;
-	public static int rightSolenoidOffPort=3;
-	public static int ejectionSolenoidOnPort=4;
-	public static int ejectionSolenoidOffPort=5;
+	public static int leftSolenoidOnPort;
+	public static int leftSolenoidOffPort;
+	public static int rightSolenoidOnPort;
+	public static int rightSolenoidOffPort;
+	public static int ejectionSolenoidOnPort;
+	public static int ejectionSolenoidOffPort;
 	
 	
-	//Constants() {
+	private Constants() {
 		//driveType = Drive_Type.CUSTOMARCADE;
 		
 		//controllerType = Controller_Type.JOYSTICK;
@@ -192,13 +188,26 @@ public class Constants {
 				secondaryJoystickPort = 1;
 			}
 		}*/
-		
-		/*joystickPort = 0;
+
+		joystickPort = 0;
 		secondaryJoystickPort = 1;
 		thirdJoystickPort = 2;
 		leftDriveStick = 3;
 		rightDriveStick = 4;
+
+		if(practice){
+
+			if (GAMEPAD){
+				joystickPort = 1;
+				secondaryJoystickPort = 0;
+			}
+			else if (JOYSTICK){
+				joystickPort = 0;
+				secondaryJoystickPort = 1;
+			}
 		
+	
+		// operator stick
 		//Roller control buttons
 		closeOrOpenRollersButton = 1;
 		intakeRollersButton = 3;
@@ -211,20 +220,22 @@ public class Constants {
 		startElevatorPID = 8;
 		stopElevatorPID = 7;
 		
+		// driver stick
 		//general control buttons
 		fineDriveButton = 1;
 		stopMotors = 4;
 		restartDumbDriveButton = 3;
 		
 		//pneumatics buttons
-		extend = 9;
-		retract = 10;
-		
+//		extend = 9;
+//		retract = 10;
+
+		// operator stick
 		//elevator ejection piston buttons
-		automaticEjectTotesButton = 11;
+		/*automaticEjectTotesButton = 11;
 		manualOpenEjectionPistonButton = 9;
 		manualCloseEjectionPistonButton = 10;
-		
+		*/
 		//Talon SRX addresses
 		leftTalonAddressI = 10;
 		leftTalonAddressII = 9;
@@ -284,7 +295,8 @@ public class Constants {
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 0.5;
-		autonElevatorSpeed = 0.25;
+		autonElevatorSpeed = 1.0;
+		autonTurnSpeed = 0.5;
 		
 		//NetworkTable keys
 		drivetrainPKey = "DrivetrainP";
@@ -301,8 +313,131 @@ public class Constants {
 		leftSolenoidOffPort = 2;
 		rightSolenoidOnPort = 1;
 		rightSolenoidOffPort = 3;
-		ejectionSolenoidOnPort = 4;
-		ejectionSolenoidOffPort = 5;
-	*/
+//		ejectionSolenoidOnPort = 4;
+//		ejectionSolenoidOffPort = 5;
+		}
+		
+	else if(competition){
+			if (GAMEPAD){
+				joystickPort = 1;
+				secondaryJoystickPort = 0;
+			}
+			else if (JOYSTICK){
+				joystickPort = 0;
+				secondaryJoystickPort = 1;
+			}
+		
+	
+		// operator stick
+		//Roller control buttons
+		closeOrOpenRollersButton = 1;
+		intakeRollersButton = 3;
+		outtakeRollersButton = 2;
+		stopRollersButton = 4;
+		
+		//PID control buttons
+		startDrivetrainPID = 1;
+		stopDrivetrainPID = 2;
+		startElevatorPID = 8;
+		stopElevatorPID = 7;
+		
+		// driver stick
+		//general control buttons
+		fineDriveButton = 1;
+		stopMotors = 4;
+		restartDumbDriveButton = 3;
+		
+		//pneumatics buttons
+//		extend = 9;
+//		retract = 10;
+
+		// operator stick
+		//elevator ejection piston buttons
+		/*automaticEjectTotesButton = 11;
+		manualOpenEjectionPistonButton = 9;
+		manualCloseEjectionPistonButton = 10;
+		*/
+		//Talon SRX addresses
+		leftTalonAddressI = 13;
+		leftTalonAddressII = 11;
+		centerTalonAddress = 1;
+		rightTalonAddressI = 4;
+		rightTalonAddressII = 16;
+		elevatorTalonAddressI = 7;
+		elevatorTalonAddressII = 8;
+		
+		//Talon ports (PWM)
+		leftRollerTalonPort = 0;
+		rightRollerTalonPort = 1;
+		
+		//drivetrain PID variables
+		drivetrainP = 0.0;
+		drivetrainI = 0.0;
+		drivetrainD = 0.0;
+		drivetrainSetpoint = 0.0;
+		drivetrainAbsoluteTolerance = 15.0;
+		drivetrainDistancePerPulse = 7.97965;
+		drivetrainMaxOutput = 0.5;
+		drivetrainMinOutput = -0.5;
+		
+		//elevator PID variables
+		elevatorP = 0.0;
+		elevatorI = 0.0;
+		elevatorD = 0.0;
+		elevatorSetpoint = 0.0;
+		elevatorAbsoluteTolerance = 15.0;
+		elevatorDistancePerPulse = 0.17;
+		elevatorMaxOutput = 0.5;
+		elevatorMinOutput = -0.5;
+		
+		//encoders
+		leftEncoderPortI = 0;
+		leftEncoderPortII = 1;
+		rightEncoderPortI = 2;
+		rightEncoderPortII  = 3;
+		elevatorEncoderPortI = 4;
+		elevatorEncoderPortII = 5;
+		
+		//limit switches
+		bottomLimitSwitchPort = 6;
+		topLimitSwitchPort = 7;
+		
+		//Talon multipliers
+		leftDrivetrainTalonMultiplier = 1;
+		rightDrivetrainTalonMultiplier = -1;
+		centerDrivetrainTalonMultiplier = 1;
+		elevatorTalonMultiplier = 1;
+		leftRollerTalonMultiplier = -1;
+		rightRollerTalonMultiplier = 1;
+
+		// speeds
+		drivetrainSpeed = 0.75;
+		drivetrainFineSpeed = 0.25;
+		rollerSpeed = 1.0;
+		rollerStopSpeed = 0.0;
+		elevatorSpeed = 0.5;
+		autonElevatorSpeed = 1.0;
+		autonTurnSpeed = 0.5;
+		
+		//NetworkTable keys
+		drivetrainPKey = "DrivetrainP";
+		drivetrainIKey = "DrivetrainI";
+		drivetrainDKey = "DrivetrainD";
+		drivetrainSetpointKey = "DrivetrainSetpoint";
+		elevatorPKey = "ElevatorP";
+		elevatorIKey = "ElevatorI";
+		elevatorDKey = "ElevatorD";
+		elevatorSetpointKey = "ElevatorSetpoint";
+		
+		//Solenoid Ports
+		leftSolenoidOnPort = 0;
+		leftSolenoidOffPort = 2;
+		rightSolenoidOnPort = 1;
+		rightSolenoidOffPort = 3;
+//		ejectionSolenoidOnPort = 4;
+//		ejectionSolenoidOffPort = 5;
+		
+		}
+	}
 	
 }

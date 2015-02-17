@@ -29,16 +29,16 @@ public class Elevator extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	CANTalon elevatorTalonI = new CANTalon(Constants.elevatorTalonAddressI);
-	CANTalon elevatorTalonII = new CANTalon(Constants.elevatorTalonAddressII);
-	Encoder elevatorEncoder = new Encoder(Constants.elevatorEncoderPortI,Constants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
-	DigitalInput bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchPort);
-	DigitalInput topLimitSwitch = new DigitalInput(Constants.topLimitSwitchPort);
+	CANTalon elevatorTalonI = new CANTalon(Constants.getInstance().elevatorTalonAddressI);
+	CANTalon elevatorTalonII = new CANTalon(Constants.getInstance().elevatorTalonAddressII);
+	Encoder elevatorEncoder = new Encoder(Constants.getInstance().elevatorEncoderPortI,Constants.getInstance().elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
+	DigitalInput bottomLimitSwitch = new DigitalInput(Constants.getInstance().bottomLimitSwitchPort);
+	DigitalInput topLimitSwitch = new DigitalInput(Constants.getInstance().topLimitSwitchPort);
 	Boolean CSVstart;
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
-	PIDController control = new PIDController(Constants.elevatorP, Constants.elevatorI, Constants.elevatorD, elevatorEncoder, elevatorTalonI);
-	DoubleSolenoid ejectionPiston = new DoubleSolenoid(Constants.ejectionSolenoidOnPort,Constants.ejectionSolenoidOffPort);
+	PIDController control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorTalonI);
+	//DoubleSolenoid ejectionPiston = new DoubleSolenoid(Constants.getInstance().ejectionSolenoidOnPort,Constants.getInstance().ejectionSolenoidOffPort);
 	
 	ArrayList<String> printstats;
 	
@@ -51,11 +51,11 @@ public class Elevator extends Subsystem {
     }
     
     public void setup(){
-    	elevatorEncoder.setDistancePerPulse(Constants.elevatorDistancePerPulse);
+    	elevatorEncoder.setDistancePerPulse(Constants.getInstance().elevatorDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
     	elevatorTalonII.changeControlMode(ControlMode.Follower);
-    	elevatorTalonII.set(Constants.elevatorTalonAddressI);
+    	elevatorTalonII.set(Constants.getInstance().elevatorTalonAddressI);
     }
     
     public void doNothing(){
@@ -83,8 +83,8 @@ public class Elevator extends Subsystem {
     		}
     	}
     	
-    	elevatorTalonI.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
-    	//elevatorTalonII.set(stick.getY()*Constants.elevatorTalonMultiplier*Constants.elevatorSpeed);
+    	elevatorTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+    	//elevatorTalonII.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
     	
     	SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
     	
@@ -93,23 +93,23 @@ public class Elevator extends Subsystem {
     	
     }
     public void autonLift(){
-    	elevatorTalonI.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
-    	//elevatorTalonII.set(Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	//elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	elevatorTalonI.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
-    	//elevatorTalonII.set(-Constants.autonElevatorSpeed /* Constants.elevatorTalonMultiplier*/);
+    	elevatorTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	//elevatorTalonII.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     }
     
     public void getPIDvalues(){
     	//retrieve PID vals from NetTables
-    	Constants.elevatorP = Robot.table.getNumber(Constants.elevatorPKey);
-    	Constants.elevatorI = Robot.table.getNumber(Constants.elevatorIKey);
-    	Constants.elevatorD = Robot.table.getNumber(Constants.elevatorDKey);
+    	Constants.getInstance().elevatorP = Robot.table.getNumber(Constants.getInstance().elevatorPKey);
+    	Constants.getInstance().elevatorI = Robot.table.getNumber(Constants.getInstance().elevatorIKey);
+    	Constants.getInstance().elevatorD = Robot.table.getNumber(Constants.getInstance().elevatorDKey);
     	
     }
     public void getSetpoint(){
-    	Constants.elevatorSetpoint = Robot.table.getNumber(Constants.elevatorSetpointKey);
+    	Constants.getInstance().elevatorSetpoint = Robot.table.getNumber(Constants.getInstance().elevatorSetpointKey);
     }
     
     public void stopPID(){
@@ -122,10 +122,10 @@ public class Elevator extends Subsystem {
     	getSetpoint();
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.elevatorP, Constants.elevatorI, Constants.elevatorD);
-    	control.setSetpoint(Constants.elevatorSetpoint);
-    	control.setAbsoluteTolerance(Constants.elevatorAbsoluteTolerance);
-    	control.setOutputRange(Constants.elevatorMinOutput, Constants.elevatorMaxOutput);
+    	control.setPID(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD);
+    	control.setSetpoint(Constants.getInstance().elevatorSetpoint);
+    	control.setAbsoluteTolerance(Constants.getInstance().elevatorAbsoluteTolerance);
+    	control.setOutputRange(Constants.getInstance().elevatorMinOutput, Constants.getInstance().elevatorMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -141,14 +141,14 @@ public class Elevator extends Subsystem {
     	getPIDvalues();
 
     	//set up encoders
-    	elevatorEncoder.setDistancePerPulse(Constants.drivetrainDistancePerPulse);
+    	elevatorEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.drivetrainP, Constants.drivetrainI, Constants.drivetrainD);
+    	control.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
     	control.setSetpoint(setpoint);
-    	control.setAbsoluteTolerance(Constants.drivetrainAbsoluteTolerance);
-    	control.setOutputRange(Constants.drivetrainMinOutput, Constants.drivetrainMaxOutput);
+    	control.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
+    	control.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -167,17 +167,17 @@ public class Elevator extends Subsystem {
     	elevatorTalonII.set(elevatorTalonI.get()* -1);
     }
     public void automaticEjectTotes(){
-    	ejectionPiston.set(DoubleSolenoid.Value.kForward);
+    /*	ejectionPiston.set(DoubleSolenoid.Value.kForward);
     	Timer.delay(0.75);
-    	ejectionPiston.set(DoubleSolenoid.Value.kOff);
+    	ejectionPiston.set(DoubleSolenoid.Value.kOff);*/
     }
     
     public void manualOpenEjectionPiston(){
-    	ejectionPiston.set(DoubleSolenoid.Value.kForward);
+    	//ejectionPiston.set(DoubleSolenoid.Value.kForward);
     }
     
     public void manualCloseEjectionPiston(){
-    	ejectionPiston.set(DoubleSolenoid.Value.kOff);
+    //	ejectionPiston.set(DoubleSolenoid.Value.kOff);
     }
 
     public void stopMotors(){
