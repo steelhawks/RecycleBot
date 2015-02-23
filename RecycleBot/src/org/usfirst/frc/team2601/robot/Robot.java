@@ -9,11 +9,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
+import org.usfirst.frc.team2601.robot.commands.PIDauton;
 import org.usfirst.frc.team2601.robot.commands.closeWriter;
 import org.usfirst.frc.team2601.robot.commands.auton.DriveForwardToAutoZone;
+import org.usfirst.frc.team2601.robot.commands.auton.GetToteMoveToAutoZoneRollers;
 import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.SampleAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneArms;
+import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneRollers;
+import org.usfirst.frc.team2601.robot.subsystems.Camera;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;
@@ -43,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public static final Elevator elevator = new Elevator();
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static final Rollers rollers = new Rollers();
+	public static final Camera camera = new Camera();
 	
 	public static NetworkTable table;
 	
@@ -61,32 +66,32 @@ public class Robot extends IterativeRobot {
 			
 				oi = new OI();
 				
-		autonomousCommand = new StackRCOnToteMoveToAutoZoneArms();
+		autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
         closeCommand = new closeWriter();
 
 		
 		table = NetworkTable.getTable("datatable");
 		}
 		catch (Exception ex) {
-			System.out.println(ex.toString());
+			//GetToteMoveToAutoZoneArmsSystem.out.println(ex.toString());
 		}
 		
-		if (Constants.PNEUMATICS_ON){
+		if (Constants.getInstance().PNEUMATICS_ON){
 	        compressor = new Compressor();
 	     }
 		         
 		cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
 		
-        table.putNumber(Constants.drivetrainPKey, Constants.drivetrainP);
-        table.putNumber(Constants.drivetrainIKey, Constants.drivetrainI);
-        table.putNumber(Constants.drivetrainDKey, Constants.drivetrainD);
-        table.putNumber(Constants.drivetrainSetpointKey, Constants.drivetrainSetpoint);
+        table.putNumber(Constants.getInstance().drivetrainPKey, Constants.getInstance().drivetrainP);
+        table.putNumber(Constants.getInstance().drivetrainIKey, Constants.getInstance().drivetrainI);
+        table.putNumber(Constants.getInstance().drivetrainDKey, Constants.getInstance().drivetrainD);
+        table.putNumber(Constants.getInstance().drivetrainSetpointKey, Constants.getInstance().drivetrainSetpoint);
         
-        table.putNumber(Constants.elevatorPKey, Constants.elevatorP);
-        table.putNumber(Constants.elevatorIKey, Constants.elevatorI);
-        table.putNumber(Constants.elevatorDKey, Constants.elevatorD);
-        table.putNumber(Constants.elevatorSetpointKey, Constants.elevatorSetpoint);
+        table.putNumber(Constants.getInstance().elevatorPKey, Constants.getInstance().elevatorP);
+        table.putNumber(Constants.getInstance().elevatorIKey, Constants.getInstance().elevatorI);
+        table.putNumber(Constants.getInstance().elevatorDKey, Constants.getInstance().elevatorD);
+        table.putNumber(Constants.getInstance().elevatorSetpointKey, Constants.getInstance().elevatorSetpoint);
     
 	}
     
@@ -112,6 +117,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+
     }
 
     /**

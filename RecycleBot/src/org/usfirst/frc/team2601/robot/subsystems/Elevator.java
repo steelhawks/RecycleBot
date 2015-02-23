@@ -60,17 +60,18 @@ public class Elevator extends Subsystem {
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
     	
-    	if(Constants.getInstance().practice){
+    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
         	elevatorCANTalonII.changeControlMode(ControlMode.Follower);
         	elevatorCANTalonII.set(Constants.getInstance().elevatorTalonAddressI);
         	
         	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorCANTalonI);
     	}
     	
-    	else if (Constants.getInstance().competition){
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
         	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorTalonI);
 
     	}
+    	SmartDashboard.putBoolean("ElevatorSetup", true);
     	
     }
     
@@ -89,23 +90,23 @@ public class Elevator extends Subsystem {
     	boolean topLimitSwitchValue = topLimitSwitch.get();
     	
     	if (bottomLimitSwitchValue == false){
-    		if(stick.getY()<0){
-    			return true;
-    		}
-    	}
-    	else if (topLimitSwitchValue == false){
     		if(stick.getY()>0){
     			return true;
     		}
     	}
+    	else if (topLimitSwitchValue == false){
+    		if(stick.getY()<0){
+    			return true;
+    		}
+    	}
     	
-    	if(Constants.getInstance().practice){
+    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
     		elevatorCANTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
     	}
 
-    	else if (Constants.getInstance().competition){
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
-			elevatorTalonII.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.elevatorSpeed);
+			elevatorTalonII.set(stick.getY()* Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
 
     	}
     	
@@ -116,18 +117,18 @@ public class Elevator extends Subsystem {
     	
     }
     public void autonLift(){
-    	if (Constants.getInstance().practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if (Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     	
-    	else if (Constants.getInstance().competition){
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed);
     		elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed);
     	}
     	//elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	if(Constants.getInstance().practice) elevatorCANTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     	
-    	else if (Constants.getInstance().competition){
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(-Constants.getInstance().autonElevatorSpeed);
     		elevatorTalonII.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
     	}
@@ -214,12 +215,12 @@ public class Elevator extends Subsystem {
 
     public void stopMotors(){
     	//stop everything
-    	if(Constants.getInstance().practice){
+    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
     		elevatorCANTalonI.set(0.0);
     		elevatorCANTalonII.set(0.0);
     	}
     	
-    	else if (Constants.getInstance().competition){
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(0.0);
     		elevatorTalonII.set(0.0);
     	}

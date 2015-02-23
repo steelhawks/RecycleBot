@@ -23,13 +23,13 @@ public class OmniDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Constants.GAMEPAD){
+    	if(Constants.getInstance().controllerType == Constants.Controller_Type.GAMEPAD){ //gamepad
     		Robot.drivetrain.gamepadOmniDrive(OI.stick);
     	}
-    	else if (Constants.JOYSTICK){
+    	else if (Constants.getInstance().controllerType == Constants.Controller_Type.JOYSTICK){
     		Robot.drivetrain.omniDrive(OI.stick);
     	}
-    	else if (Constants.TANKDRIVE){
+    	else if (Constants.getInstance().controllerType == Constants.Controller_Type.TANKDRIVE){
     		Robot.drivetrain.tankOmniDrive(OI.leftDriveStick, OI.rightDriveStick);
     	}
     	//Robot.drivetrain.gamepadOmniDrive(OI.stick);

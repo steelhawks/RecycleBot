@@ -39,6 +39,7 @@ public class Drivetrain extends Subsystem {
 	//CameraServer cam=null;
 	//CameraServer topCam =null;;
     //set up all of the things involved in the drivetrain
+	Constants constants = Constants.getInstance();
 	String motorStatsFilename = "/logs/motorstatslog" + Timer.getFPGATimestamp() +".csv";
 	CANTalon leftTalonI = new CANTalon(Constants.getInstance().leftTalonAddressI);
 	CANTalon rightTalonI = new CANTalon(Constants.getInstance().rightTalonAddressI);
@@ -47,8 +48,8 @@ public class Drivetrain extends Subsystem {
 	CANTalon centerTalon = new CANTalon(Constants.getInstance().centerTalonAddress);
 	//RobotDrive drive = new RobotDrive(leftTalonI, leftTalonII, rightTalonI, rightTalonII);
 	
-	Encoder leftEncoder= new Encoder(Constants.getInstance().leftEncoderPortI,Constants.getInstance().leftEncoderPortII, false, Encoder.EncodingType.k4X);
-	Encoder rightEncoder= new Encoder(Constants.getInstance().rightEncoderPortI, Constants.getInstance().rightEncoderPortII, true, Encoder.EncodingType.k4X);
+	Encoder leftEncoder= new Encoder(Constants.getInstance().leftEncoderPortI,Constants.getInstance().leftEncoderPortII, true, Encoder.EncodingType.k4X);
+	Encoder rightEncoder= new Encoder(Constants.getInstance().rightEncoderPortI, Constants.getInstance().rightEncoderPortII, false, Encoder.EncodingType.k4X);
 	HawkDrive drive = new HawkDrive(leftTalonI,leftTalonII,rightTalonI,rightTalonII,centerTalon,leftEncoder,rightEncoder);
 	
 	//DriverStation driver
@@ -70,7 +71,7 @@ public class Drivetrain extends Subsystem {
 	ArrayList<Double> stats = new ArrayList<Double>();
 	ArrayList<String> headers = new ArrayList<String>();
 	HashMap<String, CANTalon> dataHashMap = new HashMap<String, CANTalon>();
-	
+
 	
 	public Drivetrain(){
 		
@@ -397,7 +398,7 @@ public class Drivetrain extends Subsystem {
     	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	controlLeft.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.drivetrainD);
+    	controlLeft.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
     	controlLeft.setSetpoint(Constants.getInstance().drivetrainSetpoint);
     	controlLeft.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
     	controlLeft.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
@@ -422,6 +423,11 @@ public class Drivetrain extends Subsystem {
     	return(controlLeft.onTarget());
     }
     
+    public void resetEncoders(){
+    	leftEncoder.reset();
+    	rightEncoder.reset();
+    }
+    
     public void matchMotors(){
     	//keep motors together for straight line PID
     	leftTalonII.set(leftTalonI.get()*1);
@@ -440,9 +446,10 @@ public class Drivetrain extends Subsystem {
     public void stopPID(){
     	//disable PID loop
     	controlLeft.disable();
+    	controlRight.disable();
     }
     
-    public void distanceDriveForwardPID(Double setpoint){
+    public boolean distanceDriveForwardPID(Double setpoint){
     	//get PID values from Net Tables
     	getPIDvalues();
     	
@@ -450,21 +457,40 @@ public class Drivetrain extends Subsystem {
     	leftEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
+    	rightEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
+    	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	
     	//set up PID loop parameters
     	controlLeft.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
     	controlLeft.setSetpoint(setpoint);
     	controlLeft.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
     	controlLeft.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
     	
+    	controlRight.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
+    	controlRight.setSetpoint(setpoint);
+    	controlRight.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
+    	controlRight.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
+    	
     	//enable loop, match motors
     	controlLeft.enable();
-    	matchMotors();
+    	leftTalonII.set(leftTalonI.get());
+    	controlRight.enable();
+    	rightTalonII.set(rightTalonI.get());
+    	//matchMotors();
+    	
+    	System.out.println("lmI" + leftTalonI.get());
+    	System.out.println("lmII" + leftTalonII.get());
+    	System.out.println("rmI" + rightTalonI.get());
+    	System.out.println("rmII" + rightTalonII.get());
+    	
+    	//TODO fix the goddamn pid
     	
     	//check if it's ok to stop
-    	if (controlLeft.onTarget()){
+    	if (controlLeft.onTarget() && controlRight.onTarget()){
     		stopPID();
-    		return;
+    		return true;
     	} 	
+    	return false;
     }
     public void autonMoveFoward(){
     	drive.autonomousStraight(0.50, 15.0);

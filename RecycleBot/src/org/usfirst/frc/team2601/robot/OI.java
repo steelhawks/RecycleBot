@@ -67,11 +67,17 @@ public class OI {
 
 	*/	
 	public OI(){
+		stick = new Joystick(Constants.getInstance().joystickPort);
+		elevatorandRollerStick = new Joystick(Constants.getInstance().secondaryJoystickPort);
+		leftDriveStick = new Joystick(Constants.getInstance().leftDriveStick);
+		rightDriveStick = new Joystick(Constants.getInstance().rightDriveStick);
+
+/*
 		stick = new Joystick(Constants.joystickPort);
 		elevatorandRollerStick = new Joystick(Constants.secondaryJoystickPort);
 		leftDriveStick = new Joystick(Constants.leftDriveStick);
 		rightDriveStick = new Joystick(Constants.rightDriveStick);
-		
+	*/	
 		//camera buttons
 	//	JoystickButton cam = new JoystickButton(stick, Constants.cam);
 	//	cam.whenPressed(new Cam());
@@ -80,18 +86,18 @@ public class OI {
 	//	topCam.whenPressed(new TopCam());
 		
 		//Drivetrain buttons
-		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.fineDriveButton);
+		JoystickButton fineArcadeOmniDrive = new JoystickButton(stick, Constants.getInstance().fineDriveButton);
 		fineArcadeOmniDrive.whileHeld(new FineArcadeOmniDrive());
 		
 		
 		//Roller buttons
-		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.closeOrOpenRollersButton);
+		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().closeOrOpenRollersButton);
 		closeOrOpenRollersButton.whenPressed(new closeOrOpenRollers());
-		JoystickButton intakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.intakeRollersButton);
+		JoystickButton intakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().intakeRollersButton);
 		intakeRollersButton.whenPressed(new intakeRollers());
-		JoystickButton outtakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.outtakeRollersButton);
+		JoystickButton outtakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().outtakeRollersButton);
 		outtakeRollersButton.whenPressed(new outtakeRollers());
-		JoystickButton stopRollersButton = new JoystickButton(elevatorandRollerStick, Constants.stopRollersButton);
+		JoystickButton stopRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().stopRollersButton);
 		stopRollersButton.whenPressed(new stopRollers());
 		
 		//ElevatorButtons
@@ -104,21 +110,22 @@ public class OI {
 			*/
 		//PID buttons
 		
-		JoystickButton startDrivetrainPID = new JoystickButton(stick, Constants.startDrivetrainPID);
+		JoystickButton startDrivetrainPID = new JoystickButton(stick, Constants.getInstance().startDrivetrainPID);
 		startDrivetrainPID.whenPressed(new VelocityPIDDrive());
 		
 		
-		JoystickButton stopDrivetrainPID = new JoystickButton(stick, Constants.stopDrivetrainPID);
+		JoystickButton stopDrivetrainPID = new JoystickButton(stick, Constants.getInstance().stopDrivetrainPID);
 		stopDrivetrainPID.cancelWhenPressed(new VelocityPIDDrive());
 		stopDrivetrainPID.whenPressed(new StopVelocityPID());
 		
-		JoystickButton startElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.startElevatorPID);
+		JoystickButton startElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.getInstance().startElevatorPID);
 		startElevatorPID.whenPressed(new StartElevatorPID());
 		
-		JoystickButton stopElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.stopElevatorPID);
+		JoystickButton stopElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.getInstance().stopElevatorPID);
 		stopElevatorPID.cancelWhenPressed(new StartElevatorPID());
 		stopElevatorPID.whenPressed(new StopElevatorPID());
 		
+
 		/*JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);
 		stopMotors.cancelWhenPressed(new StartPID());
 		stopMotors.whenPressed(new StopPID());

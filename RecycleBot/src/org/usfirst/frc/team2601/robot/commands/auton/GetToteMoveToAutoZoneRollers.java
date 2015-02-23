@@ -28,14 +28,7 @@ public class GetToteMoveToAutoZoneRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addParallel(new AutonIntakeRollers(2.0));
-    	addSequential(new AutonLift(2.0));
-    	addSequential(new AutonStopRollers());
-    	addSequential(new AutonTurnLeft(1.0));
-    	addSequential(new AutonDriveForward(1.0));
-    	addParallel(new AutonDown(1.75));
-    	addSequential(new AutonOuttakeRollers(2.0));
-    	addSequential(new AutonDriveBackward(0.5));
+    	addSequential(new AutonDriveForward(3.0));
     	
         // To run multiple commands at the same time,
         // use addParallel()
