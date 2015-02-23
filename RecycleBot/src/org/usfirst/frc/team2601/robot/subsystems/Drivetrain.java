@@ -440,6 +440,7 @@ public class Drivetrain extends Subsystem {
     public void stopPID(){
     	//disable PID loop
     	controlLeft.disable();
+    	controlRight.disable();
     }
     
     public void distanceDriveForwardPID(Double setpoint){
@@ -447,6 +448,15 @@ public class Drivetrain extends Subsystem {
     	getPIDvalues();
     	
     	//set up encoders
+    	rightEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
+    	rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	
+    	//set up PID loop parameters
+    	controlRight.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
+    	controlRight.setSetpoint(setpoint);
+    	controlRight.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
+    	controlRight.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
+    	
     	leftEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
     	leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
@@ -458,16 +468,22 @@ public class Drivetrain extends Subsystem {
     	
     	//enable loop, match motors
     	controlLeft.enable();
-    	matchMotors();
-    	
+    	controlRight.enable();
+    	//matchMotors();
     	//check if it's ok to stop
-    	if (controlLeft.onTarget()){
+    	if (controlLeft.onTarget() && controlRight.onTarget()){
     		stopPID();
     		return;
-    	} 	
+       	}
+    }
+    public void autonFastMoveForward(){
+    	drive.autonomousStraight(0.75, 15.0);
+    }
+    public void autonFastMoveBackward(){
+    	drive.autonomousStraight(-0.75, 15.0);
     }
     public void autonMoveFoward(){
-    	drive.autonomousStraight(0.50, 15.0);
+    	drive.autonomousStraight(0.4, 15.0);
     }
     public void autonMoveBackward(){
     	drive.autonomousStraight(-0.50, 15.0);

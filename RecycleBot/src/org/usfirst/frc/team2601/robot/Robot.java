@@ -14,6 +14,7 @@ import org.usfirst.frc.team2601.robot.commands.auton.DriveForwardToAutoZone;
 import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.SampleAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneArms;
+import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteMoveWithArms;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
 import org.usfirst.frc.team2601.robot.subsystems.ExampleSubsystem;

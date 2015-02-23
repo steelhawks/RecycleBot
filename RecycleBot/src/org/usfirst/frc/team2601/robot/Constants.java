@@ -18,8 +18,8 @@ public class Constants {
 	      return instance;
 	 }
 	// configuration
-	public static final boolean practice = false;
-	public static final boolean competition = true;
+	public static final boolean practice = true;
+	public static final boolean competition = false;
 	
 	// TODO: Convert this to enum
 	//public enum Drive_Type { TANK, ARCADE, CUSTOMARCADE}; 
@@ -294,9 +294,9 @@ public class Constants {
 		drivetrainFineSpeed = 0.25;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
-		elevatorSpeed = 0.5;
+		elevatorSpeed = 0.95;
 		autonElevatorSpeed = 1.0;
-		autonTurnSpeed = 0.5;
+		autonTurnSpeed = 0.37;
 		
 		//NetworkTable keys
 		drivetrainPKey = "DrivetrainP";
