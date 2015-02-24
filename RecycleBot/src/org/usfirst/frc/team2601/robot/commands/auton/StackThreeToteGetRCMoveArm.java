@@ -1,5 +1,11 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnRight;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -13,6 +19,21 @@ public class StackThreeToteGetRCMoveArm extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
 
+    	addSequential(new AutonLift(1.60));
+    	addSequential(new AutonDriveForward(0.75));
+    	addSequential(new AutonDown(3.25));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDown(1.25));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDown(1.25));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonTurnRight(1.15));
+    	addSequential(new AutonDriveFastForward(2.60));
+    	addSequential(new AutonDown(0.25));
+    	
+    	
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

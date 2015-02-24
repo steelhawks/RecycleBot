@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2601.robot.commands.rollerCommands;
+package org.usfirst.frc.team2601.robot.commands.drivetrainCommands;
 
 import org.usfirst.frc.team2601.robot.Robot;
 
@@ -7,14 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class closeOrOpenRollers extends Command {
+public class AutonDriveFastForward extends Command {
 
-	private static boolean open = true;
-	
-    public closeOrOpenRollers() {
+    public AutonDriveFastForward(double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.rollers);
+    	requires(Robot.drivetrain);
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
@@ -23,22 +22,17 @@ public class closeOrOpenRollers extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(open){
-    		Robot.rollers.closeRollers();
-    	}
-    	else{
-    		Robot.rollers.openRollers();
-    	}
+    	Robot.drivetrain.autonFastMoveForward();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	open = !open;
+    	Robot.drivetrain.stopMotors();
     }
 
     // Called when another command which requires one or more of the same

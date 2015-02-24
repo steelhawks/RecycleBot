@@ -20,15 +20,16 @@ public class StackThreeToteMoveWithArms extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new AutonLift(1.5));
-    	addSequential(new AutonDriveForward(1.25));
-    	addSequential(new AutonDown(1.0));
-    	addSequential(new AutonLift(1.5));
-    	addSequential(new AutonDriveForward(1.25));
-    	addSequential(new AutonDown(1.0));
-    	addSequential(new AutonLift(1.0));
-    	addSequential(new AutonTurnRight(1.0));
-    	addSequential(new AutonDriveForward(1.25));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDown(0.85));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDown(0.85));
+    	addSequential(new AutonLift(0.86));
+    	addSequential(new AutonTurnRight(1.15));
+    	addSequential(new AutonDriveForward(2.50));
+    	addSequential(new AutonDown(0.25));
     	
         // To run multiple commands at the same time,
         // use addParallel()
