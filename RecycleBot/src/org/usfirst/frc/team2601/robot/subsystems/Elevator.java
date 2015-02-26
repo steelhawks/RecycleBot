@@ -27,7 +27,9 @@ import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualElevator;
  *
  */
 public class Elevator extends Subsystem {
-    
+
+	Constants myConstants = Constants.getInstance();
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	CANTalon elevatorCANTalonI = new CANTalon(Constants.getInstance().elevatorTalonAddressI);
@@ -51,24 +53,24 @@ public class Elevator extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setup();
-    	setDefaultCommand(new ManualElevator());
-    	
+    	setDefaultCommand(new ManualElevator());	
+    		
     }
     
     public void setup(){
-    	elevatorEncoder.setDistancePerPulse(Constants.getInstance().elevatorDistancePerPulse);
+    	elevatorEncoder.setDistancePerPulse(myConstants.elevatorDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
     	
-    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
+    	if(myConstants.robotType == Constants.Robot_Type.Practice){
         	elevatorCANTalonII.changeControlMode(ControlMode.Follower);
-        	elevatorCANTalonII.set(Constants.getInstance().elevatorTalonAddressI);
+        	elevatorCANTalonII.set(myConstants.elevatorTalonAddressI);
         	
-        	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorCANTalonI);
+        	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorCANTalonI);
     	}
     	
-    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
-        	control = new PIDController(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD, elevatorEncoder, elevatorTalonI);
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
+        	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorTalonI);
 
     	}
     	SmartDashboard.putBoolean("ElevatorSetup", true);
@@ -100,13 +102,13 @@ public class Elevator extends Subsystem {
     		}
     	}
     	
-    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
-    		elevatorCANTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+    	if(myConstants.robotType == Constants.Robot_Type.Practice){
+    		elevatorCANTalonI.set(stick.getY()*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
     	}
 
-    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
-    		elevatorTalonI.set(stick.getY()*Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
-			elevatorTalonII.set(stick.getY()* Constants.getInstance().elevatorTalonMultiplier*Constants.getInstance().elevatorSpeed);
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
+    		elevatorTalonI.set(stick.getY()*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+			elevatorTalonII.set(stick.getY()* myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
 
     	}
     	
@@ -117,32 +119,32 @@ public class Elevator extends Subsystem {
     	
     }
     public void autonLift(){
-    	if (Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if (myConstants.robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     	
-    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
-    		elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed);
-    		elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed);
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
+    		elevatorTalonI.set(myConstants.autonElevatorSpeed);
+    		elevatorTalonII.set(myConstants.autonElevatorSpeed);
     	}
-    	//elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	//elevatorTalonII.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	if(myConstants.robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(-myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     	
-    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
-    		elevatorTalonI.set(-Constants.getInstance().autonElevatorSpeed);
-    		elevatorTalonII.set(-Constants.getInstance().autonElevatorSpeed /* Constants.getInstance().elevatorTalonMultiplier*/);
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
+    		elevatorTalonI.set(-myConstants.autonElevatorSpeed);
+    		elevatorTalonII.set(-myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     	}
     }
     
     public void getPIDvalues(){
     	//retrieve PID vals from NetTables
-    	Constants.getInstance().elevatorP = Robot.table.getNumber(Constants.getInstance().elevatorPKey);
-    	Constants.getInstance().elevatorI = Robot.table.getNumber(Constants.getInstance().elevatorIKey);
-    	Constants.getInstance().elevatorD = Robot.table.getNumber(Constants.getInstance().elevatorDKey);
+    	myConstants.elevatorP = Robot.table.getNumber(myConstants.elevatorPKey);
+    	myConstants.elevatorI = Robot.table.getNumber(myConstants.elevatorIKey);
+    	myConstants.elevatorD = Robot.table.getNumber(myConstants.elevatorDKey);
     	
     }
     public void getSetpoint(){
-    	Constants.getInstance().elevatorSetpoint = Robot.table.getNumber(Constants.getInstance().elevatorSetpointKey);
+    	myConstants.elevatorSetpoint = Robot.table.getNumber(myConstants.elevatorSetpointKey);
     }
     
     public void stopPID(){
@@ -155,10 +157,10 @@ public class Elevator extends Subsystem {
     	getSetpoint();
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.getInstance().elevatorP, Constants.getInstance().elevatorI, Constants.getInstance().elevatorD);
-    	control.setSetpoint(Constants.getInstance().elevatorSetpoint);
-    	control.setAbsoluteTolerance(Constants.getInstance().elevatorAbsoluteTolerance);
-    	control.setOutputRange(Constants.getInstance().elevatorMinOutput, Constants.getInstance().elevatorMaxOutput);
+    	control.setPID(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD);
+    	control.setSetpoint(myConstants.elevatorSetpoint);
+    	control.setAbsoluteTolerance(myConstants.elevatorAbsoluteTolerance);
+    	control.setOutputRange(myConstants.elevatorMinOutput, myConstants.elevatorMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -174,14 +176,14 @@ public class Elevator extends Subsystem {
     	getPIDvalues();
 
     	//set up encoders
-    	elevatorEncoder.setDistancePerPulse(Constants.getInstance().drivetrainDistancePerPulse);
+    	elevatorEncoder.setDistancePerPulse(myConstants.drivetrainDistancePerPulse);
     	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
-    	control.setPID(Constants.getInstance().drivetrainP, Constants.getInstance().drivetrainI, Constants.getInstance().drivetrainD);
+    	control.setPID(myConstants.drivetrainP, myConstants.drivetrainI, myConstants.drivetrainD);
     	control.setSetpoint(setpoint);
-    	control.setAbsoluteTolerance(Constants.getInstance().drivetrainAbsoluteTolerance);
-    	control.setOutputRange(Constants.getInstance().drivetrainMinOutput, Constants.getInstance().drivetrainMaxOutput);
+    	control.setAbsoluteTolerance(myConstants.drivetrainAbsoluteTolerance);
+    	control.setOutputRange(myConstants.drivetrainMinOutput, myConstants.drivetrainMaxOutput);
     	
     	//enable loop, match motors
     	control.enable();
@@ -215,12 +217,12 @@ public class Elevator extends Subsystem {
 
     public void stopMotors(){
     	//stop everything
-    	if(Constants.getInstance().robotType == Constants.Robot_Type.Practice){
+    	if(myConstants.robotType == Constants.Robot_Type.Practice){
     		elevatorCANTalonI.set(0.0);
     		elevatorCANTalonII.set(0.0);
     	}
     	
-    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(0.0);
     		elevatorTalonII.set(0.0);
     	}

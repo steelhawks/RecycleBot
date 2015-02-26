@@ -19,39 +19,21 @@ public class Constants {
 	 }
 	// configuration
 	 public enum Robot_Type { Practice, Competition };
-	 public Robot_Type robotType = Robot_Type.Competition;
-	//public final boolean practice = false;
-	//public  final boolean competition = true;
+	 public Robot_Type robotType = Robot_Type.Practice;
 	
-	// TODO: Convert this to enum
 	public enum Drive_Type { TANK, ARCADE, CUSTOMARCADE}; 
-	//public  final int TANK = 0;
-	//public  final int ARCADE = 1;
-	//public  final int CUSTOMARCADE = 2;
-	//public  final int drivetype = 2;
 	public Drive_Type driveType = Drive_Type.CUSTOMARCADE;
 	
-	// TODO: Convert this to enum
 	public enum Controller_Type { GAMEPAD, JOYSTICK, TANKDRIVE}; 
-	//public  final boolean GAMEPAD = false;
-	//public  final boolean JOYSTICK = true;
-	//public  final boolean TANKDRIVE = false;
 	public Controller_Type controllerType = Controller_Type.JOYSTICK;
 	
-	// TODO: Convert this to enum
 	public enum Chassis_Type { OMNI, SQUARE}; 
-	//public  final int OMNI =0;
-	//public  final int SQUARE = 1;
-	//public  final int chassisType = 0;
 	public Chassis_Type chassisType = Chassis_Type.OMNI;
 	
 	public  final boolean CAMERA_ON = true;
 	public  final boolean PNEUMATICS_ON = true;
 	
-	//public static int joystickPort;
-	//public static int secondaryJoystickPort;
-	//joystick
-	
+	//joystick	
 	public  int joystickPort;
 	public  int secondaryJoystickPort;
 	public  int thirdJoystickPort;
@@ -176,25 +158,6 @@ public class Constants {
 	
 	
 	private Constants() {
-		//driveType = Drive_Type.CUSTOMARCADE;
-		
-		//controllerType = Controller_Type.JOYSTICK;
-		
-		//chassisType = Chassis_Type.OMNI;
-		
-		//public static int joystickPort;
-		//public static int secondaryJoystickPort;
-		//joystick
-		/*public Constants(){
-			if (GAMEPAD){
-				joystickPort = 1;
-				secondaryJoystickPort = 0;
-			}
-			else if (JOYSTICK){
-				joystickPort = 0;
-				secondaryJoystickPort = 1;
-			}
-		}*/
 
 		joystickPort = 0;
 		secondaryJoystickPort = 1;
@@ -203,7 +166,6 @@ public class Constants {
 		rightDriveStick = 4;
 
 		if(robotType == Robot_Type.Practice) {
-
 			//if (GAMEPAD){
 			if (controllerType == Controller_Type.GAMEPAD) {
 				joystickPort = 1;
@@ -302,7 +264,7 @@ public class Constants {
 		drivetrainFineSpeed = drivetrainSpeed*0.5;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
-		elevatorSpeed = 0.5;
+		elevatorSpeed = 1.0;
 		autonElevatorSpeed = 1.0;
 		autonTurnSpeed = 0.5;
 		

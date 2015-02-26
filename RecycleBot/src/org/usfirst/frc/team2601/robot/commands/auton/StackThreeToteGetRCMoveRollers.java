@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -12,7 +14,9 @@ public class StackThreeToteGetRCMoveRollers extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-
+    	
+    	addSequential(new AutonLift(3.0));
+    	//addSequential(new AutonRoller());
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

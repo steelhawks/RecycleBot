@@ -16,6 +16,7 @@ import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.SampleAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneArms;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneRollers;
+import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteMoveWithRollers;
 import org.usfirst.frc.team2601.robot.subsystems.Camera;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2601.robot.subsystems.Elevator;
@@ -35,14 +36,7 @@ public class Robot extends IterativeRobot {
 //	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	
-
 	public static Drivetrain drivetrain = new Drivetrain();
-
-	/*
-	public static final Elevator elevator = null; //new Elevator();
-	public static final Pneumatics pneumatics = null; //new Pneumatics();
-	public static final Rollers rollers = null; //new Rollers();
-*/
 	public static final Elevator elevator = new Elevator();
 	public static final Pneumatics pneumatics = new Pneumatics();
 	public static final Rollers rollers = new Rollers();
@@ -50,6 +44,7 @@ public class Robot extends IterativeRobot {
 	
 	public static NetworkTable table;
 	
+	Constants myConstants = Constants.getInstance();
 	Compressor compressor;
 	CameraServer cam;
 	
@@ -61,36 +56,34 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
-		try {
-			
-				oi = new OI();
+		try {			
+			oi = new OI();
 				
-		autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
+		autonomousCommand = new StackThreeToteMoveWithRollers();
         closeCommand = new closeWriter();
-
 		
 		table = NetworkTable.getTable("datatable");
 		}
 		catch (Exception ex) {
-			//GetToteMoveToAutoZoneArmsSystem.out.println(ex.toString());
+			//System.out.println(ex.toString());
 		}
 		
-		if (Constants.getInstance().PNEUMATICS_ON){
+		if (myConstants.PNEUMATICS_ON){
 	        compressor = new Compressor();
 	     }
 		         
 		cam = CameraServer.getInstance();
         cam.startAutomaticCapture("cam0");
 		
-        table.putNumber(Constants.getInstance().drivetrainPKey, Constants.getInstance().drivetrainP);
-        table.putNumber(Constants.getInstance().drivetrainIKey, Constants.getInstance().drivetrainI);
-        table.putNumber(Constants.getInstance().drivetrainDKey, Constants.getInstance().drivetrainD);
-        table.putNumber(Constants.getInstance().drivetrainSetpointKey, Constants.getInstance().drivetrainSetpoint);
+        table.putNumber(myConstants.drivetrainPKey, myConstants.drivetrainP);
+        table.putNumber(myConstants.drivetrainIKey, myConstants.drivetrainI);
+        table.putNumber(myConstants.drivetrainDKey, myConstants.drivetrainD);
+        table.putNumber(myConstants.drivetrainSetpointKey, myConstants.drivetrainSetpoint);
         
-        table.putNumber(Constants.getInstance().elevatorPKey, Constants.getInstance().elevatorP);
-        table.putNumber(Constants.getInstance().elevatorIKey, Constants.getInstance().elevatorI);
-        table.putNumber(Constants.getInstance().elevatorDKey, Constants.getInstance().elevatorD);
-        table.putNumber(Constants.getInstance().elevatorSetpointKey, Constants.getInstance().elevatorSetpoint);
+        table.putNumber(myConstants.elevatorPKey, myConstants.elevatorP);
+        table.putNumber(myConstants.elevatorIKey, myConstants.elevatorI);
+        table.putNumber(myConstants.elevatorDKey, myConstants.elevatorD);
+        table.putNumber(myConstants.elevatorSetpointKey, myConstants.elevatorSetpoint);
     
 	}
     
