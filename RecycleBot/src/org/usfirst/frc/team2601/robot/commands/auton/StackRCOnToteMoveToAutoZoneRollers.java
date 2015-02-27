@@ -19,13 +19,15 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new AutonLift(1.45));
-    	addSequential(new AutonDriveForward(2.65));
+    	
+    	addSequential(new AutonLift(3.0));
+    	addSequential(new AutonDriveForward(1.0));
     	addSequential(new closeOrOpenRollers());
-    	addSequential(new AutonDown(0.25));
-    	addSequential(new AutonTurnLeft(1.15));
-    	addSequential(new AutonDriveForward(2.65));
-    	addSequential(new AutonDown(0.25));
+    	//addSequential(new AutonDown(0.25));
+    	addSequential(new AutonTurnLeft(1.57));
+    	addSequential(new AutonDriveForward(3.8));
+    	addSequential(new AutonDown(0.5));
+    	addParallel(new closeOrOpenRollers());
     	
         // To run multiple commands at the same time,
         // use addParallel()

@@ -248,8 +248,8 @@ public class Constants {
 		elevatorEncoderPortII = 5;
 		
 		//limit switches
-		bottomLimitSwitchPort = 6;
-		topLimitSwitchPort = 7;
+		bottomLimitSwitchPort = 7;
+		topLimitSwitchPort = 6;
 		
 		//Talon multipliers
 		leftDrivetrainTalonMultiplier = 1;

@@ -28,7 +28,7 @@ public class StackRCOnToteMoveToAutoZoneArms extends CommandGroup {
     	//addSequential(new AutonLift(0.75));
     	addSequential(new AutonTurnLeft(1.57));
     	addSequential(new AutonDriveForward(3.75));
-    	addSequential(new AutonDown(0.25));
+    	addSequential(new AutonDown(0.5));
     	//addSequential(new AutonDriveBackward(0.25));
     	
         // To run multiple commands at the same time,

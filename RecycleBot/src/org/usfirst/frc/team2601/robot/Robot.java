@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 		try {			
 			oi = new OI();
 				
-		autonomousCommand = new StackThreeToteMoveWithRollers();
+		autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
         closeCommand = new closeWriter();
 		
 		table = NetworkTable.getTable("datatable");
