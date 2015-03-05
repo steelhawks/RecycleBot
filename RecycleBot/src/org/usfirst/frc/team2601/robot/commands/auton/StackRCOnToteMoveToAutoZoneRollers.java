@@ -4,8 +4,13 @@ import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForw
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOpenRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.moveToPositionRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.openRollers;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -19,8 +24,12 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	
-    	addSequential(new AutonLift(3.0));
+    	addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
+    	//addSequential(new TwistRC(0.45));
+    	addParallel(new AutonOpenRollers(0.2));
+    	addSequential(new AutonDriveForward(0.25));
+    	Timer.delay(0.25);
+    	addSequential(new AutonLift(2.5));
     	addSequential(new AutonDriveForward(1.0));
     	addSequential(new closeOrOpenRollers());
     	//addSequential(new AutonDown(0.25));

@@ -7,8 +7,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team2601.robot.commands.Cam;
 import org.usfirst.frc.team2601.robot.commands.ExtendPiston;
-import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
+import org.usfirst.frc.team2601.robot.commands.PanLeft;
+import org.usfirst.frc.team2601.robot.commands.PanRight;
 import org.usfirst.frc.team2601.robot.commands.RetractPiston;
+import org.usfirst.frc.team2601.robot.commands.TiltDown;
+import org.usfirst.frc.team2601.robot.commands.TiltUp;
 import org.usfirst.frc.team2601.robot.commands.TopCam;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.DumbDrive;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.FineArcadeOmniDrive;
@@ -29,6 +32,8 @@ import org.usfirst.frc.team2601.robot.commands.rollerCommands.intakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.openRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.outtakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.stopRollers;
+import org.usfirst.frc.team2601.robot.util.POVButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -124,6 +129,18 @@ public class OI {
 		JoystickButton stopElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.getInstance().stopElevatorPID);
 		stopElevatorPID.cancelWhenPressed(new StartElevatorPID());
 		stopElevatorPID.whenPressed(new StopElevatorPID());
+		
+		POVButton upPOV = new POVButton(stick, 0);
+		upPOV.whenActive(new TiltUp());
+		
+		POVButton downPOV = new POVButton(stick, 2);
+		downPOV.whenActive(new TiltDown());
+		
+		POVButton leftPOV = new POVButton(stick, 3);
+		leftPOV.whenActive(new PanLeft());
+		
+		POVButton rightPOV = new POVButton(stick, 4);
+		rightPOV.whenActive(new PanRight());
 		
 
 		/*JoystickButton stopMotors = new JoystickButton(stick, Constants.stopMotors);

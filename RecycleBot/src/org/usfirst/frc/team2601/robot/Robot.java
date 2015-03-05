@@ -7,15 +7,23 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2601.robot.commands.PIDauton;
 import org.usfirst.frc.team2601.robot.commands.closeWriter;
+import org.usfirst.frc.team2601.robot.commands.auton.DoNothing;
 import org.usfirst.frc.team2601.robot.commands.auton.DriveForwardToAutoZone;
+import org.usfirst.frc.team2601.robot.commands.auton.GetToteMoveToAutoZoneArms;
 import org.usfirst.frc.team2601.robot.commands.auton.GetToteMoveToAutoZoneRollers;
 import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
+import org.usfirst.frc.team2601.robot.commands.auton.RollerTestAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.SampleAuton;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneArms;
 import org.usfirst.frc.team2601.robot.commands.auton.StackRCOnToteMoveToAutoZoneRollers;
+import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteGetRCMoveArm;
+import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteGetRCMoveRollers;
+import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteMoveWithArms;
 import org.usfirst.frc.team2601.robot.commands.auton.StackThreeToteMoveWithRollers;
 import org.usfirst.frc.team2601.robot.subsystems.Camera;
 import org.usfirst.frc.team2601.robot.subsystems.Drivetrain;
@@ -34,6 +42,7 @@ import org.usfirst.frc.team2601.robot.subsystems.Rollers;
 public class Robot extends IterativeRobot {
 
 //	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	
 	public static OI oi;
 	
 	public static Drivetrain drivetrain = new Drivetrain();
@@ -50,6 +59,7 @@ public class Robot extends IterativeRobot {
 	
     Command autonomousCommand;
     Command closeCommand;
+	SendableChooser autoChooser;
      /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -59,7 +69,19 @@ public class Robot extends IterativeRobot {
 		try {			
 			oi = new OI();
 				
-		autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
+		//autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("DriveForward", new DriveForwardToAutoZone());
+		autoChooser.addObject("Arms/GetTote", new GetToteMoveToAutoZoneArms());
+		autoChooser.addObject("Rollers/GetTote",new GetToteMoveToAutoZoneRollers());
+		autoChooser.addObject("Arms/StackRCOnTote",new StackRCOnToteMoveToAutoZoneArms());
+		autoChooser.addObject("Rollers/StackRCOnTote", new StackRCOnToteMoveToAutoZoneRollers());
+		autoChooser.addObject("Arms/StackThreeTote", new StackThreeToteMoveWithArms());
+		autoChooser.addObject("Rollers/StackThreeTote", new StackThreeToteMoveWithRollers());
+		autoChooser.addObject("Arms/StackThreeToteGetRC", new StackThreeToteGetRCMoveArm());
+		autoChooser.addObject("Rollers/StackThreeToteGetRC", new StackThreeToteGetRCMoveRollers());
+		SmartDashboard.putData("AutoChooser", autoChooser);
+		
         closeCommand = new closeWriter();
 		
 		table = NetworkTable.getTable("datatable");
@@ -93,7 +115,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        autonomousCommand = (Command) autoChooser.getSelected(); 
+        autonomousCommand.start();
     }
 
     /**

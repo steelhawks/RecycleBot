@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonOpenRollers extends Command {
 
-    public AutonOpenRollers() {
+    public AutonOpenRollers(double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.rollers);
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +27,7 @@ public class AutonOpenRollers extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true

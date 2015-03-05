@@ -126,7 +126,7 @@ public class Constants {
 	// speeds
 	public  double drivetrainSpeed;
 	public  double drivetrainFineSpeed;
-	public  double drivetrainTurnSpeed = 0.25;
+	public  double drivetrainTurnSpeed = 0.5;
 	public  double rollerSpeed;
 	public  double rollerStopSpeed;
 	public  double elevatorSpeed;
@@ -152,7 +152,7 @@ public class Constants {
 	public  int ejectionSolenoidOffPort;
 	
 	//Camera Stuff (servos, etc)
-	public  double servoChange = 0.05;
+	public  double servoChange = 0.01;
 	public  int panServoPort = 4;
 	public  int tiltServoPort = 5;
 	
@@ -260,12 +260,12 @@ public class Constants {
 		rightRollerTalonMultiplier = 1;
 
 		// speeds
-		drivetrainSpeed = 0.75;
-		drivetrainFineSpeed = drivetrainSpeed*0.5;
+		drivetrainSpeed = 1.0;
+		drivetrainFineSpeed = /*drivetrainSpeed*/0.5;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
-		autonElevatorSpeed = 1.0;
+		autonElevatorSpeed = 0.6;
 		autonTurnSpeed = 0.5;
 		
 		//NetworkTable keys

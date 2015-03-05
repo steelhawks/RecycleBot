@@ -492,7 +492,7 @@ public class Drivetrain extends Subsystem {
     	return false;
     }
     public void autonFastMoveForward(){
-    	drive.autonomousStraight(0.75, 15.0);
+    	drive.autonomousStraight(1.0, 15.0);
     }
     public void autonFastMoveBackward(){
     	drive.autonomousStraight(-0.75, 15.0);

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team2601.robot.Constants;
-import org.usfirst.frc.team2601.robot.commands.ManualControlRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.manualControlRollers;
 
 /**
  *
@@ -26,14 +26,15 @@ public class Rollers extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new ManualControlRollers());
+    	setDefaultCommand(new manualControlRollers());
     }
-    
     public void manualControlRollers(Joystick stick){
-    	leftRollerTalon.set(stick.getTwist()*Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
-    	rightRollerTalon.set(-stick.getTwist()*Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	manualControlRollers(stick.getTwist(), -stick.getTwist());
     }
-    
+    public void manualControlRollers(double leftValue, double rightValue){
+    	leftRollerTalon.set(leftValue*Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(rightValue*Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    }
     public void intakeRollers(){
     	leftRollerTalon.set(-Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     	rightRollerTalon.set(-Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);

@@ -2,6 +2,7 @@ package org.usfirst.frc.team2601.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnRight;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
@@ -21,10 +22,10 @@ public class StackThreeToteMoveWithArms extends CommandGroup {
         // these will run in order.
     	
     	addSequential(new AutonLift(0.86));
-    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDriveFastForward(1.5));
     	addSequential(new AutonDown(0.85));
     	addSequential(new AutonLift(0.86));
-    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDriveFastForward(1.5));
     	addSequential(new AutonDown(0.85));
     	addSequential(new AutonLift(0.86));
     	addSequential(new AutonTurnRight(1.15));

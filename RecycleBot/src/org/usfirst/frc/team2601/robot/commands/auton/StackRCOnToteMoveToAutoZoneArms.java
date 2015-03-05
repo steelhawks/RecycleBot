@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeLeft;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeRight;
@@ -22,13 +23,13 @@ public class StackRCOnToteMoveToAutoZoneArms extends CommandGroup {
         // these will run in order.
 
     	addSequential(new AutonLift(3.0));
-    	addSequential(new AutonDriveForward(1.0));
-    	addSequential(new AutonDown(3.25));
+    	addSequential(new AutonDriveForward(1.65));
+    	addSequential(new AutonDown(3.75));
     	//addSequential(new AutonDriveForward(0.5));
     	//addSequential(new AutonLift(0.75));
-    	addSequential(new AutonTurnLeft(1.57));
-    	addSequential(new AutonDriveForward(3.75));
-    	addSequential(new AutonDown(0.5));
+    	addSequential(new AutonTurnLeft(1.0));
+    	addSequential(new AutonDriveFastForward(1.65));
+    	addSequential(new AutonDriveBackward(0.5));
     	//addSequential(new AutonDriveBackward(0.25));
     	
         // To run multiple commands at the same time,
