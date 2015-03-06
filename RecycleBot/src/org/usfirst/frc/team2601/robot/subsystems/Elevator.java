@@ -87,37 +87,44 @@ public class Elevator extends Subsystem {
     	}
     }
     */
-    public Boolean moveWithJoystick(Joystick stick){
+    public void moveWithJoystick(Joystick stick){
+    	moveWithJoystick(stick.getY());
+    }
+    
+    public Boolean moveWithJoystick(double value){
     	boolean bottomLimitSwitchValue = bottomLimitSwitch.get();
     	boolean topLimitSwitchValue = topLimitSwitch.get();
     	
     	if (bottomLimitSwitchValue == false){
-    		if(stick.getY()>0){
+    		if(value>0){
     			return true;
     		}
     	}
     	else if (topLimitSwitchValue == false){
-    		if(stick.getY()<0){
+    		if(value<0){
     			return true;
     		}
     	}
     	
     	if(myConstants.robotType == Constants.Robot_Type.Practice){
-    		elevatorCANTalonI.set(stick.getY()*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    		elevatorCANTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
     	}
 
     	else if (myConstants.robotType == Constants.Robot_Type.Competition){
-    		elevatorTalonI.set(stick.getY()*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
-			elevatorTalonII.set(stick.getY()* myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    		elevatorTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+			elevatorTalonII.set(value* myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
 
     	}
     	
     	SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
     	
     	return false;
-
-    	
     }
+    
+    public void fineMoveWithJoystick(double value){
+    	moveWithJoystick(value*Constants.getInstance().fineElevatorSpeed);
+    }
+    
     public void autonLift(){
     	if (myConstants.robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     	

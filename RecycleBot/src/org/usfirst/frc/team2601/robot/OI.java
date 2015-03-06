@@ -22,11 +22,12 @@ import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopDrivetrain
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.StopVelocityPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.VelocityPIDDrive;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutomaticEjectTotes;
+import org.usfirst.frc.team2601.robot.commands.elevatorCommands.FineManualElevator;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualCloseEjectionPiston;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.ManualOpenEjectionPiston;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StartElevatorPID;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.StopElevatorPID;
-import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.CloseOrOpenRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.intakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.openRollers;
@@ -44,6 +45,7 @@ public class OI {
 	public static Joystick elevatorandRollerStick;
 	public static Joystick leftDriveStick; 
 	public static Joystick rightDriveStick;
+	public static Joystick gamepad;
 	//public static Joystick rollerStick = new Joystick(Constants.secondaryJoystickPort);
 
 	/*JoystickButton fineArcadeOmniDrive;
@@ -76,6 +78,7 @@ public class OI {
 		elevatorandRollerStick = new Joystick(Constants.getInstance().secondaryJoystickPort);
 		leftDriveStick = new Joystick(Constants.getInstance().leftDriveStick);
 		rightDriveStick = new Joystick(Constants.getInstance().rightDriveStick);
+		gamepad = new Joystick(Constants.getInstance().gamepadPort);
 
 /*
 		stick = new Joystick(Constants.joystickPort);
@@ -96,8 +99,9 @@ public class OI {
 		
 		
 		//Roller buttons
+		//JoystickButton closeOrOpenRollersButton = new JoystickButton(gamepad, Constants.getInstance().gamepadCloseOrOpenRollersButton);
 		JoystickButton closeOrOpenRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().closeOrOpenRollersButton);
-		closeOrOpenRollersButton.whenPressed(new closeOrOpenRollers());
+		closeOrOpenRollersButton.whenPressed(new CloseOrOpenRollers());
 		JoystickButton intakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().intakeRollersButton);
 		intakeRollersButton.whenPressed(new intakeRollers());
 		JoystickButton outtakeRollersButton = new JoystickButton(elevatorandRollerStick, Constants.getInstance().outtakeRollersButton);
@@ -106,6 +110,8 @@ public class OI {
 		stopRollersButton.whenPressed(new stopRollers());
 		
 		//ElevatorButtons
+		JoystickButton fineElevatorButton = new JoystickButton(gamepad, Constants.getInstance().fineElevatorButton);
+		fineElevatorButton.whileHeld(new FineManualElevator());
 		/*JoystickButton automaticEjectTotesButton = new JoystickButton(elevatorandRollerStick, Constants.automaticEjectTotesButton);
 		automaticEjectTotesButton.whenPressed(new AutomaticEjectTotes());
 		JoystickButton manualOpenEjectionPiston = new JoystickButton(elevatorandRollerStick, Constants.manualOpenEjectionPistonButton);
@@ -123,12 +129,14 @@ public class OI {
 		stopDrivetrainPID.cancelWhenPressed(new VelocityPIDDrive());
 		stopDrivetrainPID.whenPressed(new StopVelocityPID());
 		
+		/*
 		JoystickButton startElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.getInstance().startElevatorPID);
 		startElevatorPID.whenPressed(new StartElevatorPID());
 		
 		JoystickButton stopElevatorPID = new JoystickButton(elevatorandRollerStick, Constants.getInstance().stopElevatorPID);
 		stopElevatorPID.cancelWhenPressed(new StartElevatorPID());
 		stopElevatorPID.whenPressed(new StopElevatorPID());
+		*/
 		
 		POVButton upPOV = new POVButton(stick, 0);
 		upPOV.whenActive(new TiltUp());

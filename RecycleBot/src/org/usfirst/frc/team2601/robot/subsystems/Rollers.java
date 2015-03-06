@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team2601.robot.Constants;
-import org.usfirst.frc.team2601.robot.commands.rollerCommands.manualControlRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.ManualControlRollers;
 
 /**
  *
@@ -26,10 +26,15 @@ public class Rollers extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new manualControlRollers());
+    	setDefaultCommand(new ManualControlRollers());
     }
+    
     public void manualControlRollers(Joystick stick){
     	manualControlRollers(stick.getTwist(), -stick.getTwist());
+    }
+    public void twistRC(){
+    	leftRollerTalon.set(-Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(-Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     public void manualControlRollers(double leftValue, double rightValue){
     	leftRollerTalon.set(leftValue*Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
@@ -37,12 +42,12 @@ public class Rollers extends Subsystem {
     }
     public void intakeRollers(){
     	leftRollerTalon.set(-Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
-    	rightRollerTalon.set(-Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     
     public void outtakeRollers(){
     	leftRollerTalon.set(Constants.getInstance().leftRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
-    	rightRollerTalon.set(Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
+    	rightRollerTalon.set(-Constants.getInstance().rightRollerTalonMultiplier*Constants.getInstance().rollerSpeed);
     }
     
     public void closeRollers(){

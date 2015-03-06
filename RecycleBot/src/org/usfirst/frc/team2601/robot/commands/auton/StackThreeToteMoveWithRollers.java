@@ -1,8 +1,13 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonIntakeRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOpenRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOuttakeRollers;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -18,11 +23,19 @@ public class StackThreeToteMoveWithRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
 
-    	addSequential(new AutonLift(2.0));
-    	addSequential(new AutonDriveForward(0.85));
-    	addParallel(new AutonOuttakeRollers(2.0));
+    	addSequential(new AutonLift(2.5));
+    	addParallel(new AutonDriveFastForward(0.85));
+    	addSequential(new AutonIntakeRollers(2.0));
     	addSequential(new AutonDown(2.1));
-    	addSequential(new AutonLift(2.0));
+    	addSequential(new AutonLift(2.5));
+    	addParallel(new AutonDriveFastForward(0.85));
+    	addSequential(new AutonIntakeRollers(2.0));
+    	addSequential(new AutonTurnLeft(1.35));
+    	addSequential(new AutonDriveFastForward(1.8));
+    	addSequential(new AutonDown(0.5));
+    	addParallel(new AutonOpenRollers(0.2));
+    	addSequential(new AutonDriveBackward(0.25));
+    	
     	//addSequential(new AutonOuttakeRollers(2.0));
     	//addSequential(new AutonDriveForward(0.85));
     	

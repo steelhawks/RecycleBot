@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class closeOrOpenRollers extends Command {
+public class CloseOrOpenRollers extends Command {
 
 	private static boolean open = true;
 	
-    public closeOrOpenRollers() {
+    public CloseOrOpenRollers() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.rollers);

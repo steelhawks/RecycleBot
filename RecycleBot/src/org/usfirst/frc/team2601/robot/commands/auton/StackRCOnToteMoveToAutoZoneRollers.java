@@ -1,11 +1,16 @@
 package org.usfirst.frc.team2601.robot.commands.auton;
 
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonCloseRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonIntakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOpenRollers;
-import org.usfirst.frc.team2601.robot.commands.rollerCommands.closeOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.CloseOrOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.TwistRC;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.moveToPositionRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.openRollers;
 
@@ -24,20 +29,22 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
-    	//addSequential(new TwistRC(0.45));
+    	//addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
+    	addSequential(new TwistRC(0.55));
     	addParallel(new AutonOpenRollers(0.2));
-    	addSequential(new AutonDriveForward(0.25));
-    	Timer.delay(0.25);
-    	addSequential(new AutonLift(2.5));
-    	addSequential(new AutonDriveForward(1.0));
-    	addSequential(new closeOrOpenRollers());
+    	addSequential(new AutonDriveForward(0.35));
+    	Timer.delay(0.2);
+    	addSequential(new AutonLift(2.80));
+    	addSequential(new AutonDriveForward(1.1));
+    	addSequential(new AutonCloseRollers(0.2));
+    	addSequential(new AutonIntakeRollers(1.5));
     	//addSequential(new AutonDown(0.25));
-    	addSequential(new AutonTurnLeft(1.57));
-    	addSequential(new AutonDriveForward(3.8));
-    	addSequential(new AutonDown(0.5));
-    	addParallel(new closeOrOpenRollers());
-    	
+    	addSequential(new AutonTurnLeft(0.75));
+    	addSequential(new AutonDriveForward(2.8));
+    	addSequential(new AutonDown(2.80));
+    	addParallel(new AutonOpenRollers(0.2));
+    	addSequential(new AutonDriveBackward(0.25));
+
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

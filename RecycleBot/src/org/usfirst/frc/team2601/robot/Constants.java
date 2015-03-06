@@ -1,4 +1,7 @@
 package org.usfirst.frc.team2601.robot;
+
+import org.usfirst.frc.team2601.robot.util.F310;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -39,6 +42,7 @@ public class Constants {
 	public  int thirdJoystickPort;
 	public  int leftDriveStick;
 	public  int rightDriveStick;
+	public  int gamepadPort;
 	
 	//camera buttons
 	public  int cam=9;
@@ -46,6 +50,7 @@ public class Constants {
 	
 	//Roller control buttons
 	public  int closeOrOpenRollersButton;
+	public  int gamepadCloseOrOpenRollersButton;
 	public  int intakeRollersButton;
 	public  int outtakeRollersButton;
 	public  int stopRollersButton;
@@ -60,6 +65,7 @@ public class Constants {
 	public  int fineDriveButton;
 	public  int stopMotors;
 	public  int restartDumbDriveButton;
+	public  int fineElevatorButton;
 	
 	//pneumatics buttons
 	public  int extend;
@@ -130,6 +136,7 @@ public class Constants {
 	public  double rollerSpeed;
 	public  double rollerStopSpeed;
 	public  double elevatorSpeed;
+	public  double fineElevatorSpeed;
 	public  double autonElevatorSpeed;
 	public  double autonTurnSpeed;
 	
@@ -164,6 +171,7 @@ public class Constants {
 		thirdJoystickPort = 2;
 		leftDriveStick = 3;
 		rightDriveStick = 4;
+		gamepadPort = 5;
 
 		if(robotType == Robot_Type.Practice) {
 			//if (GAMEPAD){
@@ -183,6 +191,10 @@ public class Constants {
 		intakeRollersButton = 3;
 		outtakeRollersButton = 2;
 		stopRollersButton = 4;
+		
+		//operator gamepad
+		gamepadCloseOrOpenRollersButton = F310.kGamepadButtonShoulderL;
+		fineElevatorButton = F310.kGamepadButtonShoulderR;
 		
 		//PID control buttons
 		startDrivetrainPID = 1;
@@ -265,7 +277,7 @@ public class Constants {
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
-		autonElevatorSpeed = 0.6;
+		autonElevatorSpeed = 0.7;
 		autonTurnSpeed = 0.5;
 		
 		//NetworkTable keys
@@ -386,7 +398,8 @@ public class Constants {
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
-		autonElevatorSpeed = 1.0;
+		fineElevatorSpeed = 0.75;
+		autonElevatorSpeed = 0.7;
 		autonTurnSpeed = 0.5;
 		
 		//NetworkTable keys
