@@ -126,11 +126,11 @@ public class Elevator extends Subsystem {
     }
     
     public void autonLift(){
-    	if (myConstants.robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
+    	if (Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     	
-    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
-    		elevatorTalonI.set(myConstants.autonElevatorSpeed);
-    		elevatorTalonII.set(myConstants.autonElevatorSpeed);
+    	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
+    		elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed);
+    		elevatorTalonII.set(Constants.getInstance().autonElevatorSpeed);
     	}
     	//elevatorTalonII.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     }

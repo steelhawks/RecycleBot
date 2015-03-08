@@ -399,7 +399,7 @@ public class Constants {
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
 		fineElevatorSpeed = 0.75;
-		autonElevatorSpeed = 0.7;
+		autonElevatorSpeed = 0.67;
 		autonTurnSpeed = 0.5;
 		
 		//NetworkTable keys
