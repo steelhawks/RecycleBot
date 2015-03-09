@@ -3,6 +3,7 @@ package org.usfirst.frc.team2601.robot.commands.auton;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveBackward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveFastForward;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeRight;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
@@ -24,7 +25,8 @@ public class StackThreeToteMoveWithRollers extends CommandGroup {
         // these will run in order.
 
     	addSequential(new AutonLift(2.5));
-    	addParallel(new AutonDriveFastForward(0.85));
+    	addParallel(new AutonStrafeRight(1.0));
+    	addParallel(new AutonDriveFastForward(0.25));
     	addSequential(new AutonIntakeRollers(2.0));
     	addSequential(new AutonDown(2.1));
     	addSequential(new AutonLift(2.5));

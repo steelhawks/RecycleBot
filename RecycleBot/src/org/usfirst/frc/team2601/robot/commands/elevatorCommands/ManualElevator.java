@@ -23,8 +23,8 @@ public class ManualElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.moveWithJoystick(OI.elevatorandRollerStick);
-    	//Robot.elevator.moveWithJoystick(OI.gamepad.getRawAxis(-F310.kGamepadAxisRightStickY));
+    	//Robot.elevator.moveWithJoystick(OI.elevatorandRollerStick);
+    	Robot.elevator.moveWithJoystick(OI.gamepad.getRightY());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -29,10 +29,10 @@ public class ManualControlRollers extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.rollers.manualControlRollers(OI.elevatorandRollerStick);
-    	/*
-    	xValue = OI.gamepad.getRawAxis(F310.kGamepadAxisLeftStickX);
-    	yValue = OI.gamepad.getRawAxis(F310.kGamepadAxisLeftStickY);
+    	//Robot.rollers.manualControlRollers(OI.elevatorandRollerStick);
+    	
+    	xValue = OI.gamepad.getLeftX();
+    	yValue = OI.gamepad.getLeftY();
     	if(Math.abs(xValue)>Math.abs(yValue)){
     		leftValue = xValue;
     		rightValue = xValue;
@@ -42,7 +42,6 @@ public class ManualControlRollers extends Command {
     		rightValue = -yValue;
     	}
     	Robot.rollers.manualControlRollers(leftValue, rightValue);
-    	*/
     }
 
     // Make this return true when this Command no longer needs to run execute()

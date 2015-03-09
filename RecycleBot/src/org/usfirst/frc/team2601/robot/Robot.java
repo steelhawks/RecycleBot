@@ -66,7 +66,9 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
-		try {			
+    	cam = CameraServer.getInstance();
+        cam.startAutomaticCapture("cam0");
+    	try {			
 			oi = new OI();
 				
 		//autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
@@ -94,8 +96,7 @@ public class Robot extends IterativeRobot {
 	        compressor = new Compressor();
 	     }
 		         
-		cam = CameraServer.getInstance();
-        cam.startAutomaticCapture("cam0");
+		
 		
         table.putNumber(myConstants.drivetrainPKey, myConstants.drivetrainP);
         table.putNumber(myConstants.drivetrainIKey, myConstants.drivetrainI);

@@ -30,20 +30,22 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
         // these will run in order.
     	
     	//addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
-    	addSequential(new TwistRC(0.55));
+    	addSequential(new AutonCloseRollers(0.2));
+    	addSequential(new TwistRC(0.5));
     	addParallel(new AutonOpenRollers(0.2));
-    	addSequential(new AutonDriveForward(0.35));
+    	addSequential(new AutonDriveForward(0.4));
     	Timer.delay(0.2);
-    	addSequential(new AutonLift(2.80));
+    	addSequential(new AutonLift(2.0));
     	addSequential(new AutonDriveForward(1.1));
     	addSequential(new AutonCloseRollers(0.2));
-    	addSequential(new AutonIntakeRollers(1.5));
+    	addSequential(new AutonIntakeRollers(0.75));
     	//addSequential(new AutonDown(0.25));
-    	addSequential(new AutonTurnLeft(0.75));
-    	addSequential(new AutonDriveForward(2.8));
-    	addSequential(new AutonDown(2.80));
+    	addSequential(new AutonTurnLeft(0.64));
+    	Timer.delay(0.06);
+    	addSequential(new AutonDriveFastForward(1.8));
+    	addSequential(new AutonDown(2.75));
     	addParallel(new AutonOpenRollers(0.2));
-    	addSequential(new AutonDriveBackward(0.25));
+    	addSequential(new AutonDriveBackward(0.2));
 
         // To run multiple commands at the same time,
         // use addParallel()

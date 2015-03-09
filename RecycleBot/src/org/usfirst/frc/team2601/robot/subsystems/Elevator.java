@@ -63,8 +63,8 @@ public class Elevator extends Subsystem {
     	//manualCloseEjectionPiston();
     	
     	if(myConstants.robotType == Constants.Robot_Type.Practice){
-        	elevatorCANTalonII.changeControlMode(ControlMode.Follower);
-        	elevatorCANTalonII.set(myConstants.elevatorTalonAddressI);
+        	//elevatorCANTalonII.changeControlMode(ControlMode.Follower);
+        	//elevatorCANTalonII.set(myConstants.elevatorTalonAddressI);
         	
         	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorCANTalonI);
     	}
@@ -108,11 +108,12 @@ public class Elevator extends Subsystem {
     	
     	if(myConstants.robotType == Constants.Robot_Type.Practice){
     		elevatorCANTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    		elevatorCANTalonII.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
     	}
 
     	else if (myConstants.robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
-			elevatorTalonII.set(value* myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+			elevatorTalonII.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
 
     	}
     	
@@ -122,11 +123,14 @@ public class Elevator extends Subsystem {
     }
     
     public void fineMoveWithJoystick(double value){
-    	moveWithJoystick(value*Constants.getInstance().fineElevatorSpeed);
+    	moveWithJoystick(value*myConstants.fineElevatorSpeed);
     }
     
     public void autonLift(){
-    	if (Constants.getInstance().robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(Constants.getInstance().autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
+    	if (myConstants.robotType == Constants.Robot_Type.Practice){ 
+    	elevatorCANTalonI.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
+    	elevatorCANTalonII.set(myConstants.autonElevatorSpeed);;
+    	}
     	
     	else if (Constants.getInstance().robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(Constants.getInstance().autonElevatorSpeed);
@@ -135,7 +139,10 @@ public class Elevator extends Subsystem {
     	//elevatorTalonII.set(myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
     }
     public void autonDown(){
-    	if(myConstants.robotType == Constants.Robot_Type.Practice) elevatorCANTalonI.set(-myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
+    	if(myConstants.robotType == Constants.Robot_Type.Practice){
+    		elevatorCANTalonI.set(-myConstants.autonElevatorSpeed /* myConstants.elevatorTalonMultiplier*/);
+    	    elevatorCANTalonII.set(-myConstants.autonElevatorSpeed);
+    	}
     	
     	else if (myConstants.robotType == Constants.Robot_Type.Competition){
     		elevatorTalonI.set(-myConstants.autonElevatorSpeed);

@@ -167,11 +167,11 @@ public class Constants {
 	private Constants() {
 
 		joystickPort = 0;
-		secondaryJoystickPort = 1;
+		secondaryJoystickPort = 5;
 		thirdJoystickPort = 2;
 		leftDriveStick = 3;
 		rightDriveStick = 4;
-		gamepadPort = 5;
+		gamepadPort = 1;
 
 		if(robotType == Robot_Type.Practice) {
 			//if (GAMEPAD){
@@ -187,14 +187,10 @@ public class Constants {
 	
 		// operator stick
 		//Roller control buttons
-		closeOrOpenRollersButton = 1;
-		intakeRollersButton = 3;
-		outtakeRollersButton = 2;
-		stopRollersButton = 4;
+		closeOrOpenRollersButton = 1; 
 		
 		//operator gamepad
 		gamepadCloseOrOpenRollersButton = F310.kGamepadButtonShoulderL;
-		fineElevatorButton = F310.kGamepadButtonShoulderR;
 		
 		//PID control buttons
 		startDrivetrainPID = 1;
@@ -269,7 +265,7 @@ public class Constants {
 		centerDrivetrainTalonMultiplier = 1;
 		elevatorTalonMultiplier = 1;
 		leftRollerTalonMultiplier = -1;
-		rightRollerTalonMultiplier = 1;
+		rightRollerTalonMultiplier = -1;
 
 		// speeds
 		drivetrainSpeed = 1.0;
@@ -398,7 +394,7 @@ public class Constants {
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
-		fineElevatorSpeed = 0.75;
+		fineElevatorSpeed = 1.0;
 		autonElevatorSpeed = 0.67;
 		autonTurnSpeed = 0.5;
 		

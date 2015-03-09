@@ -9,6 +9,7 @@ import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnLeft;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonDown;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -21,16 +22,17 @@ public class StackRCOnToteMoveToAutoZoneArms extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-
-    	addSequential(new AutonLift(3.0));
-    	addSequential(new AutonDriveForward(1.65));
-    	addSequential(new AutonDown(3.75));
+    	
+    	addSequential(new AutonLift(2.5));
+    	addSequential(new AutonDriveForward(1.75));
+    	addSequential(new AutonDown(2.6));
     	//addSequential(new AutonDriveForward(0.5));
     	//addSequential(new AutonLift(0.75));
-    	addSequential(new AutonTurnLeft(1.0));
-    	addSequential(new AutonDriveFastForward(1.65));
-    	addSequential(new AutonDriveBackward(0.5));
-    	//addSequential(new AutonDriveBackward(0.25));
+    	addSequential(new AutonTurnLeft(1.5));
+    	Timer.delay(0.16);
+    	addSequential(new AutonDriveFastForward(2.1));
+    	addParallel(new AutonDown(0.25));
+    	addSequential(new AutonDriveBackward(0.2));
     	
         // To run multiple commands at the same time,
         // use addParallel()
