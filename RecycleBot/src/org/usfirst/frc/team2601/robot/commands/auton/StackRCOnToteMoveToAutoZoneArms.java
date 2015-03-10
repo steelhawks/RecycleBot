@@ -25,10 +25,11 @@ public class StackRCOnToteMoveToAutoZoneArms extends CommandGroup {
     	
     	addSequential(new AutonLift(2.5));
     	addSequential(new AutonDriveForward(1.75));
-    	addSequential(new AutonDown(2.6));
+    	addSequential(new AutonDown(2.3));
+    	Timer.delay(0.16);
     	//addSequential(new AutonDriveForward(0.5));
     	//addSequential(new AutonLift(0.75));
-    	addSequential(new AutonTurnLeft(1.5));
+    	addSequential(new AutonTurnLeft(1.3));
     	Timer.delay(0.16);
     	addSequential(new AutonDriveFastForward(2.1));
     	addParallel(new AutonDown(0.25));
