@@ -32,15 +32,17 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
     	//addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
     	addSequential(new AutonCloseRollers(0.2));
     	addSequential(new TwistRC(0.35));
-    	addParallel(new AutonOpenRollers(0.2));
-    	addSequential(new AutonDriveForward(0.45));
+    	addSequential(new AutonOpenRollers(0.2));
     	Timer.delay(0.2);
+    	addSequential(new AutonDriveForward(0.45));
+    	Timer.delay(0.4);
     	addSequential(new AutonLift(2.0));
     	addSequential(new AutonDriveForward(1.1));
     	addSequential(new AutonCloseRollers(0.2));
     	addSequential(new AutonIntakeRollers(0.75));
+    	Timer.delay(0.2);
     	//addSequential(new AutonDown(0.25));
-    	addSequential(new AutonTurnLeft(1.1));
+    	addSequential(new AutonTurnLeft(0.35));
     	Timer.delay(0.06);
     	addSequential(new AutonDriveFastForward(1.8));
     	addSequential(new AutonDown(2.75));

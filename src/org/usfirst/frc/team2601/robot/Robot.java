@@ -74,7 +74,8 @@ public class Robot extends IterativeRobot {
 				
 		//autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("DriveForward", new DriveForwardToAutoZone());
+		autoChooser.addDefault("DoNothing", new DoNothing());
+		autoChooser.addObject("DriveForward", new DriveForwardToAutoZone());
 		autoChooser.addObject("Arms/GetTote", new GetToteMoveToAutoZoneArms());
 		autoChooser.addObject("Rollers/GetTote",new GetToteMoveToAutoZoneRollers());
 		autoChooser.addObject("Arms/StackRCOnTote",new StackRCOnToteMoveToAutoZoneArms());
@@ -118,7 +119,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        autonomousCommand = (Command) autoChooser.getSelected(); 
+    	autonomousCommand = new DoNothing();
+        //autonomousCommand = (Command) autoChooser.getSelected(); 
         autonomousCommand.start();
     }
 
