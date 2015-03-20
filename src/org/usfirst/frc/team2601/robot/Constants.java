@@ -22,7 +22,7 @@ public class Constants {
 	 }
 	// configuration
 	 public enum Robot_Type { Practice, Competition };
-	 public Robot_Type robotType = Robot_Type.Competition;
+	 public Robot_Type robotType = Robot_Type.Practice;
 	
 	public enum Drive_Type { TANK, ARCADE, CUSTOMARCADE}; 
 	public Drive_Type driveType = Drive_Type.CUSTOMARCADE;

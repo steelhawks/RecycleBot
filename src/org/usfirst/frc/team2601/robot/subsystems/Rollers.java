@@ -41,12 +41,12 @@ public class Rollers extends Subsystem {
     	rightRollerTalon.set(rightValue*myConstants.rightRollerTalonMultiplier*myConstants.rollerSpeed);
     }
     public void intakeRollers(){
-    	leftRollerTalon.set(myConstants.leftRollerTalonMultiplier*myConstants.rollerSpeed);
+    	leftRollerTalon.set(-myConstants.leftRollerTalonMultiplier*myConstants.rollerSpeed);
     	rightRollerTalon.set(-myConstants.rightRollerTalonMultiplier*myConstants.rollerSpeed);
     }
     
     public void outtakeRollers(){
-    	leftRollerTalon.set(-myConstants.leftRollerTalonMultiplier*myConstants.rollerSpeed);
+    	leftRollerTalon.set(myConstants.leftRollerTalonMultiplier*myConstants.rollerSpeed);
     	rightRollerTalon.set(myConstants.rightRollerTalonMultiplier*myConstants.rollerSpeed);
     }
     

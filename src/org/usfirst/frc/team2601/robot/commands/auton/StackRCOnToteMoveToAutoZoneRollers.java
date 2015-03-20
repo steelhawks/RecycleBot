@@ -9,6 +9,7 @@ import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonCloseRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonIntakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOpenRollers;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOuttakeRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.CloseOrOpenRollers;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.TwistRC;
 import org.usfirst.frc.team2601.robot.commands.rollerCommands.moveToPositionRollers;
@@ -31,23 +32,23 @@ public class StackRCOnToteMoveToAutoZoneRollers extends CommandGroup {
     	
     	//addSequential(new moveToPositionRollers(18.0*Math.PI/4)); //rotate RC 90 degrees, or 1/4 of its circumference
     	addSequential(new AutonCloseRollers(0.2));
-    	addSequential(new TwistRC(0.35));
+    	//addSequential(new TwistRC(0.35));
     	addSequential(new AutonOpenRollers(0.2));
-    	Timer.delay(0.2);
-    	addSequential(new AutonDriveForward(0.45));
+    	//Timer.delay(0.2);
+    	addSequential(new AutonDriveForward(0.35));
     	Timer.delay(0.4);
-    	addSequential(new AutonLift(2.0));
-    	addSequential(new AutonDriveForward(1.1));
+    	addSequential(new AutonLift(1.75));
+    	addSequential(new AutonDriveForward(1.2));
     	addSequential(new AutonCloseRollers(0.2));
     	addSequential(new AutonIntakeRollers(0.75));
     	Timer.delay(0.2);
     	//addSequential(new AutonDown(0.25));
-    	addSequential(new AutonTurnLeft(0.35));
+    	addSequential(new AutonTurnLeft(0.65));
     	Timer.delay(0.06);
-    	addSequential(new AutonDriveFastForward(1.8));
-    	addSequential(new AutonDown(2.75));
+    	addSequential(new AutonDriveFastForward(1.7));
+    	addSequential(new AutonDown(0.75));
     	addParallel(new AutonOpenRollers(0.2));
-    	addSequential(new AutonDriveBackward(0.2));
+    	addSequential(new AutonDriveBackward(0.25));
 
         // To run multiple commands at the same time,
         // use addParallel()
