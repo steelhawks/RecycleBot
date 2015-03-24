@@ -5,6 +5,7 @@ import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForw
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDrivetrainPID;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeLeft;
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonStrafeRight;
+import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonTurnRight;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -20,7 +21,8 @@ public class DriveForwardToAutoZone extends CommandGroup {
         // these will run in order.
     	
     	//addSequential(new AutonDrivetrainPID(157.0));
-    	addSequential(new AutonDriveFastForward(2.65));
+    	addSequential(new AutonDriveFastForward(2.0));
+    	addSequential(new AutonTurnRight(0.7));
     	
         // To run multiple commands at the same time,
         // use addParallel()
