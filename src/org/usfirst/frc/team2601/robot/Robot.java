@@ -72,7 +72,9 @@ public class Robot extends IterativeRobot {
     	try {			
 			oi = new OI();
 				
-		autonomousCommand = new DriveForwardToAutoZone();
+		//autonomousCommand = new DriveForwardToAutoZone();
+		autonomousCommand = new DoNothing();	
+			
 		/*autoChooser = new SendableChooser();
 		autoChooser.addDefault("DoNothing", new DoNothing());
 		autoChooser.addObject("DriveForward", new DriveForwardToAutoZone());
