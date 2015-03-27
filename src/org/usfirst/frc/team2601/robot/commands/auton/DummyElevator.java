@@ -17,7 +17,7 @@ public class DummyElevator extends CommandGroup {
         // these will run in order.
     	
     	addSequential(new AutonLift(0.5));
-    	addSequential(new AutonDriveForward(0.5));
+    	//addSequential(new AutonDriveForward(0.5));
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

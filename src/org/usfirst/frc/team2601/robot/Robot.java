@@ -72,8 +72,8 @@ public class Robot extends IterativeRobot {
     	try {			
 			oi = new OI();
 				
-		//autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
-		autoChooser = new SendableChooser();
+		autonomousCommand = new DriveForwardToAutoZone();
+		/*autoChooser = new SendableChooser();
 		autoChooser.addDefault("DoNothing", new DoNothing());
 		autoChooser.addObject("DriveForward", new DriveForwardToAutoZone());
 		autoChooser.addObject("Arms/GetTote", new GetToteMoveToAutoZoneArms());
@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Arms/StackThreeToteGetRC", new StackThreeToteGetRCMoveArm());
 		autoChooser.addObject("Rollers/StackThreeToteGetRC", new StackThreeToteGetRCMoveRollers());
 		autoChooser.addObject("DummyElevator/testing elevator auton", new DummyElevator());
-		SmartDashboard.putData("AutoChooser", autoChooser);
+		SmartDashboard.putData("AutoChooser", autoChooser);*/
 		
         closeCommand = new closeWriter();
 		
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         // schedule the autonomous command (example)
     	//autonomousCommand = new DoNothing();
-        autonomousCommand = (Command) autoChooser.getSelected(); 
+       // autonomousCommand = (Command) autoChooser.getSelected(); 
         autonomousCommand.start();
     }
 

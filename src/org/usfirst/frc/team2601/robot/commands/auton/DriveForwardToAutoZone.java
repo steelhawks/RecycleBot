@@ -21,7 +21,7 @@ public class DriveForwardToAutoZone extends CommandGroup {
         // these will run in order.
     	
     	//addSequential(new AutonDrivetrainPID(157.0));
-    	addSequential(new AutonDriveFastForward(2.0));
+    	addSequential(new AutonDriveFastForward(1.25));
     	addSequential(new AutonTurnRight(0.7));
     	
         // To run multiple commands at the same time,

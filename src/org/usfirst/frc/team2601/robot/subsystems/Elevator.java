@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import org.usfirst.frc.team2601.robot.Constants;
 import org.usfirst.frc.team2601.robot.Robot;
@@ -38,7 +39,9 @@ public class Elevator extends Subsystem {
 	Talon elevatorTalonI = new Talon(myConstants.elevatorTalonAddressI);
 	Talon elevatorTalonII = new Talon(myConstants.elevatorTalonAddressII);
 	
-	Encoder elevatorEncoder = new Encoder(myConstants.elevatorEncoderPortI,myConstants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
+	Ultrasonic chuteSonar = new Ultrasonic(myConstants.sonarInputPort, myConstants.sonarOutputPort);
+	
+	//Encoder elevatorEncoder = new Encoder(myConstants.elevatorEncoderPortI,myConstants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
 	DigitalInput bottomLimitSwitch = new DigitalInput(myConstants.bottomLimitSwitchPort);
 	DigitalInput topLimitSwitch = new DigitalInput(myConstants.topLimitSwitchPort);
 	Boolean CSVstart;
@@ -58,19 +61,22 @@ public class Elevator extends Subsystem {
     }
     
     public void setup(){
-    	elevatorEncoder.setDistancePerPulse(myConstants.elevatorDistancePerPulse);
-    	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	//elevatorEncoder.setDistancePerPulse(myConstants.elevatorDistancePerPulse);
+    	//elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	//manualCloseEjectionPiston();
+    	
+    	chuteSonar.setEnabled(true);
+    	chuteSonar.setAutomaticMode(true);
     	
     	if(myConstants.robotType == Constants.Robot_Type.Practice){
         	//elevatorCANTalonII.changeControlMode(ControlMode.Follower);
         	//elevatorCANTalonII.set(myConstants.elevatorTalonAddressI);
         	
-        	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorCANTalonI);
+        //	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorCANTalonI);
     	}
     	
     	else if (myConstants.robotType == Constants.Robot_Type.Competition){
-        	control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorTalonI);
+        	//control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorTalonI);
 
     	}
     	SmartDashboard.putBoolean("ElevatorSetup", true);
@@ -117,7 +123,7 @@ public class Elevator extends Subsystem {
 
     	}
     	
-    	SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
+    	//SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
     	
     	return false;
     }
@@ -190,8 +196,8 @@ public class Elevator extends Subsystem {
     	getPIDvalues();
 
     	//set up encoders
-    	elevatorEncoder.setDistancePerPulse(myConstants.drivetrainDistancePerPulse);
-    	elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+    	//elevatorEncoder.setDistancePerPulse(myConstants.drivetrainDistancePerPulse);
+    	//elevatorEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
     	
     	//set up PID loop parameters
     	control.setPID(myConstants.drivetrainP, myConstants.drivetrainI, myConstants.drivetrainD);
@@ -229,6 +235,15 @@ public class Elevator extends Subsystem {
     //	ejectionPiston.set(DoubleSolenoid.Value.kOff);
     }
 
+    public double getDistance(){
+    	return chuteSonar.getRangeInches();
+    }
+    
+    public boolean isLinedUp(){
+    	return (getDistance() > myConstants.distanceToChute + myConstants.distanceToFront - myConstants.distanceTolerance)
+    			||(getDistance() < myConstants.distanceToChute + myConstants.distanceToFront + myConstants.distanceTolerance);
+    }
+    
     public void stopMotors(){
     	//stop everything
     	if(myConstants.robotType == Constants.Robot_Type.Practice){

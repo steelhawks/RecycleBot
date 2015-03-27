@@ -5,6 +5,7 @@ import org.usfirst.frc.team2601.robot.Robot;
 import org.usfirst.frc.team2601.robot.util.F310;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -25,6 +26,9 @@ public class ManualElevator extends Command {
     protected void execute() {
     	//Robot.elevator.moveWithJoystick(OI.elevatorandRollerStick);
     	Robot.elevator.moveWithJoystick(OI.gamepad.getRightY());
+    	if(Robot.elevator.isLinedUp()) SmartDashboard.putBoolean("***LINED UP***", true);
+    	else SmartDashboard.putBoolean("***LINED UP***", false);
+    	SmartDashboard.putNumber("Sonar distance in inches", Robot.elevator.getDistance());
     }
 
     // Make this return true when this Command no longer needs to run execute()

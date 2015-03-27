@@ -22,7 +22,7 @@ public class Constants {
 	 }
 	// configuration
 	 public enum Robot_Type { Practice, Competition };
-	 public Robot_Type robotType = Robot_Type.Practice;
+	 public Robot_Type robotType = Robot_Type.Competition;
 	
 	public enum Drive_Type { TANK, ARCADE, CUSTOMARCADE}; 
 	public Drive_Type driveType = Drive_Type.CUSTOMARCADE;
@@ -116,6 +116,13 @@ public class Constants {
 	public  int rightEncoderPortII;
 	public  int elevatorEncoderPortI;
 	public  int elevatorEncoderPortII;
+	
+	//ultrasonic/sonar sensors
+	public  int sonarInputPort;
+	public  int sonarOutputPort;
+	public  double distanceToFront; //distance from the sensor to the frontmost part of the robot
+	public  double distanceToChute; //distance from the frontmost part of the robot to the chute
+	public  double distanceTolerance; //tolerance for distance measurement
 	
 	//limit switches
 	public  int bottomLimitSwitchPort;
@@ -255,6 +262,13 @@ public class Constants {
 		elevatorEncoderPortI = 4;
 		elevatorEncoderPortII = 5;
 		
+		//ulrasonic/sonar sensors
+		sonarInputPort = 8;
+		sonarOutputPort = 9;
+		distanceToFront = 17.0;
+		distanceToChute = 31.0 - distanceToFront; //length of a tote + 2 inches - gap from chassis
+		distanceTolerance = 2.0;
+		
 		//limit switches
 		bottomLimitSwitchPort = 7;
 		topLimitSwitchPort = 6;
@@ -268,8 +282,8 @@ public class Constants {
 		rightRollerTalonMultiplier = -1;
 
 		// speeds
-		drivetrainSpeed = 1.0;
-		drivetrainFineSpeed = /*drivetrainSpeed*/0.5;
+		drivetrainSpeed = 0.5;
+		drivetrainFineSpeed = /*drivetrainSpeed*/1.0;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
@@ -390,8 +404,8 @@ public class Constants {
 
 		// speeds
 		
-		drivetrainSpeed = 1.0;
-		drivetrainFineSpeed = /*drivetrainSpeed*/0.5;
+		drivetrainSpeed = 0.5;
+		drivetrainFineSpeed = /*drivetrainSpeed*/1.0;
 		rollerSpeed = 1.0;
 		rollerStopSpeed = 0.0;
 		elevatorSpeed = 1.0;
@@ -415,7 +429,12 @@ public class Constants {
 		rightSolenoidOffPort = 3;
 //		ejectionSolenoidOnPort = 4;
 //		ejectionSolenoidOffPort = 5;
-		
+		//ulrasonic/sonar sensors
+				sonarInputPort = 8;
+				sonarOutputPort = 9;
+				distanceToFront = 17.0;
+				distanceToChute = 31.0 - distanceToFront; //length of a tote + 2 inches - gap from chassis
+				distanceTolerance = 2.0;
 		}
 	}
 	
