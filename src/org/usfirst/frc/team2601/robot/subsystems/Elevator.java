@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -44,6 +45,19 @@ public class Elevator extends Subsystem {
 	//Encoder elevatorEncoder = new Encoder(myConstants.elevatorEncoderPortI,myConstants.elevatorEncoderPortII, false, Encoder.EncodingType.k4X);
 	DigitalInput bottomLimitSwitch = new DigitalInput(myConstants.bottomLimitSwitchPort);
 	DigitalInput topLimitSwitch = new DigitalInput(myConstants.topLimitSwitchPort);
+	
+	Button bottomSwitch = new Button(){
+		public boolean get(){
+			return bottomLimitSwitch.get();
+		}
+	};
+	
+	Button topSwitch = new Button(){
+		public boolean get(){
+			return topLimitSwitch.get();
+		}
+	};
+	
 	Boolean CSVstart;
 	String elevatorStatsFilename = "/logs/elevatorlogs.csv";
 	DriverStation station;
@@ -79,6 +93,7 @@ public class Elevator extends Subsystem {
         	//control = new PIDController(myConstants.elevatorP, myConstants.elevatorI, myConstants.elevatorD, elevatorEncoder, elevatorTalonI);
 
     	}
+    	
     	SmartDashboard.putBoolean("ElevatorSetup", true);
     	
     }
@@ -97,6 +112,24 @@ public class Elevator extends Subsystem {
     	moveWithJoystick(stick.getY());
     }
     
+    public void moveWithJoystick(double value){
+    	boolean bottomLimitSwitchValue = bottomLimitSwitch.get();
+    	boolean topLimitSwitchValue = topLimitSwitch.get();
+    	
+    	if(myConstants.robotType == Constants.Robot_Type.Practice){
+    		elevatorCANTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    		elevatorCANTalonII.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    	}
+
+    	else if (myConstants.robotType == Constants.Robot_Type.Competition){
+    		elevatorTalonI.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+			elevatorTalonII.set(value*myConstants.elevatorTalonMultiplier*myConstants.elevatorSpeed);
+    	}
+    	
+    	//SmartDashboard.putNumber("elevator encoder", elevatorEncoder.getDistance());
+    }
+    
+    /*
     public Boolean moveWithJoystick(double value){
     	boolean bottomLimitSwitchValue = bottomLimitSwitch.get();
     	boolean topLimitSwitchValue = topLimitSwitch.get();
@@ -127,6 +160,7 @@ public class Elevator extends Subsystem {
     	
     	return false;
     }
+    */
     
     public void fineMoveWithJoystick(double value){
     	moveWithJoystick(value*myConstants.fineElevatorSpeed);
@@ -218,6 +252,15 @@ public class Elevator extends Subsystem {
     public boolean areYouThereYet(){
     	return(control.onTarget());
     }
+    
+    public boolean getBottomSwitch(){
+    	return bottomLimitSwitch.get()==false; //normally closed
+    }
+    
+    public boolean getTopSwitch(){
+    	return topLimitSwitch.get()==false; //normally closed
+    }
+    
     public void matchMotors(){
     	elevatorTalonII.set(elevatorTalonI.get());
     }

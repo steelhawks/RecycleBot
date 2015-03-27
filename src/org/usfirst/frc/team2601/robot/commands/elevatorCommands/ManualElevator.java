@@ -26,6 +26,11 @@ public class ManualElevator extends Command {
     protected void execute() {
     	//Robot.elevator.moveWithJoystick(OI.elevatorandRollerStick);
     	Robot.elevator.moveWithJoystick(OI.gamepad.getRightY());
+    	
+    	if((OI.gamepad.getRightY() < 0 && Robot.elevator.getTopSwitch())|| 
+    	(OI.gamepad.getRightY() > 0 && Robot.elevator.getBottomSwitch())) Robot.elevator.stopMotors();
+    	SmartDashboard.putString("bottom switch", "" + Robot.elevator.getBottomSwitch());
+    	SmartDashboard.putString("top switch", "" + Robot.elevator.getTopSwitch());
     	if(Robot.elevator.isLinedUp()) SmartDashboard.putBoolean("***LINED UP***", true);
     	else SmartDashboard.putBoolean("***LINED UP***", false);
     	SmartDashboard.putNumber("Sonar distance in inches", Robot.elevator.getDistance());
@@ -44,6 +49,5 @@ public class ManualElevator extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.elevator.stopMotors();
     }
 }

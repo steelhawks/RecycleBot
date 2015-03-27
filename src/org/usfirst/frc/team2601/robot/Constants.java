@@ -270,8 +270,8 @@ public class Constants {
 		distanceTolerance = 2.0;
 		
 		//limit switches
-		bottomLimitSwitchPort = 7;
-		topLimitSwitchPort = 6;
+		bottomLimitSwitchPort = 6;
+		topLimitSwitchPort = 7;
 		
 		//Talon multipliers
 		leftDrivetrainTalonMultiplier = 1;
