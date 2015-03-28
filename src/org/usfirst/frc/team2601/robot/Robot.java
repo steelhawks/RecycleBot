@@ -15,6 +15,7 @@ import org.usfirst.frc.team2601.robot.commands.closeWriter;
 import org.usfirst.frc.team2601.robot.commands.auton.DoNothing;
 import org.usfirst.frc.team2601.robot.commands.auton.DriveForwardToAutoZone;
 import org.usfirst.frc.team2601.robot.commands.auton.DummyElevator;
+import org.usfirst.frc.team2601.robot.commands.auton.GetRC;
 import org.usfirst.frc.team2601.robot.commands.auton.GetToteMoveToAutoZoneArms;
 import org.usfirst.frc.team2601.robot.commands.auton.GetToteMoveToAutoZoneRollers;
 import org.usfirst.frc.team2601.robot.commands.auton.MotorTestAuton;
@@ -71,10 +72,10 @@ public class Robot extends IterativeRobot {
         //cam.startAutomaticCapture("cam0");
     	try {			
 			oi = new OI();
-				
-		//autonomousCommand = new DriveForwardToAutoZone();
+		//autonomousCommand = new GetRC();	
+	    autonomousCommand = new DriveForwardToAutoZone();
 		//autonomousCommand = new DoNothing();	
-		autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
+		//autonomousCommand = new StackRCOnToteMoveToAutoZoneRollers();
 		/*autoChooser = new SendableChooser();
 		autoChooser.addDefault("DoNothing", new DoNothing());
 		autoChooser.addObject("DriveForward", new DriveForwardToAutoZone());

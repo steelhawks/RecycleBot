@@ -2,6 +2,7 @@ package org.usfirst.frc.team2601.robot.commands.auton;
 
 import org.usfirst.frc.team2601.robot.commands.drivetrainCommands.AutonDriveForward;
 import org.usfirst.frc.team2601.robot.commands.elevatorCommands.AutonLift;
+import org.usfirst.frc.team2601.robot.commands.rollerCommands.AutonOpenRollers;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,7 +17,8 @@ public class DummyElevator extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new AutonLift(0.5));
+    	addSequential(new AutonLift(0.70));
+    	addSequential(new AutonOpenRollers(0.2));
     	//addSequential(new AutonDriveForward(0.5));
         // To run multiple commands at the same time,
         // use addParallel()
